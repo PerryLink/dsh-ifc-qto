@@ -1,0 +1,5 @@
+req_id,metric,threshold,actual,script,evidence_sha256,pass
+SKU-07-A01,IFC 构件（20）,20,20,scripts/acceptance.mjs,6d6b351dc1da63a516ab5265ab9b0a1f581f1a232e9e5d6ce39c14f9716c3fa8,true
+SKU-07-A02,类型数,5,5,scripts/acceptance.mjs,6d6b351dc1da63a516ab5265ab9b0a1f581f1a232e9e5d6ce39c14f9716c3fa8,true
+SKU-07-A03,量实体,3,3,scripts/acceptance.mjs,6d6b351dc1da63a516ab5265ab9b0a1f581f1a232e9e5d6ce39c14f9716c3fa8,true
+SKU-07-A04,CSV 行,>=8,8,scripts/acceptance.mjs,6d6b351dc1da63a516ab5265ab9b0a1f581f1a232e9e5d6ce39c14f9716c3fa8,true
