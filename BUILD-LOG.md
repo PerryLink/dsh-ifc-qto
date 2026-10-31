@@ -12,3 +12,7 @@
 ### alpha.1 — public IFC samples
 
 - Added MIT/Apache IFC samples; quantity parser handles extra `$` args; tests 6/6; gate 5 rows.
+
+### alpha.2 — zod 4.6.7 pin
+
+- Added `pnpm-workspace.yaml` override to dedupe zod 4.4.3/4.6.7; CI build fixed locally.
