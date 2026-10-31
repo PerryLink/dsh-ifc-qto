@@ -7,3 +7,7 @@
 
 - Added 2 MIT/Apache public IFC samples; quantity parser handles extra `$` args.
 - Tests 6/6; gate 5 rows; public samples not in npm tarball.
+
+## 0.1.0-alpha.3 — zod direct alignment (2026-10-31)
+
+- Direct zod bumped to 4.6.7 to match workspace override; no runtime change.

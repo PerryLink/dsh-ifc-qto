@@ -1,6 +1,6 @@
 {
   "name": "@perrylink/dsh-ifc-qto",
-  "version": "0.1.0-alpha.2",
+  "version": "0.1.0-alpha.3",
   "description": "IFC element inventory and quantity takeoff CSV (SKU-07 S1 public/synthetic demo).",
   "type": "module",
   "main": "./lib/plugin/index.js",
@@ -62,7 +62,7 @@
   },
   "dependencies": {
     "fflate": "0.8.3",
-    "zod": "4.4.3"
+    "zod": "4.6.7"
   },
   "devDependencies": {
     "@deepseek-ai/cordis": "4.0.5",

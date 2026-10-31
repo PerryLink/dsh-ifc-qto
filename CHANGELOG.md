@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.0-alpha.3 — 2026-10-31
+
+- Align direct zod with the 4.6.7 workspace override; no runtime behavior change.
+
 ## 0.1.0-alpha.2 — 2026-10-31
 
 - Pinned zod to 4.6.7 with pnpm-workspace override; fixes CI duplicate-zod type failure.
