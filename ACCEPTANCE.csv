@@ -1,6 +1,6 @@
 req_id,metric,threshold,actual,script,evidence_sha256,pass
-SKU-07-A01,IFC 构件（20）,20,20,scripts/acceptance.mjs,1c9fff41092837e30a6da8fe9a958dcbbf2ed19883ac5c9c0aa15d3866ae1224,true
-SKU-07-A02,类型数,5,5,scripts/acceptance.mjs,1c9fff41092837e30a6da8fe9a958dcbbf2ed19883ac5c9c0aa15d3866ae1224,true
-SKU-07-A03,量实体,3,3,scripts/acceptance.mjs,1c9fff41092837e30a6da8fe9a958dcbbf2ed19883ac5c9c0aa15d3866ae1224,true
-SKU-07-A04,CSV 行,>=8,8,scripts/acceptance.mjs,1c9fff41092837e30a6da8fe9a958dcbbf2ed19883ac5c9c0aa15d3866ae1224,true
-SKU-07-A05,公开 IFC 量实体,>=5,36,scripts/acceptance.mjs,1c9fff41092837e30a6da8fe9a958dcbbf2ed19883ac5c9c0aa15d3866ae1224,true
+SKU-07-A01,IFC 构件（20）,20,20,scripts/acceptance.mjs,869377b38b02c1c0e8100fcfb9350122f4e56f9693d6f29d30917c244f8bdd78,true
+SKU-07-A02,类型数,5,5,scripts/acceptance.mjs,869377b38b02c1c0e8100fcfb9350122f4e56f9693d6f29d30917c244f8bdd78,true
+SKU-07-A03,量实体,3,3,scripts/acceptance.mjs,869377b38b02c1c0e8100fcfb9350122f4e56f9693d6f29d30917c244f8bdd78,true
+SKU-07-A04,CSV 行,>=8,8,scripts/acceptance.mjs,869377b38b02c1c0e8100fcfb9350122f4e56f9693d6f29d30917c244f8bdd78,true
+SKU-07-A05,公开 IFC 量实体,>=5,36,scripts/acceptance.mjs,869377b38b02c1c0e8100fcfb9350122f4e56f9693d6f29d30917c244f8bdd78,true
