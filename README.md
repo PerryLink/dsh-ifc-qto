@@ -55,6 +55,33 @@ IFC 构件/工程量清单与 CSV 导出。 安装：`dsh plugin --profile <prof
 
 4 MIT/Apache IFC samples with quantity-bearing models; `ACCEPTANCE.csv` lists 5 public checks.
 
+## 中文说明
+
+IFC（ISO-10303-21）构件/工程量清单与 CSV 导出。**公开/合成、alpha、非 GA**；没有客户模型。
+
+### 安装
+
+```sh
+dsh plugin --profile <profile> add dsh-ifc-qto
+```
+
+### 工具
+
+| 工具 | 作用 |
+|---|---|
+| `ifc.ingest` | 解析 IFC，盘点构件与工程量属性 |
+| `ifc.export_csv` | 导出构件/工程量 CSV |
+
+### 输入 / 输出
+
+输入一个 IFC 文件；输出构件/工程量清单与 CSV。数量取决于 IFC 中实际存在的属性，缺失就报缺失，不猜。
+
+### 边界
+
+- 不做几何引擎、WASM、渲染，也没有“5 万构件”性能承诺。
+- 不做 BCF、模型合模、Client。
+- 只有 MIT/Apache 公开 IFC 样例，没有客户模型。
+
 ## Development
 
 ```sh
