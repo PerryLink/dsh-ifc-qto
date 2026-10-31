@@ -1,4 +1,4 @@
-# BUILD-LOG — @perrylink/dsh-ifc-qto
+# BUILD-LOG — dsh-ifc-qto
 ## 2026-10-31 — S1
 - 2 tools; ifc domain; CSV; test 2/2; gate 4/4. Publish pending.
 ### Publish verified

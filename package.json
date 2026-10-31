@@ -1,6 +1,6 @@
 {
-  "name": "@perrylink/dsh-ifc-qto",
-  "version": "0.1.0-alpha.4",
+  "name": "dsh-ifc-qto",
+  "version": "0.1.0-alpha.5",
   "description": "IFC element/quantity inventory and CSV takeoff.",
   "type": "module",
   "main": "./lib/plugin/index.js",

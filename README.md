@@ -1,4 +1,4 @@
-# @perrylink/dsh-ifc-qto
+# dsh-ifc-qto
 
 IFC (ISO-10303-21) element/quantity inventory and CSV takeoff for DeepSeek Harness.
 
@@ -7,7 +7,7 @@ IFC (ISO-10303-21) element/quantity inventory and CSV takeoff for DeepSeek Harne
 ## Install
 
 ```sh
-dsh plugin --profile <profile> add @perrylink/dsh-ifc-qto
+dsh plugin --profile <profile> add dsh-ifc-qto
 dsh --profile <profile> --dump-config | grep dsh-ifc-qto
 ```
 
@@ -16,7 +16,7 @@ Requires DSH `>=0.2.1-rc.3 <0.3.0` and Node `>=24.9 <25`.
 <details>
 <summary>中文摘要</summary>
 
-IFC 构件/工程量清单与 CSV 导出。 安装：`dsh plugin --profile <profile> add @perrylink/dsh-ifc-qto`。公开/合成、alpha、非 GA。
+IFC 构件/工程量清单与 CSV 导出。 安装：`dsh plugin --profile <profile> add dsh-ifc-qto`。公开/合成、alpha、非 GA。
 
 </details>
 
