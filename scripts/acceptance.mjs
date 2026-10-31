@@ -5,3 +5,16 @@ const d=await mkdtemp(path.join(os.tmpdir(),'ifc-acc-')),root=process.cwd(),run=
 try{const ts=createTools({models:new T(),baseDir:path.join(d,'s')});const b=Object.fromEntries(ts.map(x=>[x.name,x]));const m=await b['ifc.ingest'].execute({ifc_text:ifc},{callId:'a'});el=m.elements;q=m.quantities;t=Object.keys(m.types).length;const x=await b['ifc.export_csv'].execute({model_id:m.model_id},{callId:'a'});csv=(await readFile(x.path,'utf8')).split('\n').filter(Boolean).length-1}finally{await rm(d,{recursive:true,force:true})}
 const publicQuantities=['wall-precision-legacy.ifc','ParametricFooting.ifc'].reduce((n,f)=>n+parseIfc(readFileSync(`fixtures/public/mit/${f}`,'utf8')).quantities.length,0);
 const ms=[{i:'SKU-07-A01',m:'IFC 构件（20）',t:'20',a:el,p:el===20},{i:'SKU-07-A02',m:'类型数',t:'5',a:t,p:t===5},{i:'SKU-07-A03',m:'量实体',t:'3',a:q,p:q===3},{i:'SKU-07-A04',m:'CSV 行',t:'>=8',a:csv,p:csv>=8},{i:'SKU-07-A05',m:'公开 IFC 量实体',t:'>=5',a:publicQuantities,p:publicQuantities>=5}];const r={run_id:run,scope:'SKU-07-S1',status:'partial',counted:false,note:'synthetic IFC; user-approved public/synthetic; 0 real models',metrics:ms,pass:ms.every(x=>x.p)};const s=JSON.stringify(r,null,2)+'\n';writeFileSync(path.join(ev,'result.json'),s);const h=createHash('sha256').update(s).digest('hex');writeFileSync(path.join(root,'ACCEPTANCE.csv'),'req_id,metric,threshold,actual,script,evidence_sha256,pass\n'+ms.map(x=>`${x.i},${x.m},${x.t},${x.a},scripts/acceptance.mjs,${h},${x.p}`).join('\n')+'\n');if(!r.pass)process.exit(1);console.log('acceptance ok',run)
+
+
+// Normalize the public-only acceptance schema: source + counted=false.
+{
+  const fs = await import('node:fs')
+  const file = 'ACCEPTANCE.csv'
+  const lines = fs.readFileSync(file, 'utf8').trim().split('\n')
+  if (!lines[0].includes('source,counted')) {
+    lines[0] += ',source,counted'
+    for (let i = 1; i < lines.length; i += 1) lines[i] += ',public/synthetic,false'
+    fs.writeFileSync(file, lines.join('\n') + '\n')
+  }
+}

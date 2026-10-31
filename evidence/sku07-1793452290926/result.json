@@ -1,0 +1,45 @@
+{
+  "run_id": "sku07-1793452290926",
+  "scope": "SKU-07-S1",
+  "status": "partial",
+  "counted": false,
+  "note": "synthetic IFC; user-approved public/synthetic; 0 real models",
+  "metrics": [
+    {
+      "i": "SKU-07-A01",
+      "m": "IFC 构件（20）",
+      "t": "20",
+      "a": 20,
+      "p": true
+    },
+    {
+      "i": "SKU-07-A02",
+      "m": "类型数",
+      "t": "5",
+      "a": 5,
+      "p": true
+    },
+    {
+      "i": "SKU-07-A03",
+      "m": "量实体",
+      "t": "3",
+      "a": 3,
+      "p": true
+    },
+    {
+      "i": "SKU-07-A04",
+      "m": "CSV 行",
+      "t": ">=8",
+      "a": 8,
+      "p": true
+    },
+    {
+      "i": "SKU-07-A05",
+      "m": "公开 IFC 量实体",
+      "t": ">=5",
+      "a": 36,
+      "p": true
+    }
+  ],
+  "pass": true
+}
