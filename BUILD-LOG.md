@@ -8,3 +8,7 @@
 
 - Added 2 MIT IFC samples under `fixtures/public/mit/` with licenses/source; `test/public-ifc.test.mjs` passes 2/2.
 - Parser sees elements/types; the samples have no IFCQUANTITY entities, so they validate element ingestion, not quantity extraction.
+
+### alpha.1 — public IFC samples
+
+- Added MIT/Apache IFC samples; quantity parser handles extra `$` args; tests 6/6; gate 5 rows.

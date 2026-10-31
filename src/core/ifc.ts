@@ -6,11 +6,11 @@ export interface IfcModel{elements:IfcElement[];quantities:IfcQuantity[];types:R
 export function parseIfc(text:string):IfcModel{
  if(!text.trim())throw new IfcError('E_IFC_EMPTY','empty IFC'); if(!/ISO-10303-21|FILE_SCHEMA/i.test(text))throw new IfcError('E_IFC_UNREADABLE','not an ISO-10303-21 IFC file')
  const elements:IfcElement[]=[]; const types:Record<string,number>={}
- for(const m of text.matchAll(/#\d+\s*=\s*IFC(WALL|SLAB|DOOR|WINDOW|COLUMN|BEAM)\s*\(([^;]*)\);/gi)){
+ for(const m of text.matchAll(/#\d+\s*=\s*IFC(WALL|SLAB|DOOR|WINDOW|COLUMN|BEAM|FOOTING|STAIR|RAILING|RAMP|PILE|MEMBER|PLATE|COVERING)\s*\(([^;]*)\);/gi)){
   const type=m[1]!.toUpperCase(); const args=m[2]!; const quoted=[...args.matchAll(/'([^']*)'/g)].map(x=>x[1]!); const guid=quoted[0]??''; const name=quoted[2]??quoted[1]??''; elements.push({guid,type,name}); types[type]=(types[type]??0)+1
  }
  const quantities:IfcQuantity[]=[]
- for(const m of text.matchAll(/IFCQUANTITY(LENGTH|AREA|VOLUME)\s*\(\s*'([^']*)'\s*,\s*\$?\s*,\s*([0-9.]+)/gi)){quantities.push({kind:m[1]!.toLowerCase() as IfcQuantity['kind'],name:m[2]!,value:Number(m[3])})}
+ for(const m of text.matchAll(/IFCQUANTITY(LENGTH|AREA|VOLUME)\s*\(\s*'([^']*)'([^)]*)\)/gi)){const numbers=[...m[3]!.matchAll(/([0-9]+(?:\.[0-9]+)?)/g)];const last=numbers.at(-1)?.[1];if(last!==undefined)quantities.push({kind:m[1]!.toLowerCase() as IfcQuantity['kind'],name:m[2]!,value:Number(last)})}
  if(elements.length===0&&quantities.length===0)throw new IfcError('E_IFC_UNREADABLE','no supported IFC elements/quantities')
  return{elements,quantities,types}
 }
