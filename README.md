@@ -1,5 +1,12 @@
 # dsh-ifc-qto
 
+> 🧊 **FROZEN — 2026-10-31. No new features.** This public/synthetic S1 demo is not GA; it stays installable and only genuine breakage is fixed.
+
+## Maintenance status: 🧊 FROZEN
+
+Frozen on 2026-10-31. This repository is a public/synthetic S1 demo, not a validated product. The npm package stays installable; no new features are planned.
+
+
 IFC (ISO-10303-21) element/quantity inventory and CSV takeoff for DeepSeek Harness.
 
 > **Status: alpha / public-synthetic / partial / not counted / not GA.** No customer evidence, customer data, or production-readiness claim. All acceptance rows are `counted=false`.
