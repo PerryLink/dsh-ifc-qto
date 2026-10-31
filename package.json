@@ -81,7 +81,7 @@
     "@types/node": "^24.0.0",
     "typescript": "7.0.2"
   },
-  "homepage": "https://github.com/PerryLink/dsh-ifc-qto#readme",
+  "homepage": "https://perrylink.github.io/dsh-plugins/packages/dsh-ifc-qto.html",
   "bugs": {
     "url": "https://github.com/PerryLink/dsh-ifc-qto/issues"
   }
