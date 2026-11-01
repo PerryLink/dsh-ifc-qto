@@ -1,4 +1,4 @@
-import{createHash}from'node:crypto';import{mkdir,writeFile}from'node:fs/promises';import path from'node:path';import{defineTool}from'@deepseek-ai/dsh-tools';import{IfcError,parseIfc}from'../core/ifc.js';import type{ModelRecord,Table}from'./storage.js'
+import{createHash}from'node:crypto';import{mkdir,writeFile}from'node:fs/promises';import path from'node:path';import{defineTool}from'@deepseek-ai/dsh-tools';import{IfcError,checkUnits,parseIfc}from'../core/ifc.js';import type{ModelRecord,Table}from'./storage.js'
 const text=(t:string)=>[{type:'text' as const,text:t}];const sha=(v:string|Buffer)=>createHash('sha256').update(v).digest('hex')
 export function createTools(deps:{models:Table<ModelRecord>;baseDir:string}){
  const ingest=defineTool({name:'ifc.ingest',description:'Parse a local IFC (ISO-10303-21) text into element counts and quantity entities; stores a model. Local R1 write.',parameters:{ifc_text:{type:'string',required:true},source_name:{type:'string'}},output:{schema:{type:'object',additionalProperties:false,properties:{model_id:{type:'string',required:true},elements:{type:'number',required:true},quantities:{type:'number',required:true},types:{type:'json',required:true}}},render:(_a,v)=>text(`IFC ${v.elements} elements / ${v.quantities} quantities`)},async execute(a){const m=parseIfc(a.ifc_text);const id=`ifc_${sha(a.ifc_text).slice(0,16)}`;const r:ModelRecord={model_id:id,source_name:a.source_name??'inline.ifc',sha256:sha(a.ifc_text),...m,created_at:new Date().toISOString()};await deps.models.put(id,r);return{model_id:id,elements:m.elements.length,quantities:m.quantities.length,types:m.types}}})
@@ -16,5 +16,7 @@ export function createTools(deps:{models:Table<ModelRecord>;baseDir:string}){
    return {model_id:m.model_id,elements:m.elements.length,quantities:m.quantities.length,totals,types:m.types,issues}
  }})
 
- return[ingest,exportCsv,qtoSummary]
+ const unitCheck=defineTool({name:'ifc.unit_check',description:'Check that an IFC model declares a unit assignment with length, area and volume SI units (IfcUnitAssignment / IfcSIUnit). Read-only; text-based.',parameters:{ifc_text:{type:'string',required:true}},output:{schema:{type:'object',additionalProperties:false,properties:{assignment:{type:'boolean',required:true},length:{type:'string'},area:{type:'string'},volume:{type:'string'},issues:{type:'array',required:true,items:{type:'string'}}}},render:(_a,v)=>text('units issues='+v.issues.length)},async execute(a){const r=checkUnits(a.ifc_text);const fmt=(u:{prefix:string;unit:string}|null)=>u?u.prefix+'|'+u.unit:undefined;return{assignment:r.assignment,length:fmt(r.length),area:fmt(r.area),volume:fmt(r.volume),issues:r.issues}}})
+
+ return[ingest,exportCsv,qtoSummary,unitCheck]
 }

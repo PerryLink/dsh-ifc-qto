@@ -10,5 +10,11 @@
     "kind": "flow",
     "alt": "dsh-ifc-qto flow diagram",
     "caption": "Pipeline diagram, schematic not test evidence."
+  },
+  {
+    "path": "docs/assets/dsh-ifc-qto-capability2.png",
+    "kind": "capability",
+    "alt": "dsh-ifc-qto second capability run",
+    "caption": "Real command: node --test test/units.test.mjs — 3 tests passed, 0 failed (IFC unit-assignment check for length, area and volume.) Run 2026-11-01; rendered from the captured terminal output."
   }
 ]

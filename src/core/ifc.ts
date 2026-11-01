@@ -14,3 +14,34 @@ export function parseIfc(text:string):IfcModel{
  if(elements.length===0&&quantities.length===0)throw new IfcError('E_IFC_UNREADABLE','no supported IFC elements/quantities')
  return{elements,quantities,types}
 }
+
+export interface IfcUnitInfo { prefix: string; unit: string }
+export interface IfcUnitsResult {
+  assignment: boolean
+  length: IfcUnitInfo | null
+  area: IfcUnitInfo | null
+  volume: IfcUnitInfo | null
+  issues: string[]
+}
+/**
+ * Unit-assignment check for a QTO model: a take-off is meaningless without a declared length,
+ * area and volume unit (IFC 4.3 IfcUnitAssignment / IfcSIUnit). Read-only and text-based.
+ */
+export function checkUnits(text: string): IfcUnitsResult {
+  const assignment = /IFCUNITASSIGNMENT\s*\(/i.test(text)
+  const find = (kind: string): IfcUnitInfo | null => {
+    const re = new RegExp('IFCSIUNIT\\s*\\(\\s*\\*\\s*,\\s*\\.' + kind + '\\.\\s*,\\s*(\\.[A-Z]+\\.|\\$)\\s*,\\s*\\.([A-Z_]+)\\.', 'i')
+    const m = re.exec(text)
+    if (!m) return null
+    return { prefix: m[1]!.replaceAll('.', ''), unit: m[2]!.toUpperCase() }
+  }
+  const length = find('LENGTHUNIT')
+  const area = find('AREAUNIT')
+  const volume = find('VOLUMEUNIT')
+  const issues: string[] = []
+  if (!assignment) issues.push('E_IFC_UNITASSIGNMENT_MISSING')
+  if (!length) issues.push('E_IFC_LENGTHUNIT_MISSING')
+  if (!area) issues.push('E_IFC_AREAUNIT_MISSING')
+  if (!volume) issues.push('E_IFC_VOLUMEUNIT_MISSING')
+  return { assignment, length, area, volume, issues }
+}

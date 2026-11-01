@@ -1,6 +1,12 @@
 # Changelog
 
-## [0.1.0-alpha.10] — 2026-11-01
+## [0.1.0-alpha.11] — 2026-11-01
+
+### Added
+
+- `ifc.unit_check`: verify the model declares an `IFCUNITASSIGNMENT` with length, area and volume SI units before any take-off is trusted. Verified by `node --test test/*.test.mjs` (12/12).
+
+## [Unreleased]
 
 ### Added
 
