@@ -1,15 +1,24 @@
 # Changelog
 
-## 0.1.0-alpha.3 — 2026-10-31
+All notable changes to `dsh-ifc-qto` are documented here. The format follows Keep a Changelog; this project uses alpha versions.
 
-- Align direct zod with the 4.6.7 workspace override; no runtime behavior change.
+## [0.1.0-alpha.7] — 2026-11-01
 
-## 0.1.0-alpha.2 — 2026-10-31
+### Added
 
-- Pinned zod to 4.6.7 with pnpm-workspace override; fixes CI duplicate-zod type failure.
+- Five-language READMEs: English, 简体中文, Español, Português, हिन्दी.
+- Local workflow SVG at `docs/assets/dsh-ifc-qto-flow.svg`.
+- Family cross-links (domain index, checker family, `dsh-kit`), compatibility, permissions, and related-work sections.
+- Standard repository files: `SECURITY.md`, `PRIVACY.md`, `CODE_OF_CONDUCT.md`, `CONTRIBUTING.md`, and `icon.svg`.
 
-## 0.1.0-alpha.1 — 2026-10-31
+### Changed
 
-- Added MIT/Apache public IFC samples; quantity regex now handles CAMT-style placeholder args; 5 gate rows.
-## 0.1.0-alpha.0 — 2026-10-31
-- First S1: IFC element/quantity inventory + CSV.
+- README aligned with the PerryLink DSH checker/plugin family style; package remains public/synthetic, alpha, not GA.
+
+### Maintenance
+
+- Frozen on 2026-10-31: no new features; only genuine breakage fixes.
+
+## [Earlier]
+
+Earlier alpha builds are available from npm and GitHub Releases; this file starts at the family-standard documentation wave.
