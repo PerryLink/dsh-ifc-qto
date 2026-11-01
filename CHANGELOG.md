@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.1.0-alpha.10] — 2026-11-01
+
+### Added
+
+- `ifc.qto_summary`: quantity take-off summary for a stored model — totals/count/min/max per measurement kind, element-type distribution and non-positive quantity detection. Read-only; quantities follow the IFC 4.3 quantity-entity model. Verified by `node --test test/*.test.mjs` (9/9).
+
 ## [0.1.0-alpha.9] — 2026-11-01
 
 ### Changed

@@ -1,7 +1,20 @@
-import{createHash}from'node:crypto';import{mkdir,writeFile}from'node:fs/promises';import path from'node:path';import{defineTool}from'@deepseek-ai/dsh-tools';import{parseIfc}from'../core/ifc.js';import type{ModelRecord,Table}from'./storage.js'
+import{createHash}from'node:crypto';import{mkdir,writeFile}from'node:fs/promises';import path from'node:path';import{defineTool}from'@deepseek-ai/dsh-tools';import{IfcError,parseIfc}from'../core/ifc.js';import type{ModelRecord,Table}from'./storage.js'
 const text=(t:string)=>[{type:'text' as const,text:t}];const sha=(v:string|Buffer)=>createHash('sha256').update(v).digest('hex')
 export function createTools(deps:{models:Table<ModelRecord>;baseDir:string}){
  const ingest=defineTool({name:'ifc.ingest',description:'Parse a local IFC (ISO-10303-21) text into element counts and quantity entities; stores a model. Local R1 write.',parameters:{ifc_text:{type:'string',required:true},source_name:{type:'string'}},output:{schema:{type:'object',additionalProperties:false,properties:{model_id:{type:'string',required:true},elements:{type:'number',required:true},quantities:{type:'number',required:true},types:{type:'json',required:true}}},render:(_a,v)=>text(`IFC ${v.elements} elements / ${v.quantities} quantities`)},async execute(a){const m=parseIfc(a.ifc_text);const id=`ifc_${sha(a.ifc_text).slice(0,16)}`;const r:ModelRecord={model_id:id,source_name:a.source_name??'inline.ifc',sha256:sha(a.ifc_text),...m,created_at:new Date().toISOString()};await deps.models.put(id,r);return{model_id:id,elements:m.elements.length,quantities:m.quantities.length,types:m.types}}})
  const exportCsv=defineTool({name:'ifc.export_csv',description:'Export one CSV of type counts + quantity rows. Local R1 write.',parameters:{model_id:{type:'string',required:true}},output:{schema:{type:'object',additionalProperties:false,properties:{path:{type:'string',required:true},rows:{type:'number',required:true},sha256:{type:'string',required:true}}},render:(_a,v)=>text(`CSV ${v.rows} rows`)},async execute(a){const m=deps.models.get(a.model_id);if(!m)throw new Error('model not found');const rows=[['kind','type_or_name','value'],...Object.entries(m.types).map(([t,n])=>['count',t,String(n)]),...m.quantities.map(q=>[q.kind,q.name,String(q.value)])];const csv=rows.map(r=>r.join(',')).join('\n')+'\n';const d=path.join(deps.baseDir,'exports');await mkdir(d,{recursive:true});const p=path.join(d,`${m.model_id}.csv`);await writeFile(p,csv);return{path:p,rows:rows.length-1,sha256:sha(csv)}}})
- return[ingest,exportCsv]
+ const qtoSummary=defineTool({name:'ifc.qto_summary',description:'Quantity take-off summary for a stored model: totals, count, min/max per measurement kind plus element-type distribution, and data-quality issues (non-positive quantities). Read-only.',parameters:{model_id:{type:'string',required:true}},output:{schema:{type:'object',additionalProperties:false,properties:{model_id:{type:'string',required:true},elements:{type:'number',required:true},quantities:{type:'number',required:true},totals:{type:'json',required:true},types:{type:'json',required:true},issues:{type:'array',required:true,items:{type:'object',additionalProperties:false,properties:{code:{type:'string',required:true},name:{type:'string',required:true},value:{type:'number',required:true}}}}}},render:(_a,v)=>text('QTO elements='+v.elements+' quantities='+v.quantities)},async execute(a){
+   const m=deps.models.get(a.model_id); if(!m) throw new IfcError('E_IFC_UNREADABLE','unknown model_id: '+a.model_id)
+   const totals:Record<string,{count:number;total:number;min:number;max:number}>={}
+   const issues:{code:string;name:string;value:number}[]=[]
+   for(const q of m.quantities){
+     const t=totals[q.kind]??{count:0,total:0,min:Number.POSITIVE_INFINITY,max:Number.NEGATIVE_INFINITY}
+     t.count+=1; t.total=Math.round((t.total+q.value)*1e6)/1e6; t.min=Math.min(t.min,q.value); t.max=Math.max(t.max,q.value); totals[q.kind]=t
+     if(!(q.value>0)) issues.push({code:'E_IFC_QUANTITY_NON_POSITIVE',name:q.name,value:q.value})
+   }
+   for(const t of Object.values(totals)){ if(!Number.isFinite(t.min)) t.min=0; if(!Number.isFinite(t.max)) t.max=0 }
+   return {model_id:m.model_id,elements:m.elements.length,quantities:m.quantities.length,totals,types:m.types,issues}
+ }})
+
+ return[ingest,exportCsv,qtoSummary]
 }

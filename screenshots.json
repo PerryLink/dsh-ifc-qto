@@ -1,0 +1,14 @@
+[
+  {
+    "path": "docs/assets/dsh-ifc-qto-capability.png",
+    "kind": "capability",
+    "alt": "dsh-ifc-qto real test run",
+    "caption": "Real command: node --test test/qto-summary.test.mjs — 3 tests passed, 0 failed (QTO totals per measurement kind and non-positive detection). Run 2026-11-01; the image is rendered from the captured terminal output."
+  },
+  {
+    "path": "docs/assets/dsh-ifc-qto-flow.svg",
+    "kind": "flow",
+    "alt": "dsh-ifc-qto flow diagram",
+    "caption": "Pipeline diagram, schematic not test evidence."
+  }
+]
