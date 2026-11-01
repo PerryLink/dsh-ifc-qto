@@ -90,7 +90,7 @@ dsh --profile <profile> --dump-config | grep dsh-ifc-qto
 
 ### Fixture-backed example
 
-Input: [`fixtures/public/mit/3walls.ifc`](fixtures/public/mit/3walls.ifc)
+Input: [`fixtures/public/mit/3walls.ifc`](https://github.com/PerryLink/dsh-ifc-qto/blob/main/fixtures/public/mit/3walls.ifc)
 
 Command: `pnpm test`
 
@@ -139,6 +139,17 @@ pnpm build && pnpm lint && pnpm typecheck && pnpm test
 ## Related work
 
 Sibling packages and family indexes: [dsh-docx-redline](https://github.com/PerryLink/dsh-docx-redline) · [dsh-pim-lint](https://github.com/PerryLink/dsh-pim-lint)
+
+
+### Related checkers
+
+Each entry is a separate package with its own rule pack and version; install only the ones you need.
+
+| Package | Why it is relevant |
+|---|---|
+| [`dsh-construction-doc-check`](https://github.com/PerryLink/dsh-construction-doc-check) | Construction document directory, versions and empty files. |
+| [`dsh-pipeline-check`](https://github.com/PerryLink/dsh-pipeline-check) | Project whole-process document chain. |
+| [`dsh-site-log-check`](https://github.com/PerryLink/dsh-site-log-check) | Supervision-log continuity and on-site record coverage. |
 
 - [Domain index](https://perrylink.github.io/dsh-plugins/)
 - [Checker family](https://perrylink.github.io/zh/checkers/)

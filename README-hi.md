@@ -90,7 +90,7 @@ dsh --profile <profile> --dump-config | grep dsh-ifc-qto
 
 ### fixture-आधारित उदाहरण
 
-इनपुट: [`fixtures/public/mit/3walls.ifc`](fixtures/public/mit/3walls.ifc)
+इनपुट: [`fixtures/public/mit/3walls.ifc`](https://github.com/PerryLink/dsh-ifc-qto/blob/main/fixtures/public/mit/3walls.ifc)
 
 कमांड: `pnpm test`
 
@@ -139,6 +139,8 @@ pnpm build && pnpm lint && pnpm typecheck && pnpm test
 ## संबंधित कार्य
 
 सहोदर पैकेज और परिवार सूचकांक: [dsh-docx-redline](https://github.com/PerryLink/dsh-docx-redline) · [dsh-pim-lint](https://github.com/PerryLink/dsh-pim-lint)
+
+संबंधित चेकर (अंग्रेज़ी तालिका): [Related checkers](README.md#related-checkers).
 
 - [डोमेन सूचकांक](https://perrylink.github.io/dsh-plugins/)
 - [चेकर परिवार](https://perrylink.github.io/zh/checkers/)
