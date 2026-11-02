@@ -37,6 +37,46 @@ dsh plugin --profile <profile> add dsh-ifc-qto
 
 *工作流：本地输入 → 插件 → 本地输出；不需要调用模型。*
 
+## 快速了解（3 分钟）
+
+**一句话**：把本地 IFC 模型里的构件和工程量清点出来，汇总成一张可核对的 CSV。
+
+**适合**：投标或报量前快速核一遍模型里有多少墙、板、门窗，面积体积合计多少；收到上游 `.ifc` 想先看看里面有什么。
+**不适合**：需要三维几何核量、与图纸逐项对量的场景；RVT/DWG 等非 IFC 格式；扫描件或截图。
+
+**输入**：本地 `.ifc` 文本（ISO-10303-21，IFC4），UTF-8，单文件建议 ≤50 MB；来自设计院或建模方导出。
+自带样例：`samples/quickstart/input/sample-building.ifc`（1.7 KB，合成数据：虚构项目/构件编号，无客户模型）。
+
+**输出**：构件清单（类型、数量、名称）、工程量汇总（长度/面积/体积的笔数、合计、最小/最大）、数据质量提示；另有 CSV 写到 `$DSH_HOME/storages/dsh-ifc-qto/exports/`。**不改原文件，不上传。**
+
+**示例**：把这句话直接发给助手：
+
+> 帮我从自带样例的模型里提取构件和工程量，看看单位声明全不全，再按类别汇总并导出一份 CSV。
+
+预期输出（真实运行结果）：`samples/quickstart/expected/result.json`。同一份样例的真实运行截图：
+
+![quickstart](docs/assets/quickstart.png)
+
+**权限**：
+
+```text
+读：用户指定的 .ifc 模型文件；不读其他目录
+写：$DSH_HOME/storages/dsh-ifc-qto（原件与 exports/*.csv）；不改原文件
+联网：否
+外部系统：无
+```
+
+以上与源码一致：`apply()` 只从 `DSH_IFC_HOME`（缺省 `$DSH_HOME/storages/dsh-ifc-qto`）取写入目录，源码里没有任何网络调用。写盘的工具（`ifc.ingest`、`ifc.export_csv`）标 **R1 本地写**，只读工具（`ifc.qto_summary`、`ifc.unit_check`）标 **R0**。
+
+### FAQ
+
+1. **装不上怎么办？** 先看 `node --version` 是否 ≥24.9、`dsh --version` 是否在 `>=0.2.1-rc.3 <0.4.0`；再跑 `dsh plugin --profile <profile> add dsh-ifc-qto`。仍失败就把报错原文发到仓库 issue。
+2. **结果不对怎么办？** 先跑 `ifc.unit_check` 看单位声明（长度/面积/体积）。本包只做**文本级**清点，不做几何核量；工程量取自文件里的 `IfcQuantityLength/Area/Volume`，模型没写就统计不到。
+3. **能处理我的文件吗？** 能，只要是 `.ifc`（ISO-10303-21）文本。全程在本机跑，不联网、不上传；RVT/DWG/PDF 不支持。
+4. **为什么提示 `E_IFC_QUANTITY_NON_POSITIVE`？** 模型里有 0 或负数的工程量，通常是漏填或导出错误，核对后再报量。
+
+**版本**：0.1.0-alpha.13（alpha，`counted=false`，非 GA）。测试：`node --test test/*.test.mjs` 通过 13 项、失败 0；验收见 `ACCEPTANCE.csv`。
+
 ## 安装
 
 安装并验证：
@@ -74,8 +114,10 @@ IFC 构件/工程量清单与 CSV 导出。 在 DeepSeek Harness 本地运行；
 
 | 工具 | 用途 | 风险 |
 |---|---|---|
-| `ifc.ingest` | 解析 IFC 文件并清点构件与工程量属性 | R1 local write |
-| `ifc.export_csv` | 将构件/工程量清单导出为 CSV | R1 local write |
+| `ifc.ingest` | 解析 IFC 文件并清点构件与工程量属性 | R1 本地写 |
+| `ifc.export_csv` | 将构件/工程量清单导出为 CSV | R1 本地写 |
+| `ifc.qto_summary` | 按计量类型汇总（笔数/合计/最小/最大），并列出非正数的数据质量问题 | R0 只读 |
+| `ifc.unit_check` | 检查模型是否声明了长度/面积/体积 SI 单位 | R0 只读 |
 
 ## 快速开始
 
@@ -84,9 +126,23 @@ dsh plugin --profile <profile> add dsh-ifc-qto
 dsh --profile <profile> --dump-config | grep dsh-ifc-qto
 ```
 
+装上后，把上面「示例」里那句话发给助手即可。在仓库里也可以直接跑同一套工具：
+
+```sh
+pnpm build && node samples/quickstart/run.mjs
+```
+
+它会用 `samples/quickstart/input/sample-building.ifc` 依次调用 `ifc.unit_check → ifc.ingest → ifc.qto_summary → ifc.export_csv`，并打印结果。
+
 ## 示例
 
-### fixture 支撑的示例
+### 自带样例（合成）
+
+输入: `samples/quickstart/input/sample-building.ifc`（手写合成 IFC4：虚构项目/构件编号，6 个构件、6 个工程量）
+金标: `samples/quickstart/expected/result.json`（`node samples/quickstart/run.mjs --json` 的输出）
+命令: `pnpm build && node samples/quickstart/run.mjs`
+
+### fixture 支撑的验收
 
 输入: [`fixtures/public/mit/3walls.ifc`](https://github.com/PerryLink/dsh-ifc-qto/blob/main/fixtures/public/mit/3walls.ifc)
 

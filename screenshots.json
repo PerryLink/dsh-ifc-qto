@@ -1,5 +1,15 @@
 [
   {
+    "path": "docs/assets/quickstart.png",
+    "kind": "quickstart",
+    "alt": "dsh-ifc-qto quickstart terminal run",
+    "caption": "Real command: node samples/quickstart/run.mjs — 4 tool calls on the shipped synthetic sample (6 elements, 6 quantities, 1 data-quality issue). The image is a 1:1 render of samples/quickstart/expected/console.txt; nothing was re-typed.",
+    "command": "node samples/quickstart/run.mjs",
+    "run_at": "2026-11-02T20:29:58+08:00",
+    "output_sha256": "913650d11ebdebbbba9867af9d4367d65b1a764aea2a0de6b2a38e57944f51fe",
+    "log_sha256": "355eb7cb25f60243712aaa7ca8c3e656dbde1cde7c3999fd200d248f5f8c5399"
+  },
+  {
     "path": "docs/assets/dsh-ifc-qto-capability.png",
     "kind": "capability",
     "alt": "dsh-ifc-qto real test run",

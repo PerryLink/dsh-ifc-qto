@@ -1,0 +1,62 @@
+{
+  "_note": "Real tool output. The export path is normalised to exports/<file>.csv (the run directory is a temp dir); everything else is verbatim.",
+  "sample": {
+    "path": "samples/quickstart/input/sample-building.ifc",
+    "bytes": 1718,
+    "sha256": "92f1f2cfc519059a0a6148974a81fb86d8efea0554f7fe5298670aa9e81760e1"
+  },
+  "units": {
+    "assignment": true,
+    "length": "MILLI|METRE",
+    "area": "$|SQUARE_METRE",
+    "volume": "$|CUBIC_METRE",
+    "issues": []
+  },
+  "ingest": {
+    "elements": 6,
+    "quantities": 6,
+    "types": {
+      "WALL": 2,
+      "SLAB": 1,
+      "DOOR": 1,
+      "WINDOW": 1,
+      "COLUMN": 1
+    }
+  },
+  "qto": {
+    "elements": 6,
+    "quantities": 6,
+    "totals": {
+      "length": {
+        "count": 3,
+        "total": 8100,
+        "min": 900,
+        "max": 4200
+      },
+      "area": {
+        "count": 2,
+        "total": 86.4,
+        "min": 0,
+        "max": 86.4
+      },
+      "volume": {
+        "count": 1,
+        "total": 25.92,
+        "min": 25.92,
+        "max": 25.92
+      }
+    },
+    "issues": [
+      {
+        "code": "E_IFC_QUANTITY_NON_POSITIVE",
+        "name": "NetSideArea",
+        "value": 0
+      }
+    ]
+  },
+  "export": {
+    "path": "exports/ifc_92f1f2cfc519059a.csv",
+    "rows": 11,
+    "csv_sha256": "3e8f62d3e7fd6a566cd93d7871ef9c4f61cf541093851edae74947b31f7d6568"
+  }
+}
