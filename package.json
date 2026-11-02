@@ -1,6 +1,6 @@
 {
   "name": "dsh-ifc-qto",
-  "version": "0.1.0-alpha.12",
+  "version": "0.1.0-alpha.13",
   "description": "IFC element/quantity inventory and CSV takeoff.",
   "type": "module",
   "main": "./lib/plugin/index.js",
@@ -96,5 +96,13 @@
   "bugs": {
     "url": "https://github.com/PerryLink/dsh-ifc-qto/issues"
   },
-  "icon": "icon.svg"
+  "icon": "icon.svg",
+  "peerDependenciesMeta": {
+    "@deepseek-ai/dsh-storage-domain": {
+      "optional": true
+    },
+    "@deepseek-ai/dsh-tools": {
+      "optional": true
+    }
+  }
 }

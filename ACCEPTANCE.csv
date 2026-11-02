@@ -1,8 +1,8 @@
 req_id,metric,threshold,actual,script,evidence_sha256,pass,source,counted
-SKU-07-A01,IFC 构件（20）,20,20,scripts/acceptance.mjs,2d59bcdbb451020e113f131fcb5f8171693fe26b78071b30944f77d7e86c42e6,true,public/synthetic,false
-SKU-07-A02,类型数,5,5,scripts/acceptance.mjs,2d59bcdbb451020e113f131fcb5f8171693fe26b78071b30944f77d7e86c42e6,true,public/synthetic,false
-SKU-07-A03,量实体,3,3,scripts/acceptance.mjs,2d59bcdbb451020e113f131fcb5f8171693fe26b78071b30944f77d7e86c42e6,true,public/synthetic,false
-SKU-07-A04,CSV 行,>=8,8,scripts/acceptance.mjs,2d59bcdbb451020e113f131fcb5f8171693fe26b78071b30944f77d7e86c42e6,true,public/synthetic,false
-SKU-07-A05,公开 IFC 量实体,>=5,36,scripts/acceptance.mjs,2d59bcdbb451020e113f131fcb5f8171693fe26b78071b30944f77d7e86c42e6,true,public/synthetic,false
-SKU-07-A06,QTO 汇总/数据质量,1,3,scripts/acceptance.mjs,2d59bcdbb451020e113f131fcb5f8171693fe26b78071b30944f77d7e86c42e6,true,public/synthetic,false
-SKU-07-A07,IFC 单位声明检查,>=1,3,scripts/acceptance.mjs,2d59bcdbb451020e113f131fcb5f8171693fe26b78071b30944f77d7e86c42e6,true,public/synthetic,false
+SKU-07-A01,IFC 构件（20）,20,20,scripts/acceptance.mjs,06dc08c540563ffaf834bda53d2e618ad9e95c366e7ecc098a69680cb4a805de,true,public/synthetic,false
+SKU-07-A02,类型数,5,5,scripts/acceptance.mjs,06dc08c540563ffaf834bda53d2e618ad9e95c366e7ecc098a69680cb4a805de,true,public/synthetic,false
+SKU-07-A03,量实体,3,3,scripts/acceptance.mjs,06dc08c540563ffaf834bda53d2e618ad9e95c366e7ecc098a69680cb4a805de,true,public/synthetic,false
+SKU-07-A04,CSV 行,>=8,8,scripts/acceptance.mjs,06dc08c540563ffaf834bda53d2e618ad9e95c366e7ecc098a69680cb4a805de,true,public/synthetic,false
+SKU-07-A05,公开 IFC 量实体,>=5,36,scripts/acceptance.mjs,06dc08c540563ffaf834bda53d2e618ad9e95c366e7ecc098a69680cb4a805de,true,public/synthetic,false
+SKU-07-A06,QTO 汇总/数据质量,1,3,scripts/acceptance.mjs,06dc08c540563ffaf834bda53d2e618ad9e95c366e7ecc098a69680cb4a805de,true,public/synthetic,false
+SKU-07-A07,IFC 单位声明检查,>=1,3,scripts/acceptance.mjs,06dc08c540563ffaf834bda53d2e618ad9e95c366e7ecc098a69680cb4a805de,true,public/synthetic,false
