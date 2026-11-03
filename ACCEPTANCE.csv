@@ -1,9 +1,9 @@
 req_id,metric,threshold,actual,script,evidence_sha256,pass,source,counted
-SKU-07-A01,IFC 构件（20）,20,20,scripts/acceptance.mjs,acfe04b0a603b3faa4892ae0baf48ef6fccce33caa803649d33a5a57078b1453,true,public/synthetic,false
-SKU-07-A02,类型数,5,5,scripts/acceptance.mjs,acfe04b0a603b3faa4892ae0baf48ef6fccce33caa803649d33a5a57078b1453,true,public/synthetic,false
-SKU-07-A03,量实体,3,3,scripts/acceptance.mjs,acfe04b0a603b3faa4892ae0baf48ef6fccce33caa803649d33a5a57078b1453,true,public/synthetic,false
-SKU-07-A04,CSV 行,>=8,8,scripts/acceptance.mjs,acfe04b0a603b3faa4892ae0baf48ef6fccce33caa803649d33a5a57078b1453,true,public/synthetic,false
-SKU-07-A05,公开 IFC 量实体,>=5,36,scripts/acceptance.mjs,acfe04b0a603b3faa4892ae0baf48ef6fccce33caa803649d33a5a57078b1453,true,public/synthetic,false
-SKU-07-A06,QTO 汇总/数据质量,1,3,scripts/acceptance.mjs,acfe04b0a603b3faa4892ae0baf48ef6fccce33caa803649d33a5a57078b1453,true,public/synthetic,false
-SKU-07-A07,IFC 单位声明检查,>=1,3,scripts/acceptance.mjs,acfe04b0a603b3faa4892ae0baf48ef6fccce33caa803649d33a5a57078b1453,true,public/synthetic,false
+SKU-07-A01,IFC 构件（20）,20,20,scripts/acceptance.mjs,9f1d14c09fc46634c3f35153ba5a59828d827c5a29bca6f43dadfa3d9505ee2b,true,public/synthetic,false
+SKU-07-A02,类型数,5,5,scripts/acceptance.mjs,9f1d14c09fc46634c3f35153ba5a59828d827c5a29bca6f43dadfa3d9505ee2b,true,public/synthetic,false
+SKU-07-A03,量实体,3,3,scripts/acceptance.mjs,9f1d14c09fc46634c3f35153ba5a59828d827c5a29bca6f43dadfa3d9505ee2b,true,public/synthetic,false
+SKU-07-A04,CSV 行,>=8,8,scripts/acceptance.mjs,9f1d14c09fc46634c3f35153ba5a59828d827c5a29bca6f43dadfa3d9505ee2b,true,public/synthetic,false
+SKU-07-A05,公开 IFC 量实体,>=5,36,scripts/acceptance.mjs,9f1d14c09fc46634c3f35153ba5a59828d827c5a29bca6f43dadfa3d9505ee2b,true,public/synthetic,false
+SKU-07-A06,QTO 汇总/数据质量,1,3,scripts/acceptance.mjs,9f1d14c09fc46634c3f35153ba5a59828d827c5a29bca6f43dadfa3d9505ee2b,true,public/synthetic,false
+SKU-07-A07,IFC 单位声明检查,>=1,3,scripts/acceptance.mjs,9f1d14c09fc46634c3f35153ba5a59828d827c5a29bca6f43dadfa3d9505ee2b,true,public/synthetic,false
 PS1-QS01,quickstart 样例与金标一致,1/1,1,scripts/acceptance.mjs,456c7816179d353c8b5e2ddcc0cf15bac5d9af33f8c24195202c481422ad77f1,true,synthetic/quickstart,true

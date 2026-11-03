@@ -75,7 +75,7 @@ dsh plugin --profile <profile> add dsh-ifc-qto
 3. **能处理我的文件吗？** 能，只要是 `.ifc`（ISO-10303-21）文本。全程在本机跑，不联网、不上传；RVT/DWG/PDF 不支持。
 4. **为什么提示 `E_IFC_QUANTITY_NON_POSITIVE`？** 模型里有 0 或负数的工程量，通常是漏填或导出错误，核对后再报量。
 
-**版本**：0.1.0-alpha.13（alpha，`counted=false`，非 GA）。测试：`node --test test/*.test.mjs` 通过 13 项、失败 0；验收见 `ACCEPTANCE.csv`。
+**版本**：0.1.0（alpha，`counted=false`，非 GA）。测试：`node --test test/*.test.mjs` 通过 13 项、失败 0；验收见 `ACCEPTANCE.csv`。
 
 ## 安装
 
