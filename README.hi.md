@@ -1,8 +1,8 @@
 <div align="center">
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dsh-ifc-qto-flow-dark.svg">
-  <img src="docs/assets/dsh-ifc-qto-flow-light.svg" width="100%" alt="dsh-ifc-qto डेटा प्रवाह: स्थानीय .ifc टेक्स्ट → ifc.unit_check / ifc.ingest → ifc.qto_summary → ifc.export_csv; डेटा स्थानीय ifc स्टोरेज डोमेन और exports निर्देशिका में ही रहता है">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dsh-ifc-qto-hero-en-dark.webp">
+  <img src="docs/assets/dsh-ifc-qto-hero-en-light.webp" width="100%" alt="dsh-ifc-qto बैनर: IFC STEP टेक्स्ट से एलिमेंट और मात्रा एंटिटी लाइन-दर-लाइन पढ़ी जाती हैं, तीनों इकाइयाँ घोषित हैं, शून्य NetSideArea को गैर-धनात्मक चिह्नित किया जाता है, और कुल (लंबाई 8 100 mm, क्षेत्रफल 86.4 m², आयतन 25.92 m³) 11 पंक्तियों का CSV बनते हैं">
 </picture>
 
 # dsh-ifc-qto
@@ -42,6 +42,11 @@ dsh plugin --profile <profile> add dsh-ifc-qto
 **इनपुट**: स्थानीय `.ifc` टेक्स्ट (ISO-10303-21, IFC4), UTF-8, प्रति फ़ाइल ≤50 MB अनुशंसित, डिज़ाइन ऑफ़िस या मॉडल लेखक द्वारा निर्यात। साथ दिया नमूना: `samples/quickstart/input/sample-building.ifc` (1.7 KB, सिंथेटिक: काल्पनिक प्रोजेक्ट और एलिमेंट आईडी, कोई ग्राहक मॉडल नहीं)।
 
 **आउटपुट**: एलिमेंट सूची (प्रकार, संख्या, नाम), मात्रा सारांश (लंबाई, क्षेत्रफल और आयतन के लिए संख्या/कुल/न्यूनतम/अधिकतम), डेटा-गुणवत्ता संकेत, और `$DSH_HOME/storages/dsh-ifc-qto/exports/` में CSV। **स्रोत फ़ाइल नहीं बदलती और कुछ अपलोड नहीं होता।**
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dsh-ifc-qto-flow-v5-dark.svg">
+  <img src="docs/assets/dsh-ifc-qto-flow-v5-light.svg" width="100%" alt="dsh-ifc-qto संरचना: एक स्थानीय .ifc टेक्स्ट (ISO-10303-21 / IFC4) दो रीडर में बँटता है — ifc.unit_check तीनों इकाई घोषणाएँ अंकित करता है, ifc.ingest 14 एलिमेंट वर्ग और 3 मात्रा प्रकार निकालकर उन्हें ifc स्टोरेज डोमेन की models तालिका में model_id के रूप में रखता है; टेकऑफ़ शीट प्रति प्रकार count/total/min/max और गैर-धनात्मक समस्या निकालती है, और ifc.export_csv 11 पंक्तियों का CSV उसके sha256 के साथ अलग करता है">
+</picture>
 
 ## तीन चरणों में शुरुआत
 
@@ -361,7 +366,7 @@ node samples/quickstart/run.mjs                          # सिंथेटि
 | `docs/assets/` | README चित्र |
 | `evidence/` | स्वीकृति रन स्नैपशॉट (`result.json`) |
 
-चित्र [`scripts/gen-readme-assets.py`](scripts/gen-readme-assets.py) से क्रमादेशित रूप से बनते हैं (Python; SVG वेक्टर हैं और Pillow नहीं चाहिए)। `python scripts/gen-readme-assets.py` दोबारा चलाने पर `docs/assets/dsh-ifc-qto-flow-{light,dark}.svg` फिर से लिखे जाते हैं; आरेखों में केवल कमांड/कॉन्फ़िग टोकन हैं और पाँचों भाषाएँ उन्हीं को साझा करती हैं। पुराना एकल-संस्करण `docs/assets/dsh-ifc-qto-flow.svg` बाहरी लिंक के 404 से बचने के लिए रखा गया है।
+बैनर और संरचना आरेख [`scripts/gen-readme-assets.py`](scripts/gen-readme-assets.py) द्वारा प्रोग्रामेटिक रूप से बनते हैं (चार 1440x576 webp बैनर Pillow से, 1100x660 हल्का/गहरा आरेख हाथ से लिखे SVG से) और सुरक्षित रूप से दोबारा चलाए जा सकते हैं; पुराना एकल-संस्करण `docs/assets/dsh-ifc-qto-flow.svg` और पुराने `flow-{light,dark}.svg` बाहरी लिंक के 404 से बचने के लिए रखे गए हैं।
 
 Topics: `deepseek-harness`, `dsh`, `dsh-plugin`, `ifc`, `qto`, `bim`, `perrylink`, `construction`
 

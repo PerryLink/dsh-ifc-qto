@@ -1,8 +1,8 @@
 <div align="center">
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dsh-ifc-qto-flow-dark.svg">
-  <img src="docs/assets/dsh-ifc-qto-flow-light.svg" width="100%" alt="Fluxo de dados do dsh-ifc-qto: texto .ifc local → ifc.unit_check / ifc.ingest → ifc.qto_summary → ifc.export_csv; os dados ficam no domínio de armazenamento local ifc e no diretório exports">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dsh-ifc-qto-hero-en-dark.webp">
+  <img src="docs/assets/dsh-ifc-qto-hero-en-light.webp" width="100%" alt="Banner do dsh-ifc-qto: entidades de elementos e quantidades são lidas linha a linha do texto STEP IFC, as três unidades estão declaradas, o valor zero NetSideArea é marcado como não positivo e os totais (comprimento 8 100 mm, área 86,4 m², volume 25,92 m³) viram um CSV de 11 linhas">
 </picture>
 
 # dsh-ifc-qto
@@ -42,6 +42,11 @@ O `dsh-ifc-qto` executa dentro do DeepSeek Harness um pipeline de levantamento t
 **Entrada**: um texto `.ifc` local (ISO-10303-21, IFC4), UTF-8, ≤50 MB por arquivo recomendado, exportado por um escritório de projeto ou pelo autor do modelo. Amostra incluída: `samples/quickstart/input/sample-building.ifc` (1,7 KB, sintética: projeto e elementos fictícios, sem modelo de cliente).
 
 **Saída**: inventário de elementos (tipo, contagem, nome), resumo de quantidades (contagem/total/mínimo/máximo para comprimento, área e volume), avisos de qualidade de dados e um CSV em `$DSH_HOME/storages/dsh-ifc-qto/exports/`. **O arquivo de origem não é alterado e nada é enviado.**
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dsh-ifc-qto-flow-v5-dark.svg">
+  <img src="docs/assets/dsh-ifc-qto-flow-v5-light.svg" width="100%" alt="Estrutura do dsh-ifc-qto: um texto .ifc local (ISO-10303-21 / IFC4) se divide em dois leitores — ifc.unit_check carimba as três declarações de unidade, ifc.ingest extrai 14 classes de elemento e 3 tipos de medição e os guarda como model_id na tabela models do domínio ifc; a folha de levantamento calcula contagem/total/mínimo/máximo por tipo e a ocorrência de valores não positivos, e ifc.export_csv destaca o CSV de 11 linhas com seu sha256">
+</picture>
 
 ## Instalação em três passos
 
@@ -361,7 +366,7 @@ Estrutura de diretórios:
 | `docs/assets/` | Imagens do README |
 | `evidence/` | Instantâneos das execuções de aceitação (`result.json`) |
 
-As imagens são geradas por [`scripts/gen-readme-assets.py`](scripts/gen-readme-assets.py) (Python; os SVGs são vetoriais e não precisam de Pillow). Rodar `python scripts/gen-readme-assets.py` de novo reescreve `docs/assets/dsh-ifc-qto-flow-{light,dark}.svg`; os diagramas só contêm tokens de comando/configuração e são compartilhados pelos cinco idiomas. O antigo SVG de versão única `docs/assets/dsh-ifc-qto-flow.svg` é mantido para que links externos não deem 404.
+O banner e o diagrama de estrutura são gerados por [`scripts/gen-readme-assets.py`](scripts/gen-readme-assets.py) (Pillow para os quatro banners webp de 1440x576, SVG escrito à mão para o diagrama claro/escuro de 1100x660) e podem ser reexecutados; o antigo SVG de versão única `docs/assets/dsh-ifc-qto-flow.svg` e os antigos `flow-{light,dark}.svg` são mantidos para que links externos não deem 404.
 
 Topics: `deepseek-harness`, `dsh`, `dsh-plugin`, `ifc`, `qto`, `bim`, `perrylink`, `construction`
 

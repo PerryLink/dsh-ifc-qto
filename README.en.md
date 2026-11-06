@@ -1,8 +1,8 @@
 <div align="center">
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dsh-ifc-qto-flow-dark.svg">
-  <img src="docs/assets/dsh-ifc-qto-flow-light.svg" width="100%" alt="dsh-ifc-qto data flow: local .ifc text → ifc.unit_check / ifc.ingest → ifc.qto_summary → ifc.export_csv; data stays in the local ifc storage domain and the exports directory">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dsh-ifc-qto-hero-en-dark.webp">
+  <img src="docs/assets/dsh-ifc-qto-hero-en-light.webp" width="100%" alt="dsh-ifc-qto banner: element and quantity entities are read line by line from the IFC STEP text, all three unit declarations are present, the zero NetSideArea is flagged non-positive, and the totals (length 8 100 mm, area 86.4 m², volume 25.92 m³) become an 11-row CSV">
 </picture>
 
 # dsh-ifc-qto
@@ -42,6 +42,11 @@ dsh plugin --profile <profile> add dsh-ifc-qto
 **Input**: a local `.ifc` text (ISO-10303-21, IFC4), UTF-8, ≤50 MB per file recommended, exported by a design office or model author. Shipped sample: `samples/quickstart/input/sample-building.ifc` (1.7 KB, synthetic: fictional project and element ids, no customer model).
 
 **Output**: an element inventory (type, count, name), a quantity summary (count/total/min/max for length, area and volume), data-quality hints, and a CSV under `$DSH_HOME/storages/dsh-ifc-qto/exports/`. **The source file is not modified and nothing is uploaded.**
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dsh-ifc-qto-flow-v5-dark.svg">
+  <img src="docs/assets/dsh-ifc-qto-flow-v5-light.svg" width="100%" alt="dsh-ifc-qto structure: one local .ifc text (ISO-10303-21 / IFC4) fans into two readers — ifc.unit_check stamps the three unit declarations, ifc.ingest parses 14 element classes and 3 quantity kinds and stores them as model_id in the ifc storage domain's models table; the take-off sheet computes count/total/min/max per measurement kind plus the non-positive issue, and ifc.export_csv tears off the 11-row CSV with its sha256">
+</picture>
 
 ## Three-step setup
 
@@ -361,7 +366,7 @@ Directory layout:
 | `docs/assets/` | README images |
 | `evidence/` | Acceptance run snapshots (`result.json`) |
 
-The images are generated programmatically by [`scripts/gen-readme-assets.py`](scripts/gen-readme-assets.py) (Python; the SVGs are vector and need no Pillow). Re-running `python scripts/gen-readme-assets.py` rewrites `docs/assets/dsh-ifc-qto-flow-{light,dark}.svg`; the diagrams contain command/config tokens only and are shared by all five languages. The old single-version `docs/assets/dsh-ifc-qto-flow.svg` is kept so existing external links do not 404.
+The banner and the structure diagram are generated programmatically by [`scripts/gen-readme-assets.py`](scripts/gen-readme-assets.py) (Pillow for the four 1440x576 webp banners, hand-written SVG for the light/dark 1100x660 diagram) and are safe to re-run; the old single-version `docs/assets/dsh-ifc-qto-flow.svg` and the old `flow-{light,dark}.svg` are kept so existing external links do not 404.
 
 Topics: `deepseek-harness`, `dsh`, `dsh-plugin`, `ifc`, `qto`, `bim`, `perrylink`, `construction`
 

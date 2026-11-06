@@ -1,0 +1,142 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="660" viewBox="0 0 1100 660" role="img" aria-label="dsh-ifc-qto structure: one local .ifc text is read by ifc.unit_check for the unit declaration and by ifc.ingest into 14 element classes and 3 quantity kinds stored as model_id in the ifc domain models table; ifc.qto_summary computes count, total and min/max plus the non-positive issue, and ifc.export_csv writes exports/ifc_92f1f2cfc519059a.csv with 11 rows and a sha256">
+<title>dsh-ifc-qto: one take-off sheet, four local tools</title>
+<defs>
+<linearGradient id="bg" x1="0" y1="0" x2="0.35" y2="1"><stop offset="0" stop-color="#f9f6fd"/><stop offset="1" stop-color="#e4eaf8"/></linearGradient>
+<filter id="soft" x="-25%" y="-25%" width="150%" height="170%"><feDropShadow dx="0" dy="9" stdDeviation="12" flood-color="#1b1735" flood-opacity="0.1"/></filter>
+<pattern id="dots" width="26" height="26" patternUnits="userSpaceOnUse"><circle cx="1.4" cy="1.4" r="1.4" fill="#d9d3ea"/></pattern>
+</defs>
+<rect width="1100" height="660" fill="url(#bg)"/>
+<rect width="1100" height="660" fill="url(#dots)" opacity="0.45"/>
+<text x="44" y="52" fill="#141419" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="31" font-weight="700">dsh-ifc-qto</text>
+<text x="44" y="78" fill="#4d5261" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'Microsoft YaHei', 'PingFang SC', sans-serif" font-size="14">one local .ifc text → take-off sheet → summary + CSV · text-level, no geometry take-off</text>
+<rect x="784" y="28" width="256" height="32" rx="16" fill="#ece7f9"/>
+<text x="912" y="49" fill="#4B67B4" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="13" text-anchor="middle">ISO-10303-21 · IFC4 · text only</text>
+<line x1="44" y1="94" x2="1056" y2="94" stroke="#e7e4f0" stroke-width="1.4"/>
+<g filter="url(#soft)">
+<rect x="40" y="104" width="1020" height="482" rx="20" fill="#ffffff" stroke="#e4e1ee" stroke-width="1.4"/>
+</g>
+<text x="60" y="132" fill="#4B67B4" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="11" font-weight="600" letter-spacing="1.1">SOURCE · READ-ONLY · 1 718 B</text>
+<text x="60" y="152" fill="#4d5261" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="11">ISO-10303-21;</text>
+<text x="60" y="169" fill="#4d5261" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="11">FILE_SCHEMA(('IFC4'));</text>
+<text x="60" y="186" fill="#4d5261" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="11">#101=IFCWALL('0SAMPLE…');</text>
+<path d="M300 157h6" stroke="#4B67B4" stroke-width="1.6"/>
+<path d="M306 141v32" stroke="#4B67B4" stroke-width="1.6"/>
+<path d="M306 141h6" stroke="#4B67B4" stroke-width="1.6"/>
+<path d="M306 173h6" stroke="#4B67B4" stroke-width="1.6"/>
+<polygon points="319.0,141.0 313.0,144.6 313.0,137.4" fill="#4B67B4"/>
+<polygon points="319.0,173.0 313.0,176.6 313.0,169.4" fill="#4B67B4"/>
+<rect x="320" y="126" width="292" height="28" rx="14" fill="#f5f2fb" stroke="#e3def1" stroke-width="1.1"/>
+<circle cx="338" cy="140" r="9" fill="#4B67B4"/><text x="338" y="143.6" fill="#ffffff" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="10.5" font-weight="700" text-anchor="middle">1</text>
+<text x="352" y="144" fill="#141419" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="13" font-weight="700">ifc.unit_check</text>
+<text x="596" y="144" fill="#4d5261" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'Microsoft YaHei', 'PingFang SC', sans-serif" font-size="11" text-anchor="end">R0 · units</text>
+<rect x="320" y="162" width="292" height="28" rx="14" fill="#f5f2fb" stroke="#e3def1" stroke-width="1.1"/>
+<circle cx="338" cy="176" r="9" fill="#4B67B4"/><text x="338" y="179.6" fill="#ffffff" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="10.5" font-weight="700" text-anchor="middle">2</text>
+<text x="352" y="180" fill="#141419" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="13" font-weight="700">ifc.ingest</text>
+<text x="596" y="180" fill="#4d5261" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'Microsoft YaHei', 'PingFang SC', sans-serif" font-size="11" text-anchor="end">R1 · types + quantities</text>
+<text x="640" y="140" fill="#141419" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'Microsoft YaHei', 'PingFang SC', sans-serif" font-size="16" font-weight="700" letter-spacing="2.4">TAKE-OFF SHEET</text>
+<text x="640" y="164" fill="#4d5261" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="13">model_id  ifc_92f1f2cfc519059a</text>
+<text x="640" y="184" fill="#8f94a4" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="11">key = 'ifc_' + sha256(text)[:16] · domain ifc · models</text>
+<line x1="60" y1="200" x2="1040" y2="200" stroke="#e7e4f0" stroke-width="1.2"/>
+<circle cx="68" cy="224" r="9" fill="#4B67B4"/><text x="68" y="227.6" fill="#ffffff" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="10.5" font-weight="700" text-anchor="middle">1</text>
+<text x="84" y="228" fill="#4B67B4" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="11" font-weight="600" letter-spacing="1.1">UNIT DECLARATION · 3</text>
+<text x="1040" y="228" fill="#8f94a4" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'Microsoft YaHei', 'PingFang SC', sans-serif" font-size="11" text-anchor="end">ifc.unit_check · R0 · issues=0</text>
+<rect x="60" y="238" width="316" height="38" rx="11" fill="#f5f2fb" stroke="#e3def1" stroke-width="1.1"/>
+<text x="74" y="253" fill="#4B67B4" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="11" font-weight="600" letter-spacing="0.9">LENGTHUNIT</text>
+<text x="74" y="270" fill="#141419" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="13">MILLI|METRE</text>
+<path d="M342 256l4 4 7-8" fill="none" stroke="#16a34a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="392" y="238" width="316" height="38" rx="11" fill="#f5f2fb" stroke="#e3def1" stroke-width="1.1"/>
+<text x="406" y="253" fill="#4B67B4" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="11" font-weight="600" letter-spacing="0.9">AREAUNIT</text>
+<text x="406" y="270" fill="#141419" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="13">$|SQUARE_METRE</text>
+<path d="M674 256l4 4 7-8" fill="none" stroke="#16a34a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="724" y="238" width="316" height="38" rx="11" fill="#f5f2fb" stroke="#e3def1" stroke-width="1.1"/>
+<text x="738" y="253" fill="#4B67B4" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="11" font-weight="600" letter-spacing="0.9">VOLUMEUNIT</text>
+<text x="738" y="270" fill="#141419" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="13">$|CUBIC_METRE</text>
+<path d="M1006 256l4 4 7-8" fill="none" stroke="#16a34a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="68" cy="298" r="9" fill="#4B67B4"/><text x="68" y="301.6" fill="#ffffff" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="10.5" font-weight="700" text-anchor="middle">2</text>
+<text x="84" y="302" fill="#4B67B4" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="11" font-weight="600" letter-spacing="1.1">ELEMENT CLASSES · 14</text>
+<text x="1040" y="302" fill="#8f94a4" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'Microsoft YaHei', 'PingFang SC', sans-serif" font-size="11" text-anchor="end">ifc.ingest · R1 · 5 of 14 present · elements=6</text>
+<rect x="60" y="310" width="64" height="60" rx="12" fill="#ffffff" stroke="#4B67B4" stroke-width="1.4"/>
+<text x="92" y="333" fill="#141419" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="13" text-anchor="middle">WALL</text>
+<text x="92" y="357" fill="#4B67B4" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="18" font-weight="700" text-anchor="middle">2</text>
+<rect x="130" y="310" width="64" height="60" rx="12" fill="#ffffff" stroke="#4B67B4" stroke-width="1.4"/>
+<text x="162" y="333" fill="#141419" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="13" text-anchor="middle">SLAB</text>
+<text x="162" y="357" fill="#4B67B4" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="18" font-weight="700" text-anchor="middle">1</text>
+<rect x="200" y="310" width="64" height="60" rx="12" fill="#ffffff" stroke="#4B67B4" stroke-width="1.4"/>
+<text x="232" y="333" fill="#141419" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="13" text-anchor="middle">DOOR</text>
+<text x="232" y="357" fill="#4B67B4" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="18" font-weight="700" text-anchor="middle">1</text>
+<rect x="270" y="310" width="64" height="60" rx="12" fill="#ffffff" stroke="#4B67B4" stroke-width="1.4"/>
+<text x="302" y="333" fill="#141419" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="13" text-anchor="middle">WINDOW</text>
+<text x="302" y="357" fill="#4B67B4" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="18" font-weight="700" text-anchor="middle">1</text>
+<rect x="340" y="310" width="64" height="60" rx="12" fill="#ffffff" stroke="#4B67B4" stroke-width="1.4"/>
+<text x="372" y="333" fill="#141419" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="13" text-anchor="middle">COLUMN</text>
+<text x="372" y="357" fill="#4B67B4" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="18" font-weight="700" text-anchor="middle">1</text>
+<rect x="410" y="310" width="64" height="60" rx="12" fill="#f5f2fb" stroke="#e3def1" stroke-width="1.0"/>
+<text x="442" y="333" fill="#8f94a4" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="13" text-anchor="middle">BEAM</text>
+<text x="442" y="357" fill="#8f94a4" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="18" font-weight="700" text-anchor="middle">0</text>
+<rect x="480" y="310" width="64" height="60" rx="12" fill="#f5f2fb" stroke="#e3def1" stroke-width="1.0"/>
+<text x="512" y="333" fill="#8f94a4" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="13" text-anchor="middle">FOOTING</text>
+<text x="512" y="357" fill="#8f94a4" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="18" font-weight="700" text-anchor="middle">0</text>
+<rect x="550" y="310" width="64" height="60" rx="12" fill="#f5f2fb" stroke="#e3def1" stroke-width="1.0"/>
+<text x="582" y="333" fill="#8f94a4" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="13" text-anchor="middle">STAIR</text>
+<text x="582" y="357" fill="#8f94a4" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="18" font-weight="700" text-anchor="middle">0</text>
+<rect x="620" y="310" width="64" height="60" rx="12" fill="#f5f2fb" stroke="#e3def1" stroke-width="1.0"/>
+<text x="652" y="333" fill="#8f94a4" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="13" text-anchor="middle">RAILING</text>
+<text x="652" y="357" fill="#8f94a4" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="18" font-weight="700" text-anchor="middle">0</text>
+<rect x="690" y="310" width="64" height="60" rx="12" fill="#f5f2fb" stroke="#e3def1" stroke-width="1.0"/>
+<text x="722" y="333" fill="#8f94a4" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="13" text-anchor="middle">RAMP</text>
+<text x="722" y="357" fill="#8f94a4" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="18" font-weight="700" text-anchor="middle">0</text>
+<rect x="760" y="310" width="64" height="60" rx="12" fill="#f5f2fb" stroke="#e3def1" stroke-width="1.0"/>
+<text x="792" y="333" fill="#8f94a4" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="13" text-anchor="middle">PILE</text>
+<text x="792" y="357" fill="#8f94a4" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="18" font-weight="700" text-anchor="middle">0</text>
+<rect x="830" y="310" width="64" height="60" rx="12" fill="#f5f2fb" stroke="#e3def1" stroke-width="1.0"/>
+<text x="862" y="333" fill="#8f94a4" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="13" text-anchor="middle">MEMBER</text>
+<text x="862" y="357" fill="#8f94a4" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="18" font-weight="700" text-anchor="middle">0</text>
+<rect x="900" y="310" width="64" height="60" rx="12" fill="#f5f2fb" stroke="#e3def1" stroke-width="1.0"/>
+<text x="932" y="333" fill="#8f94a4" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="13" text-anchor="middle">PLATE</text>
+<text x="932" y="357" fill="#8f94a4" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="18" font-weight="700" text-anchor="middle">0</text>
+<rect x="970" y="310" width="64" height="60" rx="12" fill="#f5f2fb" stroke="#e3def1" stroke-width="1.0"/>
+<text x="1002" y="333" fill="#8f94a4" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="13" text-anchor="middle">COVERING</text>
+<text x="1002" y="357" fill="#8f94a4" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="18" font-weight="700" text-anchor="middle">0</text>
+<circle cx="68" cy="392" r="9" fill="#4B67B4"/><text x="68" y="395.6" fill="#ffffff" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="10.5" font-weight="700" text-anchor="middle">3</text>
+<text x="84" y="396" fill="#4B67B4" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="11" font-weight="600" letter-spacing="1.1">MEASUREMENT KINDS · 3</text>
+<text x="750" y="396" fill="#8f94a4" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'Microsoft YaHei', 'PingFang SC', sans-serif" font-size="11" text-anchor="end">ifc.qto_summary · R0 · quantities=6</text>
+<text x="60" y="418" fill="#8f94a4" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="11" text-anchor="start">kind</text>
+<text x="310" y="418" fill="#8f94a4" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="11" text-anchor="end">qty</text>
+<text x="480" y="418" fill="#8f94a4" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="11" text-anchor="end">total</text>
+<text x="610" y="418" fill="#8f94a4" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="11" text-anchor="end">min</text>
+<text x="750" y="418" fill="#8f94a4" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="11" text-anchor="end">max</text>
+<line x1="60" y1="426" x2="750" y2="426" stroke="#e7e4f0" stroke-width="1.2"/>
+<text x="60" y="446" fill="#141419" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="13.5" font-weight="700">length</text>
+<text x="310" y="446" fill="#4d5261" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="13" text-anchor="end">3</text>
+<text x="480" y="446" fill="#141419" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="13.5" text-anchor="end">8 100 mm</text>
+<text x="610" y="446" fill="#4d5261" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="13.5" text-anchor="end">900</text>
+<text x="750" y="446" fill="#4d5261" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="13.5" text-anchor="end">4 200</text>
+<line x1="60" y1="456" x2="750" y2="456" stroke="#e7e4f0" stroke-width="0.9" opacity=".7"/>
+<text x="60" y="476" fill="#141419" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="13.5" font-weight="700">area</text>
+<text x="310" y="476" fill="#4d5261" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="13" text-anchor="end">2</text>
+<text x="480" y="476" fill="#141419" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="13.5" text-anchor="end">86.4 m²</text>
+<text x="610" y="476" fill="#c02b2b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="13.5" text-anchor="end">0</text>
+<text x="750" y="476" fill="#4d5261" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="13.5" text-anchor="end">86.4</text>
+<line x1="60" y1="486" x2="750" y2="486" stroke="#e7e4f0" stroke-width="0.9" opacity=".7"/>
+<text x="60" y="506" fill="#141419" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="13.5" font-weight="700">volume</text>
+<text x="310" y="506" fill="#4d5261" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="13" text-anchor="end">1</text>
+<text x="480" y="506" fill="#141419" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="13.5" text-anchor="end">25.92 m³</text>
+<text x="610" y="506" fill="#4d5261" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="13.5" text-anchor="end">25.92</text>
+<text x="750" y="506" fill="#4d5261" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="13.5" text-anchor="end">25.92</text>
+<rect x="790" y="390" width="250" height="122" rx="14" fill="#fbe9ea" stroke="#c02b2b" stroke-width="1.2"/>
+<text x="808" y="414" fill="#c02b2b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="11" font-weight="600" letter-spacing="1.1">DATA QUALITY · 1</text>
+<text x="808" y="436" fill="#c02b2b" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="11">E_IFC_QUANTITY_NON_POSITIVE</text>
+<text x="808" y="458" fill="#141419" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="13" font-weight="700">NetSideArea = 0</text>
+<text x="808" y="480" fill="#4d5261" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'Microsoft YaHei', 'PingFang SC', sans-serif" font-size="11">flagged, not dropped:</text>
+<text x="808" y="496" fill="#4d5261" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'Microsoft YaHei', 'PingFang SC', sans-serif" font-size="11">the other rows still total</text>
+<line x1="60" y1="520" x2="1040" y2="520" stroke="#e7e4f0" stroke-width="1.6" stroke-dasharray="7 7"/>
+<rect x="60" y="534" width="192" height="32" rx="16" fill="#ece7f9"/>
+<circle cx="78" cy="550" r="9" fill="#4B67B4"/><text x="78" y="553.6" fill="#ffffff" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="10.5" font-weight="700" text-anchor="middle">4</text>
+<text x="92" y="554" fill="#4B67B4" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="11.5" font-weight="700">ifc.export_csv · R1</text>
+<text x="268" y="554" fill="#141419" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="13">exports/ifc_92f1f2cfc519059a.csv</text>
+<text x="534" y="554" fill="#4d5261" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="13">11 rows</text>
+<text x="600" y="554" fill="#8f94a4" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="12">sha256 3e8f62d3e7fd6a56…</text>
+<text x="1040" y="554" fill="#8f94a4" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'Microsoft YaHei', 'PingFang SC', sans-serif" font-size="11" text-anchor="end">same text → same model_id</text>
+<text x="44" y="630" fill="#8f94a4" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'Microsoft YaHei', 'PingFang SC', sans-serif" font-size="11.5">no network · no model call · source .ifc unchanged · writes only under $DSH_IFC_HOME</text>
+<text x="1056" y="630" fill="#8f94a4" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'Microsoft YaHei', 'PingFang SC', sans-serif" font-size="11.5" text-anchor="end">sample: samples/quickstart/input/sample-building.ifc</text>
+</svg>

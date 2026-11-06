@@ -1,8 +1,8 @@
 <div align="center">
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dsh-ifc-qto-flow-dark.svg">
-  <img src="docs/assets/dsh-ifc-qto-flow-light.svg" width="100%" alt="dsh-ifc-qto 数据流：本地 .ifc 文本 → ifc.unit_check / ifc.ingest → ifc.qto_summary → ifc.export_csv；数据只落在本地 storage domain ifc 与 exports 目录">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dsh-ifc-qto-hero-zh-dark.webp">
+  <img src="docs/assets/dsh-ifc-qto-hero-zh-light.webp" width="100%" alt="dsh-ifc-qto 横幅：从 IFC STEP 文本里逐行取出构件与工程量，三项单位声明齐全，0 值 NetSideArea 被标为非正数；汇总为长度 8 100 mm、面积 86.4 m²、体积 25.92 m³，并导出 11 行 CSV">
 </picture>
 
 # dsh-ifc-qto
@@ -42,6 +42,11 @@ dsh plugin --profile <profile> add dsh-ifc-qto
 **输入**：本地 `.ifc` 文本（ISO-10303-21，IFC4），UTF-8，单文件建议 ≤50 MB；来自设计院或建模方导出。自带样例 `samples/quickstart/input/sample-building.ifc`（1.7 KB，合成数据：虚构项目/构件编号，无客户模型）。
 
 **输出**：构件清单（类型、数量、名称）、工程量汇总（长度/面积/体积的笔数、合计、最小/最大）、数据质量提示；CSV 写到 `$DSH_HOME/storages/dsh-ifc-qto/exports/`。**不改原文件，不上传。**
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dsh-ifc-qto-flow-v5-dark.svg">
+  <img src="docs/assets/dsh-ifc-qto-flow-v5-light.svg" width="100%" alt="dsh-ifc-qto 结构：本地 .ifc 文本（ISO-10303-21 / IFC4）分给两个读取器——ifc.unit_check 盖三项单位声明，ifc.ingest 解析出 14 类构件与 3 类工程量并以 model_id 存入 storage domain ifc 的 models 表；取量底稿按计量类型算 count/total/min/max 并标出非正数问题，ifc.export_csv 撕下 CSV 条（11 行 + sha256）">
+</picture>
 
 ## 三步上手
 
@@ -359,7 +364,7 @@ node samples/quickstart/run.mjs                          # 合成样例，应输
 | `docs/assets/` | README 配图 |
 | `evidence/` | 验收运行快照（`result.json`） |
 
-配图由 [`scripts/gen-readme-assets.py`](scripts/gen-readme-assets.py) 程序化生成（Python；SVG 为矢量，不需要 Pillow）。重跑 `python scripts/gen-readme-assets.py` 会重写 `docs/assets/dsh-ifc-qto-flow-{light,dark}.svg`；图内只有命令/配置 token，五语共用。旧的单版 `docs/assets/dsh-ifc-qto-flow.svg` 保留不删，避免外链 404。
+开头横幅与结构图由 [`scripts/gen-readme-assets.py`](scripts/gen-readme-assets.py) 程序化生成（Pillow 画 1440×576 横幅四张 webp，手写 SVG 画 1100×660 结构图深浅双版），可重复执行；旧的单版 `docs/assets/dsh-ifc-qto-flow.svg` 与旧的 `flow-{light,dark}.svg` 保留不删，避免外链 404。
 
 Topics：`deepseek-harness`, `dsh`, `dsh-plugin`, `ifc`, `qto`, `bim`, `perrylink`, `construction`
 
