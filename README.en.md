@@ -45,7 +45,7 @@ dsh plugin --profile <profile> add dsh-ifc-qto
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dsh-ifc-qto-flow-v5-dark.svg">
-  <img src="docs/assets/dsh-ifc-qto-flow-v5-light.svg" width="100%" alt="dsh-ifc-qto structure: one local .ifc text (ISO-10303-21 / IFC4) fans into two readers — ifc.unit_check stamps the three unit declarations, ifc.ingest parses 14 element classes and 3 quantity kinds and stores them as model_id in the ifc storage domain's models table; the take-off sheet computes count/total/min/max per measurement kind plus the non-positive issue, and ifc.export_csv tears off the 11-row CSV with its sha256">
+  <img src="docs/assets/dsh-ifc-qto-flow-v5-light.svg" width="100%" alt="dsh-ifc-qto structure: one local .ifc text (ISO-10303-21 / IFC4) fans into two readers — ifc_unit_check stamps the three unit declarations, ifc_ingest parses 14 element classes and 3 quantity kinds and stores them as model_id in the ifc storage domain's models table; the take-off sheet computes count/total/min/max per measurement kind plus the non-positive issue, and ifc_export_csv tears off the 11-row CSV with its sha256">
 </picture>
 
 ## Three-step setup
@@ -53,7 +53,7 @@ dsh plugin --profile <profile> add dsh-ifc-qto
 1. **Install** (four channels; npm is recommended):
 
    ```sh
-   # npm channel (recommended; 0.1.1 is published)
+   # npm channel (recommended; 0.2.0 is published)
    dsh plugin --profile <profile> add dsh-ifc-qto
    # git channel (tracks main; lib/ is a build artifact — run pnpm install && pnpm build in the checkout first)
    dsh plugin --profile <profile> add github:PerryLink/dsh-ifc-qto
@@ -80,16 +80,16 @@ dsh plugin --profile <profile> add dsh-ifc-qto
    node samples/quickstart/run.mjs
    ```
 
-   The shipped quickstart walks `samples/quickstart/input/sample-building.ifc` through `ifc.unit_check → ifc.ingest → ifc.qto_summary → ifc.export_csv` and should end with:
+   The shipped quickstart walks `samples/quickstart/input/sample-building.ifc` through `ifc_unit_check → ifc_ingest → ifc_qto_summary → ifc_export_csv` and should end with:
 
    ```text
-   ifc.unit_check   assignment=true length=MILLI|METRE area=$|SQUARE_METRE volume=$|CUBIC_METRE issues=0
-   ifc.ingest       elements=6 quantities=6 types=WALL:2 SLAB:1 DOOR:1 WINDOW:1 COLUMN:1
-   ifc.qto_summary  length qty=3 total=8100 min=900 max=4200
+   ifc_unit_check   assignment=true length=MILLI|METRE area=$|SQUARE_METRE volume=$|CUBIC_METRE issues=0
+   ifc_ingest       elements=6 quantities=6 types=WALL:2 SLAB:1 DOOR:1 WINDOW:1 COLUMN:1
+   ifc_qto_summary  length qty=3 total=8100 min=900 max=4200
                     area   qty=2 total=86.4 min=0 max=86.4
                     volume qty=1 total=25.92 min=25.92 max=25.92
    data quality     1 issue(s): E_IFC_QUANTITY_NON_POSITIVE NetSideArea=0
-   ifc.export_csv   11 rows -> exports/ifc_92f1f2cfc519059a.csv (sha256 3e8f62d3e7fd6a56…)
+   ifc_export_csv   11 rows -> exports/ifc_92f1f2cfc519059a.csv (sha256 3e8f62d3e7fd6a56…)
    ok: quickstart finished (4 tool calls, 1 data-quality issue)
    ```
 
@@ -103,26 +103,26 @@ dsh plugin --profile <profile> add dsh-ifc-qto
 
 ## Core capabilities
 
-- **Text-level element inventory** — `ifc.ingest` checks for `ISO-10303-21` / `FILE_SCHEMA`, then walks 14 element entities (`IFCWALL`, `IFCSLAB`, `IFCDOOR`, `IFCWINDOW`, `IFCCOLUMN`, `IFCBEAM`, `IFCFOOTING`, `IFCSTAIR`, `IFCRAILING`, `IFCRAMP`, `IFCPILE`, `IFCMEMBER`, `IFCPLATE`, `IFCCOVERING`), captures GUID and name, and counts per type.
+- **Text-level element inventory** — `ifc_ingest` checks for `ISO-10303-21` / `FILE_SCHEMA`, then walks 14 element entities (`IFCWALL`, `IFCSLAB`, `IFCDOOR`, `IFCWINDOW`, `IFCCOLUMN`, `IFCBEAM`, `IFCFOOTING`, `IFCSTAIR`, `IFCRAILING`, `IFCRAMP`, `IFCPILE`, `IFCMEMBER`, `IFCPLATE`, `IFCCOVERING`), captures GUID and name, and counts per type.
 - **Quantity extraction** — the same pass captures `IfcQuantityLength` / `IfcQuantityArea` / `IfcQuantityVolume` names and values (the last number in the argument list, tolerating extra `$` placeholders).
-- **Unit-declaration check** — `ifc.unit_check` looks for `IfcUnitAssignment` and the length/area/volume `IfcSIUnit`s, returning `assignment`, `prefix|unit` and a list of `E_IFC_*UNIT*_MISSING` issues; without units the numbers cannot be used for a take-off.
-- **Summary and data quality** — `ifc.qto_summary` returns count, total, min/max and element-type distribution per measurement kind, and flags zero or negative quantities as `E_IFC_QUANTITY_NON_POSITIVE`; one bad value does not stop the rest of the summary.
-- **CSV export** — `ifc.export_csv` writes type counts plus quantity rows to `exports/ifc_<sha16>.csv` and returns the row count and CSV SHA-256; re-importing the same text yields the same `model_id` and the same file name.
+- **Unit-declaration check** — `ifc_unit_check` looks for `IfcUnitAssignment` and the length/area/volume `IfcSIUnit`s, returning `assignment`, `prefix|unit` and a list of `E_IFC_*UNIT*_MISSING` issues; without units the numbers cannot be used for a take-off.
+- **Summary and data quality** — `ifc_qto_summary` returns count, total, min/max and element-type distribution per measurement kind, and flags zero or negative quantities as `E_IFC_QUANTITY_NON_POSITIVE`; one bad value does not stop the rest of the summary.
+- **CSV export** — `ifc_export_csv` writes type counts plus quantity rows to `exports/ifc_<sha16>.csv` and returns the row count and CSV SHA-256; re-importing the same text yields the same `model_id` and the same file name.
 - **Read-only input** — the `.ifc` you pass in is read-only; writes land only under `$DSH_IFC_HOME` (default `$DSH_HOME/storages/dsh-ifc-qto`) and in the `models` table of the `ifc` storage domain.
 - **Local only** — the source contains no `fetch` / HTTP / DNS / WebSocket calls, and the `package.json` demo metadata declares `network: false`; input and output never leave your machine.
 
 ### Tool surface
 
-Tool names are the stable API (matching runtime output, kept in English); descriptions are localized. Tools that write files are marked **R1 (local write)**; read-only tools are **R0**.
+Tool names are the stable API (matching runtime output, kept in English); descriptions are localized. All names match `^[a-zA-Z0-9_-]+$` (underscores, no dots): the provider rejects a dotted `tools[].name`. Tools that write files are marked **R1 (local write)**; read-only tools are **R0**.
 
 | Tool | Purpose | Risk |
 |---|---|---|
-| `ifc.ingest` | Parse IFC text, inventory 14 element types and quantity entities, store a model and return `model_id` | R1 local write |
-| `ifc.export_csv` | Export type counts and quantity rows as CSV; return path, row count and hash | R1 local write |
-| `ifc.qto_summary` | Summarize per measurement kind (count/total/min/max) and list non-positive issues | R0 read-only |
-| `ifc.unit_check` | Check whether the model declares length/area/volume SI units | R0 read-only |
+| `ifc_ingest` | Parse IFC text, inventory 14 element types and quantity entities, store a model and return `model_id` | R1 local write |
+| `ifc_export_csv` | Export type counts and quantity rows as CSV; return path, row count and hash | R1 local write |
+| `ifc_qto_summary` | Summarize per measurement kind (count/total/min/max) and list non-positive issues | R0 read-only |
+| `ifc_unit_check` | Check whether the model declares length/area/volume SI units | R0 read-only |
 
-`ifc.export_csv` and `ifc.qto_summary` only accept a `model_id` returned by `ifc.ingest` and stored in the `models` table; they do not accept a file path.
+`ifc_export_csv` and `ifc_qto_summary` only accept a `model_id` returned by `ifc_ingest` and stored in the `models` table; they do not accept a file path.
 
 ### Examples
 
@@ -131,21 +131,21 @@ These are the plugin's real entry points; the bundled synthetic sample reproduce
 **Detailed example** — `node samples/quickstart/run.mjs` (4 tool calls, 1 data-quality issue):
 
 ```text
-ifc.unit_check   assignment=true length=MILLI|METRE area=$|SQUARE_METRE volume=$|CUBIC_METRE issues=0
-ifc.ingest       elements=6 quantities=6 types=WALL:2 SLAB:1 DOOR:1 WINDOW:1 COLUMN:1
-ifc.qto_summary  length qty=3 total=8100 min=900 max=4200
+ifc_unit_check   assignment=true length=MILLI|METRE area=$|SQUARE_METRE volume=$|CUBIC_METRE issues=0
+ifc_ingest       elements=6 quantities=6 types=WALL:2 SLAB:1 DOOR:1 WINDOW:1 COLUMN:1
+ifc_qto_summary  length qty=3 total=8100 min=900 max=4200
                  area   qty=2 total=86.4 min=0 max=86.4
                  volume qty=1 total=25.92 min=25.92 max=25.92
 data quality     1 issue(s): E_IFC_QUANTITY_NON_POSITIVE NetSideArea=0
-ifc.export_csv   11 rows -> exports/ifc_92f1f2cfc519059a.csv (sha256 3e8f62d3e7fd6a56…)
+ifc_export_csv   11 rows -> exports/ifc_92f1f2cfc519059a.csv (sha256 3e8f62d3e7fd6a56…)
 ```
 
 *Observed from `samples/quickstart/expected/console.txt` (matches `samples/quickstart/expected/result.json`).*
 
-**Failure branch** — calling `ifc.export_csv` with an unknown `model_id`:
+**Failure branch** — calling `ifc_export_csv` with an unknown `model_id`:
 
 ```text
-找不到这个模型（E_IFC_UNREADABLE）｜下一步：先用 ifc.ingest 导入模型拿到 model_id，再导出 CSV
+找不到这个模型（E_IFC_UNREADABLE）｜下一步：先用 ifc_ingest 导入模型拿到 model_id，再导出 CSV
 ```
 
 *Observed from `src/plugin/tools.ts:5`; the other error codes are in [`TROUBLESHOOTING.md`](TROUBLESHOOTING.md).*
@@ -184,16 +184,16 @@ This plugin has no Schemastery `Config` fields: `cordis.patch.yml` only inserts 
 | `DSH_HOME` | unset | Host home; decides the default data root |
 | Export directory | `<data root>/exports` | CSV destination; the file name is fixed to `ifc_<first 16 sha256 chars>.csv` |
 
-Model records live in the plugin's own `ifc` storage domain (version 1), table `models`; each `ifc.ingest` writes one record, and `model_id` is `ifc_<first 16 sha256 chars>`.
+Model records live in the plugin's own `ifc` storage domain (version 1), table `models`; each `ifc_ingest` writes one record, and `model_id` is `ifc_<first 16 sha256 chars>`.
 
 <details>
 <summary>Tool arguments</summary>
 
 | Argument | Default | Applies to | Meaning |
 |---|---|---|---|
-| `ifc_text` | required | `ifc.ingest` / `ifc.unit_check` | The IFC text itself (ISO-10303-21) |
-| `source_name` | `inline.ifc` | `ifc.ingest` | Source label stored in the record; an identifier only |
-| `model_id` | required | `ifc.export_csv` / `ifc.qto_summary` | The id returned by `ifc.ingest` |
+| `ifc_text` | required | `ifc_ingest` / `ifc_unit_check` | The IFC text itself (ISO-10303-21) |
+| `source_name` | `inline.ifc` | `ifc_ingest` | Source label stored in the record; an identifier only |
+| `model_id` | required | `ifc_export_csv` / `ifc_qto_summary` | The id returned by `ifc_ingest` |
 
 </details>
 
@@ -246,7 +246,7 @@ It reads standard `.ifc` (ISO-10303-21) text, but only does text-level take-off:
 <details>
 <summary>The numbers do not match, or I see E_IFC_QUANTITY_NON_POSITIVE — what now?</summary>
 
-Run `ifc.unit_check` first to confirm the length/area/volume units are declared (without units the values cannot be used for a take-off), then look at `issues` from `ifc.qto_summary`: a zero or negative quantity usually comes from a missing or mis-exported value, so fix the model and re-export. It is only a data-quality hint and does not block the rest of the summary.
+Run `ifc_unit_check` first to confirm the length/area/volume units are declared (without units the values cannot be used for a take-off), then look at `issues` from `ifc_qto_summary`: a zero or negative quantity usually comes from a missing or mis-exported value, so fix the model and re-export. It is only a data-quality hint and does not block the rest of the summary.
 
 </details>
 
@@ -260,7 +260,7 @@ Check `node --version` (`>=24.9 <25`) and `dsh --version` (`>=0.2.1-rc.3 <0.4.0`
 <details>
 <summary>Does it fight other plugins over command names, slots or storage? What is the overhead?</summary>
 
-No. All four tools live under the `ifc.*` namespace; it registers no command, client slot, `webServer` route or service key; it uses only one `models` table in its own `ifc` v1 domain and touches no other domain; it patches no prototype, rewrites no `process.env`, and replaces no global fetch. The point-by-point argument is in "Interoperability with other DSH plugins".
+No. All four tools live under the `ifc_*` namespace; it registers no command, client slot, `webServer` route or service key; it uses only one `models` table in its own `ifc` v1 domain and touches no other domain; it patches no prototype, rewrites no `process.env`, and replaces no global fetch. The point-by-point argument is in "Interoperability with other DSH plugins".
 
 The overhead is small too: parsing is line-oriented regex work with no model call and no network request; the heaviest step is reading the text and one summary pass.
 
@@ -285,7 +285,7 @@ Network: no
 External systems: none
 ```
 
-This matches the source: `apply()` takes its write directory from `DSH_IFC_HOME` (default `$DSH_HOME/storages/dsh-ifc-qto`) and there is no network call anywhere. The plugin itself opens no file path — `ifc_text` is supplied by the caller. Tools that write (`ifc.ingest`, `ifc.export_csv`) are marked **R1 local write**; read-only tools (`ifc.qto_summary`, `ifc.unit_check`) are **R0**.
+This matches the source: `apply()` takes its write directory from `DSH_IFC_HOME` (default `$DSH_HOME/storages/dsh-ifc-qto`) and there is no network call anywhere. The plugin itself opens no file path — `ifc_text` is supplied by the caller. Tools that write (`ifc_ingest`, `ifc_export_csv`) are marked **R1 local write**; read-only tools (`ifc_qto_summary`, `ifc_unit_check`) are **R0**.
 
 ## Known limitations
 
@@ -295,7 +295,7 @@ This matches the source: `apply()` takes its write directory from `DSH_IFC_HOME`
 - **Element types are a whitelist.** Only 14 types are counted: `IFCWALL`, `IFCSLAB`, `IFCDOOR`, `IFCWINDOW`, `IFCCOLUMN`, `IFCBEAM`, `IFCFOOTING`, `IFCSTAIR`, `IFCRAILING`, `IFCRAMP`, `IFCPILE`, `IFCMEMBER`, `IFCPLATE`, `IFCCOVERING`; anything else is ignored.
 - **IFC text only.** RVT, DWG, PDF, scans and images are not supported; a binary file or a renamed extension fails with `E_IFC_UNREADABLE`.
 - **One file, no batch.** One IFC text per call, ≤50 MB per file recommended; loop for batches.
-- **`model_id` is not a path.** `ifc.qto_summary` / `ifc.export_csv` only accept an id returned by `ifc.ingest` and stored in `models`; passing a file path fails with `E_IFC_UNREADABLE`.
+- **`model_id` is not a path.** `ifc_qto_summary` / `ifc_export_csv` only accept an id returned by `ifc_ingest` and stored in `models`; passing a file path fails with `E_IFC_UNREADABLE`.
 - **Storage is a JSON KV.** The `ifc` v1 domain has one `models` table with no cross-table transactions, foreign keys or migrations; re-importing the same text overwrites the same record.
 - **Host services required.** The plugin injects `tools` and `storageDomain`; on a bare profile without storage it does not apply.
 - **Narrow Node range.** Only `>=24.9.0 <25`; no browser half and no UI.
@@ -304,12 +304,12 @@ This matches the source: `apply()` takes its write directory from `DSH_IFC_HOME`
 
 Checked against the source (`src/plugin/index.ts`, `src/plugin/tools.ts`, `src/plugin/storage.ts`), the plugin has no collision surface with commands, tools, slots, HTTP routes or storage domains:
 
-- **Namespaced tool names.** All 4 tools start with `ifc.` and take no bare name owned by a built-in or another plugin.
+- **Namespaced tool names.** All 4 tools start with `ifc_` and take no bare name owned by a built-in or another plugin.
 - **Consumes only, provides no service.** `inject` is only `['tools', 'storageDomain']`; it registers no command, client slot, `webServer` prefix or service key.
 - **Independent storage domain.** It uses only one `models` table in its own `ifc` v1 domain and reads/writes no other domain.
 - **No global mutation.** No prototype patching, no `process.env` rewriting, no global fetch replacement.
 - **Exports stay inside.** CSV writes go only to its own `exports/`, named after `model_id`.
-- **Read-only tools are re-entrant.** `ifc.qto_summary` and `ifc.unit_check` write no state and are safe to call repeatedly.
+- **Read-only tools are re-entrant.** `ifc_qto_summary` and `ifc_unit_check` write no state and are safe to call repeatedly.
 
 ## Compatibility
 
@@ -345,13 +345,13 @@ Checked against the source (`src/plugin/index.ts`, `src/plugin/tools.ts`, `src/p
 
 ```sh
 pnpm install --frozen-lockfile
-pnpm build && pnpm lint && pnpm typecheck && pnpm test   # 5 test files
+pnpm build && pnpm lint && pnpm typecheck && pnpm test   # 6 test files
 pnpm gate:sku07                                          # acceptance gate (ACCEPTANCE.csv)
 node scripts/acceptance.mjs                              # re-run public/synthetic acceptance
 node samples/quickstart/run.mjs                          # synthetic sample: 4 tool calls, 1 data-quality issue
 ```
 
-Current version `0.1.1`.
+Current version `0.2.0`.
 
 Directory layout:
 
@@ -359,7 +359,7 @@ Directory layout:
 |---|---|
 | `src/core/` | `ifc.ts`: IFC text parsing (elements, quantities) and the unit-declaration check |
 | `src/plugin/` | `index.ts` (apply), `tools.ts` (4 tools), `storage.ts` (storage domain `ifc` v1) |
-| `test/` | `node --test` cases (ifc, plugin-smoke, public-ifc, qto-summary, units) |
+| `test/` | `node --test` cases (ifc, plugin-smoke, public-ifc, qto-summary, tool-name-wire, units) |
 | `scripts/` | Mechanical gates: lint, acceptance, gate-sku07, check-pack, sbom, make-samples, plus the new `gen-readme-assets.py` |
 | `fixtures/public/mit/` | 4 public MIT/Apache IFC samples (with `SOURCE.md` and upstream licenses) |
 | `samples/quickstart/` | Synthetic building sample, `run.mjs`, and the golden `expected/console.txt` / `result.json` |

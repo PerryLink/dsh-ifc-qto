@@ -45,7 +45,7 @@ dsh plugin --profile <profile> add dsh-ifc-qto
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dsh-ifc-qto-flow-v5-dark.svg">
-  <img src="docs/assets/dsh-ifc-qto-flow-v5-light.svg" width="100%" alt="dsh-ifc-qto 结构：本地 .ifc 文本（ISO-10303-21 / IFC4）分给两个读取器——ifc.unit_check 盖三项单位声明，ifc.ingest 解析出 14 类构件与 3 类工程量并以 model_id 存入 storage domain ifc 的 models 表；取量底稿按计量类型算 count/total/min/max 并标出非正数问题，ifc.export_csv 撕下 CSV 条（11 行 + sha256）">
+  <img src="docs/assets/dsh-ifc-qto-flow-v5-light.svg" width="100%" alt="dsh-ifc-qto 结构：本地 .ifc 文本（ISO-10303-21 / IFC4）分给两个读取器——ifc_unit_check 盖三项单位声明，ifc_ingest 解析出 14 类构件与 3 类工程量并以 model_id 存入 storage domain ifc 的 models 表；取量底稿按计量类型算 count/total/min/max 并标出非正数问题，ifc_export_csv 撕下 CSV 条（11 行 + sha256）">
 </picture>
 
 ## 三步上手
@@ -53,7 +53,7 @@ dsh plugin --profile <profile> add dsh-ifc-qto
 1. **安装**（四选一；npm 是推荐通道）：
 
    ```sh
-   # npm 通道（推荐，已发布 0.1.1）
+   # npm 通道（推荐，已发布 0.2.0）
    dsh plugin --profile <profile> add dsh-ifc-qto
    # git 通道（跟随 main；lib/ 是构建产物，需在 checkout 内先 pnpm install && pnpm build）
    dsh plugin --profile <profile> add github:PerryLink/dsh-ifc-qto
@@ -80,16 +80,16 @@ dsh plugin --profile <profile> add dsh-ifc-qto
    node samples/quickstart/run.mjs
    ```
 
-   自带 quickstart 用 `samples/quickstart/input/sample-building.ifc` 依次调用 `ifc.unit_check → ifc.ingest → ifc.qto_summary → ifc.export_csv`，结尾应输出：
+   自带 quickstart 用 `samples/quickstart/input/sample-building.ifc` 依次调用 `ifc_unit_check → ifc_ingest → ifc_qto_summary → ifc_export_csv`，结尾应输出：
 
    ```text
-   ifc.unit_check   assignment=true length=MILLI|METRE area=$|SQUARE_METRE volume=$|CUBIC_METRE issues=0
-   ifc.ingest       elements=6 quantities=6 types=WALL:2 SLAB:1 DOOR:1 WINDOW:1 COLUMN:1
-   ifc.qto_summary  length qty=3 total=8100 min=900 max=4200
+   ifc_unit_check   assignment=true length=MILLI|METRE area=$|SQUARE_METRE volume=$|CUBIC_METRE issues=0
+   ifc_ingest       elements=6 quantities=6 types=WALL:2 SLAB:1 DOOR:1 WINDOW:1 COLUMN:1
+   ifc_qto_summary  length qty=3 total=8100 min=900 max=4200
                     area   qty=2 total=86.4 min=0 max=86.4
                     volume qty=1 total=25.92 min=25.92 max=25.92
    data quality     1 issue(s): E_IFC_QUANTITY_NON_POSITIVE NetSideArea=0
-   ifc.export_csv   11 rows -> exports/ifc_92f1f2cfc519059a.csv (sha256 3e8f62d3e7fd6a56…)
+   ifc_export_csv   11 rows -> exports/ifc_92f1f2cfc519059a.csv (sha256 3e8f62d3e7fd6a56…)
    ok: quickstart finished (4 tool calls, 1 data-quality issue)
    ```
 
@@ -101,26 +101,26 @@ dsh plugin --profile <profile> add dsh-ifc-qto
 
 ## 核心能力
 
-- **文本级构件清点** —— `ifc.ingest` 用 `ISO-10303-21` / `FILE_SCHEMA` 判断是不是 IFC，再遍历 14 类构件实体（`IFCWALL`、`IFCSLAB`、`IFCDOOR`、`IFCWINDOW`、`IFCCOLUMN`、`IFCBEAM`、`IFCFOOTING`、`IFCSTAIR`、`IFCRAILING`、`IFCRAMP`、`IFCPILE`、`IFCMEMBER`、`IFCPLATE`、`IFCCOVERING`），取 GUID 与名称，按类型计数。
+- **文本级构件清点** —— `ifc_ingest` 用 `ISO-10303-21` / `FILE_SCHEMA` 判断是不是 IFC，再遍历 14 类构件实体（`IFCWALL`、`IFCSLAB`、`IFCDOOR`、`IFCWINDOW`、`IFCCOLUMN`、`IFCBEAM`、`IFCFOOTING`、`IFCSTAIR`、`IFCRAILING`、`IFCRAMP`、`IFCPILE`、`IFCMEMBER`、`IFCPLATE`、`IFCCOVERING`），取 GUID 与名称，按类型计数。
 - **工程量提取** —— 同一遍流程取出 `IfcQuantityLength` / `IfcQuantityArea` / `IfcQuantityVolume` 的名称与数值（参数里最后一个数字，兼容额外的 `$` 占位）。
-- **单位声明检查** —— `ifc.unit_check` 检查 `IfcUnitAssignment` 与长度/面积/体积的 `IfcSIUnit`，返回 `assignment`、`prefix|unit` 与 `E_IFC_*UNIT*_MISSING` 问题列表；没有单位，算出来的量不能直接报量。
-- **分类汇总与数据质量** —— `ifc.qto_summary` 给每种计量类型的笔数、合计、最小/最大与构件类型分布，并把 0 或负数工程量标成 `E_IFC_QUANTITY_NON_POSITIVE`；一条坏值不影响其余构件的汇总。
-- **CSV 导出** —— `ifc.export_csv` 把类型计数与工程量明细写成 `exports/ifc_<sha16>.csv`，返回行数与 CSV 的 SHA-256；同一份文本重复导入得到同一个 `model_id`，落同一个文件名。
+- **单位声明检查** —— `ifc_unit_check` 检查 `IfcUnitAssignment` 与长度/面积/体积的 `IfcSIUnit`，返回 `assignment`、`prefix|unit` 与 `E_IFC_*UNIT*_MISSING` 问题列表；没有单位，算出来的量不能直接报量。
+- **分类汇总与数据质量** —— `ifc_qto_summary` 给每种计量类型的笔数、合计、最小/最大与构件类型分布，并把 0 或负数工程量标成 `E_IFC_QUANTITY_NON_POSITIVE`；一条坏值不影响其余构件的汇总。
+- **CSV 导出** —— `ifc_export_csv` 把类型计数与工程量明细写成 `exports/ifc_<sha16>.csv`，返回行数与 CSV 的 SHA-256；同一份文本重复导入得到同一个 `model_id`，落同一个文件名。
 - **只读输入** —— 你给的 `.ifc` 只读；写操作只落在 `$DSH_IFC_HOME`（缺省 `$DSH_HOME/storages/dsh-ifc-qto`）与存储域 `ifc` 的 `models` 表。
 - **纯本地** —— 源码里没有 `fetch` / HTTP / DNS / WebSocket 调用，`package.json` 的演示元数据声明 `network: false`；输入输出都不离开本机。
 
 ### 工具面
 
-工具名是稳定 API（与运行时输出一致，保持英文）；说明已本地化。写文件的工具标 **R1（本地写）**，只读工具标 **R0**。
+工具名是稳定 API（与运行时输出一致，保持英文）；说明已本地化。所有工具名都匹配 `^[a-zA-Z0-9_-]+$`（下划线，不含点号）——provider 会拒绝带点号的 `tools[].name`。写文件的工具标 **R1（本地写）**，只读工具标 **R0**。
 
 | 工具 | 用途 | 风险 |
 |---|---|---|
-| `ifc.ingest` | 解析 IFC 文本，清点 14 类构件与工程量实体，存成模型并返回 `model_id` | R1 本地写 |
-| `ifc.export_csv` | 把类型计数与工程量明细导出成 CSV，返回路径、行数与哈希 | R1 本地写 |
-| `ifc.qto_summary` | 按计量类型汇总（笔数/合计/最小/最大）并列出非正数问题 | R0 只读 |
-| `ifc.unit_check` | 检查模型是否声明了长度/面积/体积的 SI 单位 | R0 只读 |
+| `ifc_ingest` | 解析 IFC 文本，清点 14 类构件与工程量实体，存成模型并返回 `model_id` | R1 本地写 |
+| `ifc_export_csv` | 把类型计数与工程量明细导出成 CSV，返回路径、行数与哈希 | R1 本地写 |
+| `ifc_qto_summary` | 按计量类型汇总（笔数/合计/最小/最大）并列出非正数问题 | R0 只读 |
+| `ifc_unit_check` | 检查模型是否声明了长度/面积/体积的 SI 单位 | R0 只读 |
 
-`ifc.export_csv` 与 `ifc.qto_summary` 只认 `ifc.ingest` 返回并已存进 `models` 表的 `model_id`，不认文件路径。
+`ifc_export_csv` 与 `ifc_qto_summary` 只认 `ifc_ingest` 返回并已存进 `models` 表的 `model_id`，不认文件路径。
 
 ### 示例
 
@@ -129,21 +129,21 @@ dsh plugin --profile <profile> add dsh-ifc-qto
 **详细示例** —— `node samples/quickstart/run.mjs`（4 次工具调用，1 个数据质量问题）：
 
 ```text
-ifc.unit_check   assignment=true length=MILLI|METRE area=$|SQUARE_METRE volume=$|CUBIC_METRE issues=0
-ifc.ingest       elements=6 quantities=6 types=WALL:2 SLAB:1 DOOR:1 WINDOW:1 COLUMN:1
-ifc.qto_summary  length qty=3 total=8100 min=900 max=4200
+ifc_unit_check   assignment=true length=MILLI|METRE area=$|SQUARE_METRE volume=$|CUBIC_METRE issues=0
+ifc_ingest       elements=6 quantities=6 types=WALL:2 SLAB:1 DOOR:1 WINDOW:1 COLUMN:1
+ifc_qto_summary  length qty=3 total=8100 min=900 max=4200
                  area   qty=2 total=86.4 min=0 max=86.4
                  volume qty=1 total=25.92 min=25.92 max=25.92
 data quality     1 issue(s): E_IFC_QUANTITY_NON_POSITIVE NetSideArea=0
-ifc.export_csv   11 rows -> exports/ifc_92f1f2cfc519059a.csv (sha256 3e8f62d3e7fd6a56…)
+ifc_export_csv   11 rows -> exports/ifc_92f1f2cfc519059a.csv (sha256 3e8f62d3e7fd6a56…)
 ```
 
 *Observed from `samples/quickstart/expected/console.txt`（与 `samples/quickstart/expected/result.json` 一致）。*
 
-**失败分支** —— 用未入库的 `model_id` 调 `ifc.export_csv`，输出：
+**失败分支** —— 用未入库的 `model_id` 调 `ifc_export_csv`，输出：
 
 ```text
-找不到这个模型（E_IFC_UNREADABLE）｜下一步：先用 ifc.ingest 导入模型拿到 model_id，再导出 CSV
+找不到这个模型（E_IFC_UNREADABLE）｜下一步：先用 ifc_ingest 导入模型拿到 model_id，再导出 CSV
 ```
 
 *Observed from `src/plugin/tools.ts:5`；其余错误码见 [`TROUBLESHOOTING.md`](TROUBLESHOOTING.md)。*
@@ -182,16 +182,16 @@ SKU-07 行是公开 / 合成 fixture 检查（`counted=false`），只有 `PS1-Q
 | `DSH_HOME` | 未设置 | 宿主 home；决定默认数据根目录 |
 | 导出目录 | `<数据根目录>/exports` | CSV 落点；文件名固定为 `ifc_<sha256 前 16 位>.csv` |
 
-模型记录存在自建的存储域 `ifc`（version 1）的 `models` 表里；每次 `ifc.ingest` 写一条，`model_id` 就是 `ifc_<sha256 前 16 位>`。
+模型记录存在自建的存储域 `ifc`（version 1）的 `models` 表里；每次 `ifc_ingest` 写一条，`model_id` 就是 `ifc_<sha256 前 16 位>`。
 
 <details>
 <summary>工具参数</summary>
 
 | 参数 | 默认值 | 作用于 | 含义 |
 |---|---|---|---|
-| `ifc_text` | 必填 | `ifc.ingest` / `ifc.unit_check` | IFC 文本本身（ISO-10303-21） |
-| `source_name` | `inline.ifc` | `ifc.ingest` | 记录里的来源名，仅作标识 |
-| `model_id` | 必填 | `ifc.export_csv` / `ifc.qto_summary` | `ifc.ingest` 返回的 id |
+| `ifc_text` | 必填 | `ifc_ingest` / `ifc_unit_check` | IFC 文本本身（ISO-10303-21） |
+| `source_name` | `inline.ifc` | `ifc_ingest` | 记录里的来源名，仅作标识 |
+| `model_id` | 必填 | `ifc_export_csv` / `ifc_qto_summary` | `ifc_ingest` 返回的 id |
 
 </details>
 
@@ -244,7 +244,7 @@ export DSH_IFC_HOME=/path/to/ifc-data   # Windows PowerShell: $env:DSH_IFC_HOME 
 <details>
 <summary>结果对不上，或者提示 E_IFC_QUANTITY_NON_POSITIVE 怎么办？</summary>
 
-先跑 `ifc.unit_check` 看长度/面积/体积单位是否声明齐全（缺单位时数值不能直接报量），再看 `ifc.qto_summary` 的 `issues`：0 或负数工程量通常来自漏填或导出错误，核对模型后重新导出即可。它只是数据质量提示，不影响其余构件的汇总。
+先跑 `ifc_unit_check` 看长度/面积/体积单位是否声明齐全（缺单位时数值不能直接报量），再看 `ifc_qto_summary` 的 `issues`：0 或负数工程量通常来自漏填或导出错误，核对模型后重新导出即可。它只是数据质量提示，不影响其余构件的汇总。
 
 </details>
 
@@ -258,7 +258,7 @@ export DSH_IFC_HOME=/path/to/ifc-data   # Windows PowerShell: $env:DSH_IFC_HOME 
 <details>
 <summary>会和其他插件抢命令名、slot 或存储吗？开销多大？</summary>
 
-不会。四个工具都在 `ifc.*` 命名空间；不注册命令、客户端 slot、`webServer` 路由或服务键；只用自建 `ifc` v1 域的一张 `models` 表，不读写其他域；不改原型、不改写 `process.env`、不替换全局 fetch。逐条论证见「与其他 DSH 插件的互操作性」。
+不会。四个工具都在 `ifc_*` 命名空间；不注册命令、客户端 slot、`webServer` 路由或服务键；只用自建 `ifc` v1 域的一张 `models` 表，不读写其他域；不改原型、不改写 `process.env`、不替换全局 fetch。逐条论证见「与其他 DSH 插件的互操作性」。
 
 开销也很小：解析是逐行正则扫描，没有模型调用、没有网络请求；最重的步骤是读入文本和一次汇总遍历。
 
@@ -283,7 +283,7 @@ export DSH_IFC_HOME=/path/to/ifc-data   # Windows PowerShell: $env:DSH_IFC_HOME 
 外部系统：无
 ```
 
-以上与源码一致：`apply()` 只从 `DSH_IFC_HOME`（缺省 `$DSH_HOME/storages/dsh-ifc-qto`）取写入目录，源码里没有任何网络调用。插件本身不打开文件路径，`ifc_text` 由调用方提供。写盘的工具（`ifc.ingest`、`ifc.export_csv`）标 **R1 本地写**，只读工具（`ifc.qto_summary`、`ifc.unit_check`）标 **R0**。
+以上与源码一致：`apply()` 只从 `DSH_IFC_HOME`（缺省 `$DSH_HOME/storages/dsh-ifc-qto`）取写入目录，源码里没有任何网络调用。插件本身不打开文件路径，`ifc_text` 由调用方提供。写盘的工具（`ifc_ingest`、`ifc_export_csv`）标 **R1 本地写**，只读工具（`ifc_qto_summary`、`ifc_unit_check`）标 **R0**。
 
 ## 已知限制
 
@@ -293,7 +293,7 @@ export DSH_IFC_HOME=/path/to/ifc-data   # Windows PowerShell: $env:DSH_IFC_HOME 
 - **构件类型有白名单。** 只统计 14 类：`IFCWALL`、`IFCSLAB`、`IFCDOOR`、`IFCWINDOW`、`IFCCOLUMN`、`IFCBEAM`、`IFCFOOTING`、`IFCSTAIR`、`IFCRAILING`、`IFCRAMP`、`IFCPILE`、`IFCMEMBER`、`IFCPLATE`、`IFCCOVERING`；其他类型不计入。
 - **只认 IFC 文本。** RVT、DWG、PDF、扫描件与图片不支持；另存成二进制或改了后缀的文件会报 `E_IFC_UNREADABLE`。
 - **单文件、无批量。** 一次一份 IFC 文本，单文件建议 ≤50 MB；批量请循环调用。
-- **`model_id` 不认路径。** `ifc.qto_summary` / `ifc.export_csv` 只认 `ifc.ingest` 返回并存进 `models` 表的 id；直接传文件路径会报 `E_IFC_UNREADABLE`。
+- **`model_id` 不认路径。** `ifc_qto_summary` / `ifc_export_csv` 只认 `ifc_ingest` 返回并存进 `models` 表的 id；直接传文件路径会报 `E_IFC_UNREADABLE`。
 - **存储是 JSON KV。** `ifc` 域 v1 只有一张 `models` 表，没有跨表事务、外键或迁移；同一份文本重复导入会覆盖同一条记录。
 - **需要宿主服务。** 插件 `inject` 了 `tools` 与 `storageDomain`；bare profile 不组合 storage 时不会 apply。
 - **Node 区间窄。** 只支持 `>=24.9.0 <25`；没有浏览器半，也没有 UI。
@@ -302,12 +302,12 @@ export DSH_IFC_HOME=/path/to/ifc-data   # Windows PowerShell: $env:DSH_IFC_HOME 
 
 按源码核对（`src/plugin/index.ts`、`src/plugin/tools.ts`、`src/plugin/storage.ts`），本插件与命令、工具、slot、HTTP 路由、storage 域均无冲突面：
 
-- **工具名带命名空间。** 4 个工具全部以 `ifc.` 开头，不占用内置工具或其他插件的裸名。
+- **工具名带命名空间。** 4 个工具全部以 `ifc_` 开头，不占用内置工具或其他插件的裸名。
 - **只消费、不提供服务。** `inject` 只有 `['tools', 'storageDomain']`；不注册命令、客户端 slot、`webServer` 前缀或服务键。
 - **独立 storage 域。** 只用自建 `ifc` v1 域的一张 `models` 表，不读写其他域。
 - **无全局改写。** 不改原型、不改写 `process.env`、不替换全局 fetch。
 - **导出不外溢。** CSV 只写进自己的 `exports/`，文件名由 `model_id` 拼出。
-- **只读工具可重入。** `ifc.qto_summary` 与 `ifc.unit_check` 不写状态，可安全重复调用。
+- **只读工具可重入。** `ifc_qto_summary` 与 `ifc_unit_check` 不写状态，可安全重复调用。
 
 ## 兼容性
 
@@ -343,13 +343,13 @@ export DSH_IFC_HOME=/path/to/ifc-data   # Windows PowerShell: $env:DSH_IFC_HOME 
 
 ```sh
 pnpm install --frozen-lockfile
-pnpm build && pnpm lint && pnpm typecheck && pnpm test   # 5 个测试文件
+pnpm build && pnpm lint && pnpm typecheck && pnpm test   # 6 个测试文件
 pnpm gate:sku07                                          # 验收门禁（ACCEPTANCE.csv）
 node scripts/acceptance.mjs                              # 重跑公开 / 合成验收
 node samples/quickstart/run.mjs                          # 合成样例，应输出 4 次工具调用、1 个数据质量问题
 ```
 
-当前版本 `0.1.1`。
+当前版本 `0.2.0`。
 
 目录布局：
 
@@ -357,7 +357,7 @@ node samples/quickstart/run.mjs                          # 合成样例，应输
 |---|---|
 | `src/core/` | `ifc.ts`：IFC 文本解析（构件、工程量）与单位声明检查 |
 | `src/plugin/` | `index.ts`（apply）、`tools.ts`（4 个工具）、`storage.ts`（storage domain `ifc` v1） |
-| `test/` | `node --test` 用例（ifc、plugin-smoke、public-ifc、qto-summary、units） |
+| `test/` | `node --test` 用例（ifc、plugin-smoke、public-ifc、qto-summary、tool-name-wire、units） |
 | `scripts/` | 机械门禁：lint、acceptance、gate-sku07、check-pack、sbom、make-samples，以及本次新增的 `gen-readme-assets.py` |
 | `fixtures/public/mit/` | 4 份公开 MIT/Apache IFC 样例（含 `SOURCE.md` 与上游许可证） |
 | `samples/quickstart/` | 合成建筑样例、`run.mjs` 与金标 `expected/console.txt` / `result.json` |

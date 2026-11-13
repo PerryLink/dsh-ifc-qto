@@ -1,5 +1,25 @@
 # Changelog
 
+## [0.2.0] — 2026-11-13
+
+### Breaking
+
+- **Tool names now use underscores instead of dots.** The separator in every
+  name changed from `.` to `_`: `ifc` + `.` + `ingest` → `ifc_ingest`,
+  `ifc` + `.` + `export_csv` → `ifc_export_csv`, and likewise for `qto_summary`
+  and `unit_check`. The provider validates every `tools[].name` against
+  `^[a-zA-Z0-9_-]+$`; a dotted name makes it reject the whole `tools` array
+  (`Invalid 'tools[N].name'`), so the plugin registered but no request carrying
+  the tools could succeed. Dotted aliases cannot be put on the wire, so no
+  compatibility alias is kept: callers must migrate to the underscore names.
+  This is the minor bump that the 0.1.x compatibility promise requires for a
+  breaking change.
+- Added `test/tool-name-wire.test.mjs`: every registered tool name must match
+  `^[a-zA-Z0-9_-]+$`, contain no dot, stay in the `ifc_` namespace and be unique.
+- README (five languages), `TROUBLESHOOTING.md`, the flow diagrams, the
+  quickstart output, the acceptance script and the compact tool names in source
+  and tests were updated with the rename.
+
 ## [0.1.0] — 2026-11-03
 
 ### Stable
@@ -17,13 +37,13 @@
 
 ### Added
 
-- `ifc.unit_check`: verify the model declares an `IFCUNITASSIGNMENT` with length, area and volume SI units before any take-off is trusted. Verified by `node --test test/*.test.mjs` (12/12).
+- Unit-declaration check tool: verify the model declares an `IFCUNITASSIGNMENT` with length, area and volume SI units before any take-off is trusted. Verified by `node --test test/*.test.mjs` (12/12).
 
 ## [Unreleased]
 
 ### Added
 
-- `ifc.qto_summary`: quantity take-off summary for a stored model — totals/count/min/max per measurement kind, element-type distribution and non-positive quantity detection. Read-only; quantities follow the IFC 4.3 quantity-entity model. Verified by `node --test test/*.test.mjs` (9/9).
+- Quantity take-off summary tool: quantity take-off summary for a stored model — totals/count/min/max per measurement kind, element-type distribution and non-positive quantity detection. Read-only; quantities follow the IFC 4.3 quantity-entity model. Verified by `node --test test/*.test.mjs` (9/9).
 
 ## [0.1.0-alpha.9] — 2026-11-01
 

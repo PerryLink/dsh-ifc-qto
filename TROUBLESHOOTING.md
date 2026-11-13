@@ -7,15 +7,15 @@
 
 ## E_IFC_UNREADABLE — 这不像 IFC 文件
 
-- **症状**：`ifc.ingest` 直接失败，提示「这不像 IFC 文件（E_IFC_UNREADABLE）｜下一步：…」。
+- **症状**：`ifc_ingest` 直接失败，提示「这不像 IFC 文件（E_IFC_UNREADABLE）｜下一步：…」。
 - **原因**：传来的不是 ISO-10303-21 文本 —— 例如另存成了二进制、把 `.rvt`/`.dwg` 改了后缀，或者文件被截断。
 - **动作**：用文本编辑器确认首行是 `ISO-10303-21;`、并且有 `FILE_SCHEMA(('IFC4'))`；不是就回建模软件重新导出 IFC4。先用 `samples/quickstart/input/sample-building.ifc` 确认插件本身可用。
 
 ## E_IFC_UNREADABLE — 找不到这个模型
 
-- **症状**：`ifc.qto_summary` / `ifc.export_csv` 提示「找不到这个模型（E_IFC_UNREADABLE）｜下一步：…」。
-- **原因**：`model_id` 不存在或不是本次会话导入的（工具只认 `ifc.ingest` 返回的 id，不认文件路径）。
-- **动作**：重新跑 `ifc.ingest`，把返回的 `model_id` 原样传给汇总/导出工具。
+- **症状**：`ifc_qto_summary` / `ifc_export_csv` 提示「找不到这个模型（E_IFC_UNREADABLE）｜下一步：…」。
+- **原因**：`model_id` 不存在或不是本次会话导入的（工具只认 `ifc_ingest` 返回的 id，不认文件路径）。
+- **动作**：重新跑 `ifc_ingest`，把返回的 `model_id` 原样传给汇总/导出工具。
 
 ## E_IFC_EMPTY — 这个文件是空的
 
@@ -25,19 +25,19 @@
 
 ## E_IFC_EXPORT_FAILED — CSV 没写出去
 
-- **症状**：`ifc.export_csv` 提示「CSV 没写出去（E_IFC_EXPORT_FAILED）｜下一步：…」。
+- **症状**：`ifc_export_csv` 提示「CSV 没写出去（E_IFC_EXPORT_FAILED）｜下一步：…」。
 - **原因**：写入目录不可写（权限、只读挂载、磁盘满）。
 - **动作**：把 `DSH_IFC_HOME` 指向一个可写目录后重试；不要写进只读仓库目录。
 
 ## E_IFC_QUANTITY_NON_POSITIVE — 工程量有 0 或负数
 
-- **症状**：`ifc.qto_summary` 的 `issues` 里出现 `E_IFC_QUANTITY_NON_POSITIVE`（自带样例里是 `NetSideArea=0`）。
+- **症状**：`ifc_qto_summary` 的 `issues` 里出现 `E_IFC_QUANTITY_NON_POSITIVE`（自带样例里是 `NetSideArea=0`）。
 - **原因**：模型里漏填工程量，或导出时把空值写成了 0；也可能是负数（扣减算错）。
 - **动作**：回模型核对该构件的量，修正后重新导出。**这不影响其余构件的汇总**，只是提示这一条不可直接用于报量。
 
 ## E_IFC_UNITASSIGNMENT_MISSING / E_IFC_LENGTHUNIT_MISSING / E_IFC_AREAUNIT_MISSING / E_IFC_VOLUMEUNIT_MISSING — 单位声明不全
 
-- **症状**：`ifc.unit_check` 返回 `assignment=false`，或 `issues` 里出现上述代码。
+- **症状**：`ifc_unit_check` 返回 `assignment=false`，或 `issues` 里出现上述代码。
 - **原因**：模型没有 `IfcUnitAssignment`，或缺长度/面积/体积的 `IfcSIUnit`。没有单位，算出来的量不能直接用于报量。
 - **动作**：在建模软件里设置项目单位后重新导出；至少补齐 `IfcSIUnit(*,.LENGTHUNIT.,.MILLI.,.METRE.)`、`.AREAUNIT.`、`.VOLUMEUNIT.` 三项。
 

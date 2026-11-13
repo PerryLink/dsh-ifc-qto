@@ -45,7 +45,7 @@ O `dsh-ifc-qto` executa dentro do DeepSeek Harness um pipeline de levantamento t
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dsh-ifc-qto-flow-v5-dark.svg">
-  <img src="docs/assets/dsh-ifc-qto-flow-v5-light.svg" width="100%" alt="Estrutura do dsh-ifc-qto: um texto .ifc local (ISO-10303-21 / IFC4) se divide em dois leitores — ifc.unit_check carimba as três declarações de unidade, ifc.ingest extrai 14 classes de elemento e 3 tipos de medição e os guarda como model_id na tabela models do domínio ifc; a folha de levantamento calcula contagem/total/mínimo/máximo por tipo e a ocorrência de valores não positivos, e ifc.export_csv destaca o CSV de 11 linhas com seu sha256">
+  <img src="docs/assets/dsh-ifc-qto-flow-v5-light.svg" width="100%" alt="Estrutura do dsh-ifc-qto: um texto .ifc local (ISO-10303-21 / IFC4) se divide em dois leitores — ifc_unit_check carimba as três declarações de unidade, ifc_ingest extrai 14 classes de elemento e 3 tipos de medição e os guarda como model_id na tabela models do domínio ifc; a folha de levantamento calcula contagem/total/mínimo/máximo por tipo e a ocorrência de valores não positivos, e ifc_export_csv destaca o CSV de 11 linhas com seu sha256">
 </picture>
 
 ## Instalação em três passos
@@ -53,7 +53,7 @@ O `dsh-ifc-qto` executa dentro do DeepSeek Harness um pipeline de levantamento t
 1. **Instalar** (quatro canais; npm é o recomendado):
 
    ```sh
-   # canal npm (recomendado; 0.1.1 publicada)
+   # canal npm (recomendado; 0.2.0 publicada)
    dsh plugin --profile <profile> add dsh-ifc-qto
    # canal git (segue a main; lib/ é artefato de build — antes rode pnpm install && pnpm build no checkout)
    dsh plugin --profile <profile> add github:PerryLink/dsh-ifc-qto
@@ -80,16 +80,16 @@ O `dsh-ifc-qto` executa dentro do DeepSeek Harness um pipeline de levantamento t
    node samples/quickstart/run.mjs
    ```
 
-   O quickstart incluído percorre `samples/quickstart/input/sample-building.ifc` com `ifc.unit_check → ifc.ingest → ifc.qto_summary → ifc.export_csv` e deve terminar assim:
+   O quickstart incluído percorre `samples/quickstart/input/sample-building.ifc` com `ifc_unit_check → ifc_ingest → ifc_qto_summary → ifc_export_csv` e deve terminar assim:
 
    ```text
-   ifc.unit_check   assignment=true length=MILLI|METRE area=$|SQUARE_METRE volume=$|CUBIC_METRE issues=0
-   ifc.ingest       elements=6 quantities=6 types=WALL:2 SLAB:1 DOOR:1 WINDOW:1 COLUMN:1
-   ifc.qto_summary  length qty=3 total=8100 min=900 max=4200
+   ifc_unit_check   assignment=true length=MILLI|METRE area=$|SQUARE_METRE volume=$|CUBIC_METRE issues=0
+   ifc_ingest       elements=6 quantities=6 types=WALL:2 SLAB:1 DOOR:1 WINDOW:1 COLUMN:1
+   ifc_qto_summary  length qty=3 total=8100 min=900 max=4200
                     area   qty=2 total=86.4 min=0 max=86.4
                     volume qty=1 total=25.92 min=25.92 max=25.92
    data quality     1 issue(s): E_IFC_QUANTITY_NON_POSITIVE NetSideArea=0
-   ifc.export_csv   11 rows -> exports/ifc_92f1f2cfc519059a.csv (sha256 3e8f62d3e7fd6a56…)
+   ifc_export_csv   11 rows -> exports/ifc_92f1f2cfc519059a.csv (sha256 3e8f62d3e7fd6a56…)
    ok: quickstart finished (4 tool calls, 1 data-quality issue)
    ```
 
@@ -103,26 +103,26 @@ O `dsh-ifc-qto` executa dentro do DeepSeek Harness um pipeline de levantamento t
 
 ## Capacidades principais
 
-- **Inventário de elementos em nível de texto** — `ifc.ingest` verifica `ISO-10303-21` / `FILE_SCHEMA` e percorre 14 entidades de elemento (`IFCWALL`, `IFCSLAB`, `IFCDOOR`, `IFCWINDOW`, `IFCCOLUMN`, `IFCBEAM`, `IFCFOOTING`, `IFCSTAIR`, `IFCRAILING`, `IFCRAMP`, `IFCPILE`, `IFCMEMBER`, `IFCPLATE`, `IFCCOVERING`), captura GUID e nome e conta por tipo.
+- **Inventário de elementos em nível de texto** — `ifc_ingest` verifica `ISO-10303-21` / `FILE_SCHEMA` e percorre 14 entidades de elemento (`IFCWALL`, `IFCSLAB`, `IFCDOOR`, `IFCWINDOW`, `IFCCOLUMN`, `IFCBEAM`, `IFCFOOTING`, `IFCSTAIR`, `IFCRAILING`, `IFCRAMP`, `IFCPILE`, `IFCMEMBER`, `IFCPLATE`, `IFCCOVERING`), captura GUID e nome e conta por tipo.
 - **Extração de quantidades** — a mesma passagem captura nomes e valores de `IfcQuantityLength` / `IfcQuantityArea` / `IfcQuantityVolume` (o último número da lista de argumentos, tolerando `$` extras).
-- **Verificação de unidades** — `ifc.unit_check` procura `IfcUnitAssignment` e os `IfcSIUnit` de comprimento/área/volume, devolvendo `assignment`, `prefix|unit` e a lista de problemas `E_IFC_*UNIT*_MISSING`; sem unidades, os números não servem para uma medição contratual.
-- **Resumo e qualidade de dados** — `ifc.qto_summary` devolve contagem, total, mínimo/máximo e distribuição por tipo de elemento para cada tipo de medição, e marca quantidades zero ou negativas como `E_IFC_QUANTITY_NON_POSITIVE`; um valor ruim não interrompe o restante do resumo.
-- **Exportação CSV** — `ifc.export_csv` grava as contagens por tipo e as linhas de quantidades em `exports/ifc_<sha16>.csv` e devolve o número de linhas e o SHA-256 do CSV; reimportar o mesmo texto gera o mesmo `model_id` e o mesmo nome de arquivo.
+- **Verificação de unidades** — `ifc_unit_check` procura `IfcUnitAssignment` e os `IfcSIUnit` de comprimento/área/volume, devolvendo `assignment`, `prefix|unit` e a lista de problemas `E_IFC_*UNIT*_MISSING`; sem unidades, os números não servem para uma medição contratual.
+- **Resumo e qualidade de dados** — `ifc_qto_summary` devolve contagem, total, mínimo/máximo e distribuição por tipo de elemento para cada tipo de medição, e marca quantidades zero ou negativas como `E_IFC_QUANTITY_NON_POSITIVE`; um valor ruim não interrompe o restante do resumo.
+- **Exportação CSV** — `ifc_export_csv` grava as contagens por tipo e as linhas de quantidades em `exports/ifc_<sha16>.csv` e devolve o número de linhas e o SHA-256 do CSV; reimportar o mesmo texto gera o mesmo `model_id` e o mesmo nome de arquivo.
 - **Entrada somente leitura** — o `.ifc` que você passa é somente leitura; as gravações vão apenas para `$DSH_IFC_HOME` (padrão `$DSH_HOME/storages/dsh-ifc-qto`) e para a tabela `models` do domínio de armazenamento `ifc`.
 - **Somente local** — o código não contém chamadas `fetch` / HTTP / DNS / WebSocket, e os metadados de demonstração do `package.json` declaram `network: false`; entrada e saída não saem da sua máquina.
 
 ### Superfície de ferramentas
 
-Os nomes das ferramentas são a API estável (coincidem com a saída do runtime e ficam em inglês); as descrições estão localizadas. Ferramentas que gravam arquivos são marcadas **R1 (gravação local)**; as somente leitura, **R0**.
+Os nomes das ferramentas são a API estável (coincidem com a saída do runtime e ficam em inglês); as descrições estão localizadas. Todos os nomes obedecem a `^[a-zA-Z0-9_-]+$` (sublinhados, sem pontos): o provedor rejeita um `tools[].name` com pontos. Ferramentas que gravam arquivos são marcadas **R1 (gravação local)**; as somente leitura, **R0**.
 
 | Ferramenta | Finalidade | Risco |
 |---|---|---|
-| `ifc.ingest` | Analisa texto IFC, inventaria 14 tipos de elemento e as entidades de quantidade, guarda o modelo e devolve `model_id` | R1 gravação local |
-| `ifc.export_csv` | Exporta contagens por tipo e linhas de quantidades em CSV; devolve caminho, linhas e hash | R1 gravação local |
-| `ifc.qto_summary` | Resume por tipo de medição (contagem/total/mínimo/máximo) e lista problemas não positivos | R0 somente leitura |
-| `ifc.unit_check` | Verifica se o modelo declara unidades SI de comprimento/área/volume | R0 somente leitura |
+| `ifc_ingest` | Analisa texto IFC, inventaria 14 tipos de elemento e as entidades de quantidade, guarda o modelo e devolve `model_id` | R1 gravação local |
+| `ifc_export_csv` | Exporta contagens por tipo e linhas de quantidades em CSV; devolve caminho, linhas e hash | R1 gravação local |
+| `ifc_qto_summary` | Resume por tipo de medição (contagem/total/mínimo/máximo) e lista problemas não positivos | R0 somente leitura |
+| `ifc_unit_check` | Verifica se o modelo declara unidades SI de comprimento/área/volume | R0 somente leitura |
 
-`ifc.export_csv` e `ifc.qto_summary` só aceitam um `model_id` devolvido por `ifc.ingest` e guardado na tabela `models`; não aceitam caminho de arquivo.
+`ifc_export_csv` e `ifc_qto_summary` só aceitam um `model_id` devolvido por `ifc_ingest` e guardado na tabela `models`; não aceitam caminho de arquivo.
 
 ### Exemplos
 
@@ -131,21 +131,21 @@ Estes são os pontos de entrada reais do plugin; a amostra sintética incluída 
 **Exemplo detalhado** — `node samples/quickstart/run.mjs` (4 chamadas de ferramenta, 1 problema de qualidade de dados):
 
 ```text
-ifc.unit_check   assignment=true length=MILLI|METRE area=$|SQUARE_METRE volume=$|CUBIC_METRE issues=0
-ifc.ingest       elements=6 quantities=6 types=WALL:2 SLAB:1 DOOR:1 WINDOW:1 COLUMN:1
-ifc.qto_summary  length qty=3 total=8100 min=900 max=4200
+ifc_unit_check   assignment=true length=MILLI|METRE area=$|SQUARE_METRE volume=$|CUBIC_METRE issues=0
+ifc_ingest       elements=6 quantities=6 types=WALL:2 SLAB:1 DOOR:1 WINDOW:1 COLUMN:1
+ifc_qto_summary  length qty=3 total=8100 min=900 max=4200
                  area   qty=2 total=86.4 min=0 max=86.4
                  volume qty=1 total=25.92 min=25.92 max=25.92
 data quality     1 issue(s): E_IFC_QUANTITY_NON_POSITIVE NetSideArea=0
-ifc.export_csv   11 rows -> exports/ifc_92f1f2cfc519059a.csv (sha256 3e8f62d3e7fd6a56…)
+ifc_export_csv   11 rows -> exports/ifc_92f1f2cfc519059a.csv (sha256 3e8f62d3e7fd6a56…)
 ```
 
 *Observed from `samples/quickstart/expected/console.txt` (coincide com `samples/quickstart/expected/result.json`).*
 
-**Ramo de falha** — chamar `ifc.export_csv` com um `model_id` inexistente:
+**Ramo de falha** — chamar `ifc_export_csv` com um `model_id` inexistente:
 
 ```text
-找不到这个模型（E_IFC_UNREADABLE）｜下一步：先用 ifc.ingest 导入模型拿到 model_id，再导出 CSV
+找不到这个模型（E_IFC_UNREADABLE）｜下一步：先用 ifc_ingest 导入模型拿到 model_id，再导出 CSV
 ```
 
 *Observed from `src/plugin/tools.ts:5`; os demais códigos estão em [`TROUBLESHOOTING.md`](TROUBLESHOOTING.md).*
@@ -184,16 +184,16 @@ Este plugin não tem campos Schemastery `Config`: o `cordis.patch.yml` só inser
 | `DSH_HOME` | não definido | Home do host; decide a raiz de dados padrão |
 | Diretório de exportação | `<raiz de dados>/exports` | Destino do CSV; o nome é fixo, `ifc_<primeiros 16 caracteres do sha256>.csv` |
 
-Os registros de modelo ficam no domínio de armazenamento próprio `ifc` (versão 1), tabela `models`; cada `ifc.ingest` grava um registro e `model_id` é `ifc_<primeiros 16 caracteres do sha256>`.
+Os registros de modelo ficam no domínio de armazenamento próprio `ifc` (versão 1), tabela `models`; cada `ifc_ingest` grava um registro e `model_id` é `ifc_<primeiros 16 caracteres do sha256>`.
 
 <details>
 <summary>Argumentos das ferramentas</summary>
 
 | Argumento | Padrão | Aplica-se a | Significado |
 |---|---|---|---|
-| `ifc_text` | obrigatório | `ifc.ingest` / `ifc.unit_check` | O próprio texto IFC (ISO-10303-21) |
-| `source_name` | `inline.ifc` | `ifc.ingest` | Rótulo de origem guardado no registro; apenas identificação |
-| `model_id` | obrigatório | `ifc.export_csv` / `ifc.qto_summary` | O id devolvido por `ifc.ingest` |
+| `ifc_text` | obrigatório | `ifc_ingest` / `ifc_unit_check` | O próprio texto IFC (ISO-10303-21) |
+| `source_name` | `inline.ifc` | `ifc_ingest` | Rótulo de origem guardado no registro; apenas identificação |
+| `model_id` | obrigatório | `ifc_export_csv` / `ifc_qto_summary` | O id devolvido por `ifc_ingest` |
 
 </details>
 
@@ -246,7 +246,7 @@ Lê texto `.ifc` padrão (ISO-10303-21), mas só faz levantamento em nível de t
 <details>
 <summary>Os números não batem, ou aparece E_IFC_QUANTITY_NON_POSITIVE: o que fazer?</summary>
 
-Rode primeiro `ifc.unit_check` para confirmar que as unidades de comprimento/área/volume estão declaradas (sem unidades os números não servem para medir) e veja depois `issues` de `ifc.qto_summary`: quantidade zero ou negativa costuma vir de valor ausente ou mal exportado, então corrija o modelo e exporte de novo. É só um aviso de qualidade e não bloqueia o restante do resumo.
+Rode primeiro `ifc_unit_check` para confirmar que as unidades de comprimento/área/volume estão declaradas (sem unidades os números não servem para medir) e veja depois `issues` de `ifc_qto_summary`: quantidade zero ou negativa costuma vir de valor ausente ou mal exportado, então corrija o modelo e exporte de novo. É só um aviso de qualidade e não bloqueia o restante do resumo.
 
 </details>
 
@@ -260,7 +260,7 @@ Verifique `node --version` (`>=24.9 <25`) e `dsh --version` (`>=0.2.1-rc.3 <0.4.
 <details>
 <summary>Ele disputa comandos, slots ou armazenamento com outros plugins? Qual é o custo?</summary>
 
-Não. As quatro ferramentas ficam sob o namespace `ifc.*`; não registra comandos, slots de cliente, rotas `webServer` nem chaves de serviço; usa só uma tabela `models` no próprio domínio `ifc` v1 e não lê nem grava outros domínios; não altera protótipos, não reescreve `process.env` e não substitui o fetch global. O argumento ponto a ponto está em «Interoperabilidade com outros plugins DSH».
+Não. As quatro ferramentas ficam sob o namespace `ifc_*`; não registra comandos, slots de cliente, rotas `webServer` nem chaves de serviço; usa só uma tabela `models` no próprio domínio `ifc` v1 e não lê nem grava outros domínios; não altera protótipos, não reescreve `process.env` e não substitui o fetch global. O argumento ponto a ponto está em «Interoperabilidade com outros plugins DSH».
 
 O custo também é baixo: a análise é uma varredura por linhas com expressões regulares, sem chamada ao modelo e sem requisições de rede; o passo mais pesado é ler o texto e uma passagem de resumo.
 
@@ -285,7 +285,7 @@ Rede: não
 Sistemas externos: nenhum
 ```
 
-Isso coincide com o código: `apply()` tira o diretório de gravação de `DSH_IFC_HOME` (padrão `$DSH_HOME/storages/dsh-ifc-qto`) e não há nenhuma chamada de rede. O plugin não abre caminhos de arquivo; o `ifc_text` é fornecido por quem chama. As ferramentas que gravam (`ifc.ingest`, `ifc.export_csv`) são **R1 gravação local**; as somente leitura (`ifc.qto_summary`, `ifc.unit_check`) são **R0**.
+Isso coincide com o código: `apply()` tira o diretório de gravação de `DSH_IFC_HOME` (padrão `$DSH_HOME/storages/dsh-ifc-qto`) e não há nenhuma chamada de rede. O plugin não abre caminhos de arquivo; o `ifc_text` é fornecido por quem chama. As ferramentas que gravam (`ifc_ingest`, `ifc_export_csv`) são **R1 gravação local**; as somente leitura (`ifc_qto_summary`, `ifc_unit_check`) são **R0**.
 
 ## Limitações conhecidas
 
@@ -295,7 +295,7 @@ Isso coincide com o código: `apply()` tira o diretório de gravação de `DSH_I
 - **Os tipos de elemento são uma lista fechada.** Só 14 são contados: `IFCWALL`, `IFCSLAB`, `IFCDOOR`, `IFCWINDOW`, `IFCCOLUMN`, `IFCBEAM`, `IFCFOOTING`, `IFCSTAIR`, `IFCRAILING`, `IFCRAMP`, `IFCPILE`, `IFCMEMBER`, `IFCPLATE`, `IFCCOVERING`; o resto é ignorado.
 - **Só texto IFC.** RVT, DWG, PDF, digitalizações e imagens não são suportados; arquivo binário ou com extensão trocada falha com `E_IFC_UNREADABLE`.
 - **Um arquivo, sem lotes.** Um texto IFC por chamada, ≤50 MB por arquivo recomendado; para lotes é preciso iterar.
-- **`model_id` não é caminho.** `ifc.qto_summary` / `ifc.export_csv` só aceitam um id devolvido por `ifc.ingest` e guardado em `models`; passar caminho de arquivo falha com `E_IFC_UNREADABLE`.
+- **`model_id` não é caminho.** `ifc_qto_summary` / `ifc_export_csv` só aceitam um id devolvido por `ifc_ingest` e guardado em `models`; passar caminho de arquivo falha com `E_IFC_UNREADABLE`.
 - **O armazenamento é um KV JSON.** O domínio `ifc` v1 tem uma tabela `models` sem transações entre tabelas, chaves estrangeiras ou migrações; reimportar o mesmo texto sobrescreve o mesmo registro.
 - **Precisa de serviços do host.** O plugin injeta `tools` e `storageDomain`; em perfil básico sem storage ele não é aplicado.
 - **Faixa de Node estreita.** Só `>=24.9.0 <25`; sem metade de navegador e sem UI.
@@ -304,12 +304,12 @@ Isso coincide com o código: `apply()` tira o diretório de gravação de `DSH_I
 
 Conferido no código (`src/plugin/index.ts`, `src/plugin/tools.ts`, `src/plugin/storage.ts`), o plugin não tem superfície de colisão com comandos, ferramentas, slots, rotas HTTP ou domínios de armazenamento:
 
-- **Nomes de ferramenta com namespace.** As 4 ferramentas começam com `ifc.` e não ocupam nome nu de ferramenta embutida ou de outro plugin.
+- **Nomes de ferramenta com namespace.** As 4 ferramentas começam com `ifc_` e não ocupam nome nu de ferramenta embutida ou de outro plugin.
 - **Só consome, não oferece serviços.** `inject` é só `['tools', 'storageDomain']`; não registra comandos, slots de cliente, prefixos `webServer` nem chaves de serviço.
 - **Domínio de armazenamento independente.** Usa só uma tabela `models` no próprio domínio `ifc` v1 e não lê nem grava outros domínios.
 - **Sem mutação global.** Não altera protótipos, não reescreve `process.env` nem substitui o fetch global.
 - **Exportações não escapam.** O CSV vai só para o próprio `exports/`, com nome derivado de `model_id`.
-- **Ferramentas somente leitura são reentrantes.** `ifc.qto_summary` e `ifc.unit_check` não gravam estado e podem ser chamadas repetidamente.
+- **Ferramentas somente leitura são reentrantes.** `ifc_qto_summary` e `ifc_unit_check` não gravam estado e podem ser chamadas repetidamente.
 
 ## Compatibilidade
 
@@ -345,13 +345,13 @@ Conferido no código (`src/plugin/index.ts`, `src/plugin/tools.ts`, `src/plugin/
 
 ```sh
 pnpm install --frozen-lockfile
-pnpm build && pnpm lint && pnpm typecheck && pnpm test   # 5 arquivos de teste
+pnpm build && pnpm lint && pnpm typecheck && pnpm test   # 6 arquivos de teste
 pnpm gate:sku07                                          # portão de aceitação (ACCEPTANCE.csv)
 node scripts/acceptance.mjs                              # repetir a aceitação pública/sintética
 node samples/quickstart/run.mjs                          # amostra sintética: 4 chamadas, 1 problema de qualidade
 ```
 
-Versão atual `0.1.1`.
+Versão atual `0.2.0`.
 
 Estrutura de diretórios:
 
@@ -359,7 +359,7 @@ Estrutura de diretórios:
 |---|---|
 | `src/core/` | `ifc.ts`: análise de texto IFC (elementos, quantidades) e verificação de unidades |
 | `src/plugin/` | `index.ts` (apply), `tools.ts` (4 ferramentas), `storage.ts` (domínio de armazenamento `ifc` v1) |
-| `test/` | Casos `node --test` (ifc, plugin-smoke, public-ifc, qto-summary, units) |
+| `test/` | Casos `node --test` (ifc, plugin-smoke, public-ifc, qto-summary, tool-name-wire, units) |
 | `scripts/` | Portões mecânicos: lint, acceptance, gate-sku07, check-pack, sbom, make-samples e o novo `gen-readme-assets.py` |
 | `fixtures/public/mit/` | 4 amostras IFC públicas MIT/Apache (com `SOURCE.md` e licenças de origem) |
 | `samples/quickstart/` | Amostra sintética de edifício, `run.mjs` e o golden `expected/console.txt` / `result.json` |
