@@ -34,7 +34,7 @@ test('a model without units reports every missing piece', () => {
 
 test('the tool returns the same verdict with compact unit strings', async () => {
   const tools = Object.fromEntries(createTools({ models: { map: new Map(), get(){}, entries(){ return [] }, put(){} }, baseDir: '/tmp/ifc-units' }).map((t) => [t.name, t]))
-  const r = await tools['ifc.unit_check'].execute({ ifc_text: withUnits }, { callId: 'u' })
+  const r = await tools['ifc_unit_check'].execute({ ifc_text: withUnits }, { callId: 'u' })
   assert.equal(r.assignment, true)
   assert.equal(r.length, 'MILLI|METRE')
   assert.equal(r.issues.length, 0)

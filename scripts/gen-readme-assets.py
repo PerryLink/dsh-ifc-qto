@@ -14,10 +14,10 @@ Design notes
   thing the plugin extracts from it (element type, quantity kind, the flagged
   zero, the unit assignment), plus the three real totals and the 11-row CSV.
 * Flow: a take-off sheet, not a row of boxes. One local .ifc text fans into
-  two readers (ifc.unit_check stamps the unit header, ifc.ingest fills the
+  two readers (ifc_unit_check stamps the unit header, ifc_ingest fills the
   element-class matrix and the quantity rows), the sheet is keyed by
-  model_id in the `ifc` storage domain, ifc.qto_summary computes
-  count/total/min/max and the non-positive issue, and ifc.export_csv tears
+  model_id in the `ifc` storage domain, ifc_qto_summary computes
+  count/total/min/max and the non-positive issue, and ifc_export_csv tears
   the bottom strip off as exports/ifc_<sha16>.csv. Grammar: matrix /
   take-off-sheet scoreboard.
 
@@ -443,11 +443,11 @@ def flow_svg(skin_name: str) -> str:
     el.append(
         f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" '
         f'viewBox="0 0 {W} {H}" role="img" aria-label="dsh-ifc-qto structure: '
-        f'one local .ifc text is read by ifc.unit_check for the unit '
-        f'declaration and by ifc.ingest into 14 element classes and 3 '
+        f'one local .ifc text is read by ifc_unit_check for the unit '
+        f'declaration and by ifc_ingest into 14 element classes and 3 '
         f'quantity kinds stored as model_id in the ifc domain models table; '
-        f'ifc.qto_summary computes count, total and min/max plus the '
-        f'non-positive issue, and ifc.export_csv writes '
+        f'ifc_qto_summary computes count, total and min/max plus the '
+        f'non-positive issue, and ifc_export_csv writes '
         f'exports/ifc_92f1f2cfc519059a.csv with 11 rows and a sha256">')
     el.append('<title>dsh-ifc-qto: one take-off sheet, four local tools</title>')
     el.append('<defs>')
@@ -506,8 +506,8 @@ def flow_svg(skin_name: str) -> str:
     el.append(arrow_head(313, 141, 1, 0, s["accent"]))
     el.append(arrow_head(313, 173, 1, 0, s["accent"]))
 
-    readers = [("1", "ifc.unit_check", "R0 · units"),
-               ("2", "ifc.ingest", "R1 · types + quantities")]
+    readers = [("1", "ifc_unit_check", "R0 · units"),
+               ("2", "ifc_ingest", "R1 · types + quantities")]
     for i, (n, name, note) in enumerate(readers):
         y = 126 + i * 36
         el.append(svg_rect(320, y, 292, 28, 14, s["zone"], s["zone_edge"],
@@ -530,7 +530,7 @@ def flow_svg(skin_name: str) -> str:
     el.append(number_badge(68, 224, "1", s))
     el.append(svg_text(84, 228, "UNIT DECLARATION · 3", 11, s["accent"],
                        MONO, 600, ls=1.1))
-    el.append(svg_text(1040, 228, "ifc.unit_check · R0 · issues=0", 11,
+    el.append(svg_text(1040, 228, "ifc_unit_check · R0 · issues=0", 11,
                        s["faint"], anchor="end"))
     units = [("LENGTHUNIT", "MILLI|METRE"), ("AREAUNIT", "$|SQUARE_METRE"),
              ("VOLUMEUNIT", "$|CUBIC_METRE")]
@@ -548,7 +548,7 @@ def flow_svg(skin_name: str) -> str:
     el.append(svg_text(84, 302, "ELEMENT CLASSES · 14", 11, s["accent"],
                        MONO, 600, ls=1.1))
     el.append(svg_text(1040, 302,
-                       "ifc.ingest · R1 · 5 of 14 present · elements=6", 11,
+                       "ifc_ingest · R1 · 5 of 14 present · elements=6", 11,
                        s["faint"], anchor="end"))
     for i, (name, count) in enumerate(TYPES):
         x = 60 + i * 70
@@ -568,7 +568,7 @@ def flow_svg(skin_name: str) -> str:
     el.append(number_badge(68, 392, "3", s))
     el.append(svg_text(84, 396, "MEASUREMENT KINDS · 3", 11, s["accent"],
                        MONO, 600, ls=1.1))
-    el.append(svg_text(750, 396, "ifc.qto_summary · R0 · quantities=6", 11,
+    el.append(svg_text(750, 396, "ifc_qto_summary · R0 · quantities=6", 11,
                        s["faint"], anchor="end"))
 
     cols = [("kind", 60, "start"), ("qty", 310, "end"), ("total", 480, "end"),
@@ -611,7 +611,7 @@ def flow_svg(skin_name: str) -> str:
               f'stroke-dasharray="7 7"/>')
     el.append(svg_rect(60, 534, 192, 32, 16, s["accent_soft"]))
     el.append(number_badge(78, 550, "4", s))
-    el.append(svg_text(92, 554, "ifc.export_csv · R1", 11.5, s["accent"],
+    el.append(svg_text(92, 554, "ifc_export_csv · R1", 11.5, s["accent"],
                        MONO, 700))
     el.append(svg_text(268, 554, "exports/ifc_92f1f2cfc519059a.csv", 13,
                        s["text"], MONO))

@@ -45,7 +45,7 @@ dsh plugin --profile <profile> add dsh-ifc-qto
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dsh-ifc-qto-flow-v5-dark.svg">
-  <img src="docs/assets/dsh-ifc-qto-flow-v5-light.svg" width="100%" alt="dsh-ifc-qto संरचना: एक स्थानीय .ifc टेक्स्ट (ISO-10303-21 / IFC4) दो रीडर में बँटता है — ifc.unit_check तीनों इकाई घोषणाएँ अंकित करता है, ifc.ingest 14 एलिमेंट वर्ग और 3 मात्रा प्रकार निकालकर उन्हें ifc स्टोरेज डोमेन की models तालिका में model_id के रूप में रखता है; टेकऑफ़ शीट प्रति प्रकार count/total/min/max और गैर-धनात्मक समस्या निकालती है, और ifc.export_csv 11 पंक्तियों का CSV उसके sha256 के साथ अलग करता है">
+  <img src="docs/assets/dsh-ifc-qto-flow-v5-light.svg" width="100%" alt="dsh-ifc-qto संरचना: एक स्थानीय .ifc टेक्स्ट (ISO-10303-21 / IFC4) दो रीडर में बँटता है — ifc_unit_check तीनों इकाई घोषणाएँ अंकित करता है, ifc_ingest 14 एलिमेंट वर्ग और 3 मात्रा प्रकार निकालकर उन्हें ifc स्टोरेज डोमेन की models तालिका में model_id के रूप में रखता है; टेकऑफ़ शीट प्रति प्रकार count/total/min/max और गैर-धनात्मक समस्या निकालती है, और ifc_export_csv 11 पंक्तियों का CSV उसके sha256 के साथ अलग करता है">
 </picture>
 
 ## तीन चरणों में शुरुआत
@@ -53,7 +53,7 @@ dsh plugin --profile <profile> add dsh-ifc-qto
 1. **इंस्टॉल** (चार चैनल; npm अनुशंसित):
 
    ```sh
-   # npm चैनल (अनुशंसित; 0.1.1 प्रकाशित)
+   # npm चैनल (अनुशंसित; 0.2.0 प्रकाशित)
    dsh plugin --profile <profile> add dsh-ifc-qto
    # git चैनल (main का अनुसरण; lib/ बिल्ड आर्टिफ़ैक्ट है — checkout में पहले pnpm install && pnpm build चलाएँ)
    dsh plugin --profile <profile> add github:PerryLink/dsh-ifc-qto
@@ -80,16 +80,16 @@ dsh plugin --profile <profile> add dsh-ifc-qto
    node samples/quickstart/run.mjs
    ```
 
-   साथ दिया quickstart `samples/quickstart/input/sample-building.ifc` को `ifc.unit_check → ifc.ingest → ifc.qto_summary → ifc.export_csv` से चलाता है और अंत में यह दिखना चाहिए:
+   साथ दिया quickstart `samples/quickstart/input/sample-building.ifc` को `ifc_unit_check → ifc_ingest → ifc_qto_summary → ifc_export_csv` से चलाता है और अंत में यह दिखना चाहिए:
 
    ```text
-   ifc.unit_check   assignment=true length=MILLI|METRE area=$|SQUARE_METRE volume=$|CUBIC_METRE issues=0
-   ifc.ingest       elements=6 quantities=6 types=WALL:2 SLAB:1 DOOR:1 WINDOW:1 COLUMN:1
-   ifc.qto_summary  length qty=3 total=8100 min=900 max=4200
+   ifc_unit_check   assignment=true length=MILLI|METRE area=$|SQUARE_METRE volume=$|CUBIC_METRE issues=0
+   ifc_ingest       elements=6 quantities=6 types=WALL:2 SLAB:1 DOOR:1 WINDOW:1 COLUMN:1
+   ifc_qto_summary  length qty=3 total=8100 min=900 max=4200
                     area   qty=2 total=86.4 min=0 max=86.4
                     volume qty=1 total=25.92 min=25.92 max=25.92
    data quality     1 issue(s): E_IFC_QUANTITY_NON_POSITIVE NetSideArea=0
-   ifc.export_csv   11 rows -> exports/ifc_92f1f2cfc519059a.csv (sha256 3e8f62d3e7fd6a56…)
+   ifc_export_csv   11 rows -> exports/ifc_92f1f2cfc519059a.csv (sha256 3e8f62d3e7fd6a56…)
    ok: quickstart finished (4 tool calls, 1 data-quality issue)
    ```
 
@@ -103,26 +103,26 @@ dsh plugin --profile <profile> add dsh-ifc-qto
 
 ## मुख्य क्षमताएँ
 
-- **टेक्स्ट-स्तरीय एलिमेंट सूची** — `ifc.ingest` `ISO-10303-21` / `FILE_SCHEMA` जाँचता है, फिर 14 एलिमेंट एंटिटी (`IFCWALL`, `IFCSLAB`, `IFCDOOR`, `IFCWINDOW`, `IFCCOLUMN`, `IFCBEAM`, `IFCFOOTING`, `IFCSTAIR`, `IFCRAILING`, `IFCRAMP`, `IFCPILE`, `IFCMEMBER`, `IFCPLATE`, `IFCCOVERING`) पर चलता है, GUID और नाम लेता है और प्रकार के अनुसार गिनता है।
+- **टेक्स्ट-स्तरीय एलिमेंट सूची** — `ifc_ingest` `ISO-10303-21` / `FILE_SCHEMA` जाँचता है, फिर 14 एलिमेंट एंटिटी (`IFCWALL`, `IFCSLAB`, `IFCDOOR`, `IFCWINDOW`, `IFCCOLUMN`, `IFCBEAM`, `IFCFOOTING`, `IFCSTAIR`, `IFCRAILING`, `IFCRAMP`, `IFCPILE`, `IFCMEMBER`, `IFCPLATE`, `IFCCOVERING`) पर चलता है, GUID और नाम लेता है और प्रकार के अनुसार गिनता है।
 - **मात्रा निष्कर्षण** — उसी प्रक्रिया में `IfcQuantityLength` / `IfcQuantityArea` / `IfcQuantityVolume` के नाम और मान (आर्ग्युमेंट सूची का अंतिम संख्या, अतिरिक्त `$` सहन करते हुए) निकाले जाते हैं।
-- **इकाई घोषणा जाँच** — `ifc.unit_check` `IfcUnitAssignment` और लंबाई/क्षेत्रफल/आयतन के `IfcSIUnit` खोजता है, `assignment`, `prefix|unit` और `E_IFC_*UNIT*_MISSING` समस्याओं की सूची देता है; इकाइयों के बिना संख्याएँ मात्रा-प्रमाणन के लिए उपयोगी नहीं।
-- **सारांश और डेटा गुणवत्ता** — `ifc.qto_summary` हर माप प्रकार के लिए संख्या, कुल, न्यूनतम/अधिकतम और एलिमेंट-प्रकार वितरण देता है, तथा शून्य या ऋणात्मक मात्राओं को `E_IFC_QUANTITY_NON_POSITIVE` के रूप में चिह्नित करता है; एक खराब मान बाकी सारांश नहीं रोकता।
-- **CSV निर्यात** — `ifc.export_csv` प्रकार-गणना और मात्रा पंक्तियों को `exports/ifc_<sha16>.csv` में लिखता है और पंक्ति-संख्या तथा CSV का SHA-256 देता है; वही टेक्स्ट दोबारा आयात करने पर वही `model_id` और वही फ़ाइल नाम मिलता है।
+- **इकाई घोषणा जाँच** — `ifc_unit_check` `IfcUnitAssignment` और लंबाई/क्षेत्रफल/आयतन के `IfcSIUnit` खोजता है, `assignment`, `prefix|unit` और `E_IFC_*UNIT*_MISSING` समस्याओं की सूची देता है; इकाइयों के बिना संख्याएँ मात्रा-प्रमाणन के लिए उपयोगी नहीं।
+- **सारांश और डेटा गुणवत्ता** — `ifc_qto_summary` हर माप प्रकार के लिए संख्या, कुल, न्यूनतम/अधिकतम और एलिमेंट-प्रकार वितरण देता है, तथा शून्य या ऋणात्मक मात्राओं को `E_IFC_QUANTITY_NON_POSITIVE` के रूप में चिह्नित करता है; एक खराब मान बाकी सारांश नहीं रोकता।
+- **CSV निर्यात** — `ifc_export_csv` प्रकार-गणना और मात्रा पंक्तियों को `exports/ifc_<sha16>.csv` में लिखता है और पंक्ति-संख्या तथा CSV का SHA-256 देता है; वही टेक्स्ट दोबारा आयात करने पर वही `model_id` और वही फ़ाइल नाम मिलता है।
 - **केवल-पढ़ने वाला इनपुट** — आपकी दी गई `.ifc` केवल पढ़ी जाती है; लेखन केवल `$DSH_IFC_HOME` (डिफ़ॉल्ट `$DSH_HOME/storages/dsh-ifc-qto`) और `ifc` स्टोरेज डोमेन की `models` तालिका में होता है।
 - **पूरी तरह स्थानीय** — सोर्स में कोई `fetch` / HTTP / DNS / WebSocket कॉल नहीं, और `package.json` का डेमो मेटाडेटा `network: false` घोषित करता है; इनपुट और आउटपुट मशीन से बाहर नहीं जाते।
 
 ### टूल सतह
 
-टूल नाम स्थिर API हैं (रनटाइम आउटपुट से मेल खाते हैं, अंग्रेज़ी में रखे गए); विवरण स्थानीयकृत हैं। फ़ाइल लिखने वाले टूल **R1 (स्थानीय लेखन)** और केवल-पढ़ने वाले **R0** चिह्नित हैं।
+टूल नाम स्थिर API हैं (रनटाइम आउटपुट से मेल खाते हैं, अंग्रेज़ी में रखे गए); विवरण स्थानीयकृत हैं। सभी नाम `^[a-zA-Z0-9_-]+$` से मेल खाते हैं (अंडरस्कोर, बिना बिंदु): प्रोवाइडर बिंदु वाले `tools[].name` को अस्वीकार करता है। फ़ाइल लिखने वाले टूल **R1 (स्थानीय लेखन)** और केवल-पढ़ने वाले **R0** चिह्नित हैं।
 
 | टूल | उद्देश्य | जोखिम |
 |---|---|---|
-| `ifc.ingest` | IFC टेक्स्ट पार्स करें, 14 एलिमेंट प्रकार और मात्रा एंटिटी की सूची बनाएँ, मॉडल सहेजें और `model_id` लौटाएँ | R1 स्थानीय लेखन |
-| `ifc.export_csv` | प्रकार-गणना और मात्रा पंक्तियाँ CSV में निर्यात करें; पथ, पंक्तियाँ और हैश लौटाएँ | R1 स्थानीय लेखन |
-| `ifc.qto_summary` | माप प्रकार के अनुसार सारांश (संख्या/कुल/न्यूनतम/अधिकतम) और गैर-धनात्मक समस्याएँ | R0 केवल पढ़ना |
-| `ifc.unit_check` | जाँचें कि मॉडल में लंबाई/क्षेत्रफल/आयतन की SI इकाइयाँ घोषित हैं | R0 केवल पढ़ना |
+| `ifc_ingest` | IFC टेक्स्ट पार्स करें, 14 एलिमेंट प्रकार और मात्रा एंटिटी की सूची बनाएँ, मॉडल सहेजें और `model_id` लौटाएँ | R1 स्थानीय लेखन |
+| `ifc_export_csv` | प्रकार-गणना और मात्रा पंक्तियाँ CSV में निर्यात करें; पथ, पंक्तियाँ और हैश लौटाएँ | R1 स्थानीय लेखन |
+| `ifc_qto_summary` | माप प्रकार के अनुसार सारांश (संख्या/कुल/न्यूनतम/अधिकतम) और गैर-धनात्मक समस्याएँ | R0 केवल पढ़ना |
+| `ifc_unit_check` | जाँचें कि मॉडल में लंबाई/क्षेत्रफल/आयतन की SI इकाइयाँ घोषित हैं | R0 केवल पढ़ना |
 
-`ifc.export_csv` और `ifc.qto_summary` केवल `ifc.ingest` से मिला और `models` तालिका में सहेजा `model_id` स्वीकार करते हैं; फ़ाइल पथ नहीं।
+`ifc_export_csv` और `ifc_qto_summary` केवल `ifc_ingest` से मिला और `models` तालिका में सहेजा `model_id` स्वीकार करते हैं; फ़ाइल पथ नहीं।
 
 ### उदाहरण
 
@@ -131,21 +131,21 @@ dsh plugin --profile <profile> add dsh-ifc-qto
 **विस्तृत उदाहरण** — `node samples/quickstart/run.mjs` (4 टूल कॉल, 1 डेटा-गुणवत्ता समस्या):
 
 ```text
-ifc.unit_check   assignment=true length=MILLI|METRE area=$|SQUARE_METRE volume=$|CUBIC_METRE issues=0
-ifc.ingest       elements=6 quantities=6 types=WALL:2 SLAB:1 DOOR:1 WINDOW:1 COLUMN:1
-ifc.qto_summary  length qty=3 total=8100 min=900 max=4200
+ifc_unit_check   assignment=true length=MILLI|METRE area=$|SQUARE_METRE volume=$|CUBIC_METRE issues=0
+ifc_ingest       elements=6 quantities=6 types=WALL:2 SLAB:1 DOOR:1 WINDOW:1 COLUMN:1
+ifc_qto_summary  length qty=3 total=8100 min=900 max=4200
                  area   qty=2 total=86.4 min=0 max=86.4
                  volume qty=1 total=25.92 min=25.92 max=25.92
 data quality     1 issue(s): E_IFC_QUANTITY_NON_POSITIVE NetSideArea=0
-ifc.export_csv   11 rows -> exports/ifc_92f1f2cfc519059a.csv (sha256 3e8f62d3e7fd6a56…)
+ifc_export_csv   11 rows -> exports/ifc_92f1f2cfc519059a.csv (sha256 3e8f62d3e7fd6a56…)
 ```
 
 *Observed from `samples/quickstart/expected/console.txt` (`samples/quickstart/expected/result.json` से मेल खाता है)।*
 
-**विफलता शाखा** — न मौजूद `model_id` के साथ `ifc.export_csv`:
+**विफलता शाखा** — न मौजूद `model_id` के साथ `ifc_export_csv`:
 
 ```text
-找不到这个模型（E_IFC_UNREADABLE）｜下一步：先用 ifc.ingest 导入模型拿到 model_id，再导出 CSV
+找不到这个模型（E_IFC_UNREADABLE）｜下一步：先用 ifc_ingest 导入模型拿到 model_id，再导出 CSV
 ```
 
 *Observed from `src/plugin/tools.ts:5`; बाकी कोड [`TROUBLESHOOTING.md`](TROUBLESHOOTING.md) में हैं।*
@@ -184,16 +184,16 @@ SKU-07 पंक्तियाँ सार्वजनिक/सिंथे�
 | `DSH_HOME` | सेट नहीं | होस्ट home; डिफ़ॉल्ट डेटा रूट तय करता है |
 | निर्यात निर्देशिका | `<डेटा रूट>/exports` | CSV का गंतव्य; फ़ाइल नाम निश्चित, `ifc_<sha256 के पहले 16 अक्षर>.csv` |
 
-मॉडल रिकॉर्ड प्लगइन के अपने `ifc` स्टोरेज डोमेन (संस्करण 1) की `models` तालिका में रहते हैं; हर `ifc.ingest` एक रिकॉर्ड लिखता है और `model_id` ही `ifc_<sha256 के पहले 16 अक्षर>` है।
+मॉडल रिकॉर्ड प्लगइन के अपने `ifc` स्टोरेज डोमेन (संस्करण 1) की `models` तालिका में रहते हैं; हर `ifc_ingest` एक रिकॉर्ड लिखता है और `model_id` ही `ifc_<sha256 के पहले 16 अक्षर>` है।
 
 <details>
 <summary>टूल आर्ग्युमेंट</summary>
 
 | आर्ग्युमेंट | डिफ़ॉल्ट | किस पर लागू | अर्थ |
 |---|---|---|---|
-| `ifc_text` | अनिवार्य | `ifc.ingest` / `ifc.unit_check` | IFC टेक्स्ट स्वयं (ISO-10303-21) |
-| `source_name` | `inline.ifc` | `ifc.ingest` | रिकॉर्ड में सहेजा स्रोत लेबल; केवल पहचान |
-| `model_id` | अनिवार्य | `ifc.export_csv` / `ifc.qto_summary` | `ifc.ingest` का लौटाया id |
+| `ifc_text` | अनिवार्य | `ifc_ingest` / `ifc_unit_check` | IFC टेक्स्ट स्वयं (ISO-10303-21) |
+| `source_name` | `inline.ifc` | `ifc_ingest` | रिकॉर्ड में सहेजा स्रोत लेबल; केवल पहचान |
+| `model_id` | अनिवार्य | `ifc_export_csv` / `ifc_qto_summary` | `ifc_ingest` का लौटाया id |
 
 </details>
 
@@ -246,7 +246,7 @@ export DSH_IFC_HOME=/path/to/ifc-data   # Windows PowerShell: $env:DSH_IFC_HOME 
 <details>
 <summary>संख्याएँ मेल नहीं खातीं, या E_IFC_QUANTITY_NON_POSITIVE दिखता है — क्या करें?</summary>
 
-पहले `ifc.unit_check` चलाकर देखें कि लंबाई/क्षेत्रफल/आयतन की इकाइयाँ घोषित हैं (इकाइयों के बिना संख्याएँ मात्रा-प्रमाणन के लिए उपयोगी नहीं), फिर `ifc.qto_summary` के `issues` देखें: शून्य या ऋणात्मक मात्रा प्रायः छूटे हुए या गलत निर्यात किए मान से आती है, मॉडल ठीक करके दोबारा निर्यात करें। यह केवल गुणवत्ता संकेत है और बाकी सारांश नहीं रोकता।
+पहले `ifc_unit_check` चलाकर देखें कि लंबाई/क्षेत्रफल/आयतन की इकाइयाँ घोषित हैं (इकाइयों के बिना संख्याएँ मात्रा-प्रमाणन के लिए उपयोगी नहीं), फिर `ifc_qto_summary` के `issues` देखें: शून्य या ऋणात्मक मात्रा प्रायः छूटे हुए या गलत निर्यात किए मान से आती है, मॉडल ठीक करके दोबारा निर्यात करें। यह केवल गुणवत्ता संकेत है और बाकी सारांश नहीं रोकता।
 
 </details>
 
@@ -260,7 +260,7 @@ export DSH_IFC_HOME=/path/to/ifc-data   # Windows PowerShell: $env:DSH_IFC_HOME 
 <details>
 <summary>क्या यह दूसरे प्लगइन से कमांड, स्लॉट या स्टोरेज के लिए टकराता है? खर्च कितना?</summary>
 
-नहीं। चारों टूल `ifc.*` नेमस्पेस में हैं; कोई कमांड, क्लाइंट स्लॉट, `webServer` रूट या सर्विस कुंजी पंजीकृत नहीं करता; अपने `ifc` v1 डोमेन की केवल एक `models` तालिका उपयोग करता है और दूसरे डोमेन नहीं छूता; प्रोटोटाइप नहीं बदलता, `process.env` नहीं लिखता और ग्लोबल fetch नहीं बदलता। बिंदु-दर-बिंदु तर्क «अन्य DSH प्लगइन के साथ अंतर-संचालनीयता» में है।
+नहीं। चारों टूल `ifc_*` नेमस्पेस में हैं; कोई कमांड, क्लाइंट स्लॉट, `webServer` रूट या सर्विस कुंजी पंजीकृत नहीं करता; अपने `ifc` v1 डोमेन की केवल एक `models` तालिका उपयोग करता है और दूसरे डोमेन नहीं छूता; प्रोटोटाइप नहीं बदलता, `process.env` नहीं लिखता और ग्लोबल fetch नहीं बदलता। बिंदु-दर-बिंदु तर्क «अन्य DSH प्लगइन के साथ अंतर-संचालनीयता» में है।
 
 खर्च भी कम है: पार्सिंग पंक्ति-आधारित रेगुलर एक्सप्रेशन स्कैन है, कोई मॉडल कॉल नहीं और कोई नेटवर्क अनुरोध नहीं; सबसे भारी चरण टेक्स्ट पढ़ना और एक सारांश पास है।
 
@@ -285,7 +285,7 @@ export DSH_IFC_HOME=/path/to/ifc-data   # Windows PowerShell: $env:DSH_IFC_HOME 
 बाहरी सिस्टम: कोई नहीं
 ```
 
-यह सोर्स से मेल खाता है: `apply()` लेखन निर्देशिका `DSH_IFC_HOME` (डिफ़ॉल्ट `$DSH_HOME/storages/dsh-ifc-qto`) से लेता है और कहीं कोई नेटवर्क कॉल नहीं। प्लगइन स्वयं कोई फ़ाइल पथ नहीं खोलता; `ifc_text` कॉलर देता है। लिखने वाले टूल (`ifc.ingest`, `ifc.export_csv`) **R1 स्थानीय लेखन** और केवल-पढ़ने वाले (`ifc.qto_summary`, `ifc.unit_check`) **R0** हैं।
+यह सोर्स से मेल खाता है: `apply()` लेखन निर्देशिका `DSH_IFC_HOME` (डिफ़ॉल्ट `$DSH_HOME/storages/dsh-ifc-qto`) से लेता है और कहीं कोई नेटवर्क कॉल नहीं। प्लगइन स्वयं कोई फ़ाइल पथ नहीं खोलता; `ifc_text` कॉलर देता है। लिखने वाले टूल (`ifc_ingest`, `ifc_export_csv`) **R1 स्थानीय लेखन** और केवल-पढ़ने वाले (`ifc_qto_summary`, `ifc_unit_check`) **R0** हैं।
 
 ## ज्ञात सीमाएँ
 
@@ -295,7 +295,7 @@ export DSH_IFC_HOME=/path/to/ifc-data   # Windows PowerShell: $env:DSH_IFC_HOME 
 - **एलिमेंट प्रकार एक बंद सूची हैं।** केवल 14 गिने जाते हैं: `IFCWALL`, `IFCSLAB`, `IFCDOOR`, `IFCWINDOW`, `IFCCOLUMN`, `IFCBEAM`, `IFCFOOTING`, `IFCSTAIR`, `IFCRAILING`, `IFCRAMP`, `IFCPILE`, `IFCMEMBER`, `IFCPLATE`, `IFCCOVERING`; बाकी अनदेखा।
 - **केवल IFC टेक्स्ट।** RVT, DWG, PDF, स्कैन और चित्र समर्थित नहीं; बाइनरी फ़ाइल या बदला हुआ एक्सटेंशन `E_IFC_UNREADABLE` देता है।
 - **एक फ़ाइल, कोई बैच नहीं।** प्रति कॉल एक IFC टेक्स्ट, प्रति फ़ाइल ≤50 MB अनुशंसित; बैच के लिए लूप करें।
-- **`model_id` पथ नहीं है।** `ifc.qto_summary` / `ifc.export_csv` केवल `ifc.ingest` से मिला और `models` में सहेजा id स्वीकार करते हैं; फ़ाइल पथ देने पर `E_IFC_UNREADABLE`।
+- **`model_id` पथ नहीं है।** `ifc_qto_summary` / `ifc_export_csv` केवल `ifc_ingest` से मिला और `models` में सहेजा id स्वीकार करते हैं; फ़ाइल पथ देने पर `E_IFC_UNREADABLE`।
 - **स्टोरेज JSON KV है।** `ifc` v1 डोमेन में एक `models` तालिका है, कोई क्रॉस-टेबल ट्रांज़ैक्शन, विदेशी कुंजी या माइग्रेशन नहीं; वही टेक्स्ट दोबारा आयात करने पर वही रिकॉर्ड अधिलिखित होता है।
 - **होस्ट सेवाएँ आवश्यक।** प्लगइन `tools` और `storageDomain` इंजेक्ट करता है; बिना storage वाली बेयर प्रोफ़ाइल में लागू नहीं होता।
 - **संकीर्ण Node रेंज।** केवल `>=24.9.0 <25`; कोई ब्राउज़र हाफ़ नहीं और कोई UI नहीं।
@@ -304,12 +304,12 @@ export DSH_IFC_HOME=/path/to/ifc-data   # Windows PowerShell: $env:DSH_IFC_HOME 
 
 सोर्स (`src/plugin/index.ts`, `src/plugin/tools.ts`, `src/plugin/storage.ts`) के अनुसार जाँचा गया: कमांड, टूल, स्लॉट, HTTP रूट या स्टोरेज डोमेन के साथ कोई टकराव सतह नहीं:
 
-- **नेमस्पेस वाले टूल नाम।** चारों टूल `ifc.` से शुरू होते हैं और किसी अंतर्निहित या दूसरे प्लगइन का खुला नाम नहीं लेते।
+- **नेमस्पेस वाले टूल नाम।** चारों टूल `ifc_` से शुरू होते हैं और किसी अंतर्निहित या दूसरे प्लगइन का खुला नाम नहीं लेते।
 - **केवल उपभोग, कोई सेवा नहीं।** `inject` केवल `['tools', 'storageDomain']`; कोई कमांड, क्लाइंट स्लॉट, `webServer` प्रीफ़िक्स या सर्विस कुंजी नहीं।
 - **स्वतंत्र स्टोरेज डोमेन।** अपने `ifc` v1 डोमेन की केवल एक `models` तालिका, दूसरे डोमेन नहीं।
 - **कोई ग्लोबल बदलाव नहीं।** प्रोटोटाइप पैच नहीं, `process.env` नहीं, ग्लोबल fetch प्रतिस्थापित नहीं।
 - **निर्यात बाहर नहीं।** CSV केवल अपने `exports/` में, नाम `model_id` से।
-- **केवल-पढ़ने वाले टूल पुनः-प्रवेश्य।** `ifc.qto_summary` और `ifc.unit_check` कोई स्थिति नहीं लिखते और बार-बार सुरक्षित हैं।
+- **केवल-पढ़ने वाले टूल पुनः-प्रवेश्य।** `ifc_qto_summary` और `ifc_unit_check` कोई स्थिति नहीं लिखते और बार-बार सुरक्षित हैं।
 
 ## अनुकूलता
 
@@ -345,13 +345,13 @@ export DSH_IFC_HOME=/path/to/ifc-data   # Windows PowerShell: $env:DSH_IFC_HOME 
 
 ```sh
 pnpm install --frozen-lockfile
-pnpm build && pnpm lint && pnpm typecheck && pnpm test   # 5 टेस्ट फ़ाइलें
+pnpm build && pnpm lint && pnpm typecheck && pnpm test   # 6 टेस्ट फ़ाइलें
 pnpm gate:sku07                                          # स्वीकृति गेट (ACCEPTANCE.csv)
 node scripts/acceptance.mjs                              # सार्वजनिक/सिंथेटिक स्वीकृति दोहराएँ
 node samples/quickstart/run.mjs                          # सिंथेटिक नमूना: 4 टूल कॉल, 1 डेटा-गुणवत्ता समस्या
 ```
 
-वर्तमान संस्करण `0.1.1`।
+वर्तमान संस्करण `0.2.0`।
 
 निर्देशिका संरचना:
 
@@ -359,7 +359,7 @@ node samples/quickstart/run.mjs                          # सिंथेटि
 |---|---|
 | `src/core/` | `ifc.ts`: IFC टेक्स्ट पार्सिंग (एलिमेंट, मात्रा) और इकाई घोषणा जाँच |
 | `src/plugin/` | `index.ts` (apply), `tools.ts` (4 टूल), `storage.ts` (स्टोरेज डोमेन `ifc` v1) |
-| `test/` | `node --test` केस (ifc, plugin-smoke, public-ifc, qto-summary, units) |
+| `test/` | `node --test` केस (ifc, plugin-smoke, public-ifc, qto-summary, tool-name-wire, units) |
 | `scripts/` | यांत्रिक गेट: lint, acceptance, gate-sku07, check-pack, sbom, make-samples, और नया `gen-readme-assets.py` |
 | `fixtures/public/mit/` | 4 सार्वजनिक MIT/Apache IFC नमूने (`SOURCE.md` और अपस्ट्रीम लाइसेंस सहित) |
 | `samples/quickstart/` | सिंथेटिक भवन नमूना, `run.mjs` और गोल्डन `expected/console.txt` / `result.json` |

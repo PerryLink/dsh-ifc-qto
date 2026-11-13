@@ -39,10 +39,10 @@ try {
   const tools = createTools({ models: new MemoryTable(), baseDir: workDir })
   const byName = Object.fromEntries(tools.map((tool) => [tool.name, tool]))
 
-  const units = await byName['ifc.unit_check'].execute({ ifc_text: ifcText }, exec)
-  const ingested = await byName['ifc.ingest'].execute({ ifc_text: ifcText, source_name: 'sample-building.ifc' }, exec)
-  const qto = await byName['ifc.qto_summary'].execute({ model_id: ingested.model_id }, exec)
-  const exported = await byName['ifc.export_csv'].execute({ model_id: ingested.model_id }, exec)
+  const units = await byName['ifc_unit_check'].execute({ ifc_text: ifcText }, exec)
+  const ingested = await byName['ifc_ingest'].execute({ ifc_text: ifcText, source_name: 'sample-building.ifc' }, exec)
+  const qto = await byName['ifc_qto_summary'].execute({ model_id: ingested.model_id }, exec)
+  const exported = await byName['ifc_export_csv'].execute({ model_id: ingested.model_id }, exec)
   const csv = readFileSync(exported.path, 'utf8')
 
   const gold = {
@@ -74,13 +74,13 @@ try {
     }
     console.log(`sample: ${sampleRel} (${Buffer.byteLength(ifcText)} B, sha256 ${sampleSha.slice(0, 16)}…)`)
     console.log('sample is synthetic: fictional project/element ids, no customer model')
-    console.log(`ifc.unit_check   assignment=${units.assignment} length=${orMissing(units.length)} area=${orMissing(units.area)} volume=${orMissing(units.volume)} issues=${units.issues.length}`)
-    console.log(`ifc.ingest       elements=${ingested.elements} quantities=${ingested.quantities} types=${typeLine}`)
-    console.log(`ifc.qto_summary  ${kindLine('length')}`)
+    console.log(`ifc_unit_check   assignment=${units.assignment} length=${orMissing(units.length)} area=${orMissing(units.area)} volume=${orMissing(units.volume)} issues=${units.issues.length}`)
+    console.log(`ifc_ingest       elements=${ingested.elements} quantities=${ingested.quantities} types=${typeLine}`)
+    console.log(`ifc_qto_summary  ${kindLine('length')}`)
     console.log(`                 ${kindLine('area')}`)
     console.log(`                 ${kindLine('volume')}`)
     console.log(`data quality     ${qto.issues.length} issue(s): ${qto.issues.map((i) => `${i.code} ${i.name}=${i.value}`).join(', ') || 'none'}`)
-    console.log(`ifc.export_csv   ${exported.rows} rows -> exports/${path.basename(exported.path)} (sha256 ${exported.sha256.slice(0, 16)}…)`)
+    console.log(`ifc_export_csv   ${exported.rows} rows -> exports/${path.basename(exported.path)} (sha256 ${exported.sha256.slice(0, 16)}…)`)
     console.log(csv.trimEnd().split('\n').map((line) => `  ${line}`).join('\n'))
     console.log(`ok: quickstart finished (4 tool calls, ${qto.issues.length} data-quality issue)`)
   }

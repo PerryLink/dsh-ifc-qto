@@ -1,13 +1,13 @@
 $ node samples/quickstart/run.mjs
 sample: samples/quickstart/input/sample-building.ifc (1718 B, sha256 92f1f2cfc519059a…)
 sample is synthetic: fictional project/element ids, no customer model
-ifc.unit_check   assignment=true length=MILLI|METRE area=$|SQUARE_METRE volume=$|CUBIC_METRE issues=0
-ifc.ingest       elements=6 quantities=6 types=WALL:2 SLAB:1 DOOR:1 WINDOW:1 COLUMN:1
-ifc.qto_summary  length qty=3 total=8100 min=900 max=4200
+ifc_unit_check   assignment=true length=MILLI|METRE area=$|SQUARE_METRE volume=$|CUBIC_METRE issues=0
+ifc_ingest       elements=6 quantities=6 types=WALL:2 SLAB:1 DOOR:1 WINDOW:1 COLUMN:1
+ifc_qto_summary  length qty=3 total=8100 min=900 max=4200
                  area   qty=2 total=86.4 min=0 max=86.4
                  volume qty=1 total=25.92 min=25.92 max=25.92
 data quality     1 issue(s): E_IFC_QUANTITY_NON_POSITIVE NetSideArea=0
-ifc.export_csv   11 rows -> exports/ifc_92f1f2cfc519059a.csv (sha256 3e8f62d3e7fd6a56…)
+ifc_export_csv   11 rows -> exports/ifc_92f1f2cfc519059a.csv (sha256 3e8f62d3e7fd6a56…)
   kind,type_or_name,value
   count,WALL,2
   count,SLAB,1
