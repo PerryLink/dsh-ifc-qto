@@ -156,6 +156,11 @@ ifc_export_csv   11 rows -> exports/ifc_92f1f2cfc519059a.csv (sha256 3e8f62d3e7f
 
 *The capture above is a real run of `node samples/quickstart/run.mjs` on the bundled synthetic sample (2026-11-02), line-for-line identical to `samples/quickstart/expected/console.txt`; the sample has fictional project and element ids only, no customer model.*
 
+![dsh-ifc-qto quickstart real run: 6 elements, 6 quantities, 1 data-quality issue](docs/assets/dsh-ifc-qto-demo.gif)
+
+*The animated version of the same run.*
+
+
 The public/synthetic acceptance suite is reproduced with `scripts/acceptance.mjs`; details live in `ACCEPTANCE.csv`. These are all 8 rows, quoted verbatim (the full file also carries `script` and `evidence_sha256`):
 
 ```csv

@@ -154,6 +154,11 @@ ifc_export_csv   11 rows -> exports/ifc_92f1f2cfc519059a.csv (sha256 3e8f62d3e7f
 
 *上图是 `node samples/quickstart/run.mjs` 在自带合成样例上的真实捕获（2026-11-02），与 `samples/quickstart/expected/console.txt` 逐行一致；合成样例只有虚构项目/构件编号，没有客户模型。*
 
+![dsh-ifc-qto quickstart 真实运行输出：6 个构件、6 条工程量、1 个数据质量问题](docs/assets/dsh-ifc-qto-demo.gif)
+
+*同一段真实运行的动图版本。*
+
+
 公开 / 合成验收由 `scripts/acceptance.mjs` 重跑，明细落在 `ACCEPTANCE.csv`。以下为全部 8 行（原样引用；完整列含 `script` 与 `evidence_sha256`）：
 
 ```csv

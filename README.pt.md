@@ -156,6 +156,11 @@ ifc_export_csv   11 rows -> exports/ifc_92f1f2cfc519059a.csv (sha256 3e8f62d3e7f
 
 *A captura é uma execução real de `node samples/quickstart/run.mjs` na amostra sintética incluída (2026-11-02), idêntica linha a linha a `samples/quickstart/expected/console.txt`; a amostra só tem projeto e elementos fictícios, sem modelo de cliente.*
 
+![Execução real do quickstart do dsh-ifc-qto: 6 elementos, 6 quantidades, 1 problema de qualidade de dados](docs/assets/dsh-ifc-qto-demo.gif)
+
+*A versão animada da mesma execução.*
+
+
 A aceitação pública/sintética é reproduzida com `scripts/acceptance.mjs` e o detalhe fica em `ACCEPTANCE.csv`. Estas são as 8 linhas, citadas literalmente (o arquivo completo traz ainda `script` e `evidence_sha256`):
 
 ```csv

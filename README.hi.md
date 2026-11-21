@@ -156,6 +156,11 @@ ifc_export_csv   11 rows -> exports/ifc_92f1f2cfc519059a.csv (sha256 3e8f62d3e7f
 
 *ऊपर की कैप्चर साथ दिए सिंथेटिक नमूने पर `node samples/quickstart/run.mjs` का वास्तविक रन है (2026-11-02), `samples/quickstart/expected/console.txt` से पंक्ति-दर-पंक्ति मेल खाता है; नमूने में केवल काल्पनिक प्रोजेक्ट और एलिमेंट आईडी हैं, कोई ग्राहक मॉडल नहीं।*
 
+![dsh-ifc-qto quickstart का वास्तविक रन: 6 एलिमेंट, 6 मात्राएँ, 1 डेटा-गुणवत्ता समस्या](docs/assets/dsh-ifc-qto-demo.gif)
+
+*उसी असली रन का एनिमेटेड संस्करण।*
+
+
 सार्वजनिक/सिंथेटिक स्वीकृति `scripts/acceptance.mjs` से दोहराई जाती है और विवरण `ACCEPTANCE.csv` में रहता है। नीचे सभी 8 पंक्तियाँ हैं, जैसी की तैसी (पूरी फ़ाइल में `script` और `evidence_sha256` भी हैं):
 
 ```csv
