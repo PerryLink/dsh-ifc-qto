@@ -357,7 +357,7 @@ node scripts/acceptance.mjs                              # re-run public/synthet
 node samples/quickstart/run.mjs                          # synthetic sample: 4 tool calls, 1 data-quality issue
 ```
 
-Current version `0.2.1`.
+Current version `0.2.2`.
 
 Directory layout:
 

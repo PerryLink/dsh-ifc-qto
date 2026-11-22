@@ -355,7 +355,7 @@ node scripts/acceptance.mjs                              # 重跑公开 / 合成
 node samples/quickstart/run.mjs                          # 合成样例，应输出 4 次工具调用、1 个数据质量问题
 ```
 
-当前版本 `0.2.1`。
+当前版本 `0.2.2`。
 
 目录布局：
 

@@ -1,6 +1,6 @@
 {
   "name": "dsh-ifc-qto",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "IFC element/quantity inventory and CSV takeoff.",
   "type": "module",
   "main": "./lib/plugin/index.js",
@@ -9,7 +9,8 @@
     ".": {
       "types": "./lib/plugin/index.d.ts",
       "default": "./lib/plugin/index.js"
-    }
+    },
+    "./locale/*.json": "./locale/*.json"
   },
   "files": [
     "lib",
@@ -30,7 +31,8 @@
     "CHANGELOG.md",
     "icon.svg",
     "samples",
-    "TROUBLESHOOTING.md"
+    "TROUBLESHOOTING.md",
+    "locale/*.json"
   ],
   "dsh": {
     "bundle": {
@@ -124,5 +126,9 @@
     "@deepseek-ai/dsh-tools": {
       "optional": true
     }
+  },
+  "author": {
+    "name": "PerryLink",
+    "url": "https://github.com/PerryLink"
   }
 }

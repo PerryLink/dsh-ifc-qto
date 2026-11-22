@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "IFC quantity takeoff",
+    "description": "Turn a local IFC model into a checkable element list and quantity CSV — text only, no network, no model call."
+  }
+}
