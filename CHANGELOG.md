@@ -41,6 +41,10 @@
 
 ## [Unreleased]
 
+## [0.2.1] - 2026-11-22
+
+- Compatibility: declare DeepSeek Harness 0.2.3-alpha.1 support (>=0.2.3-0 <0.3.0-0 in engines.dsh and every @deepseek-ai/dsh-* peer range) and refresh README verification stamps.
+
 ### Added
 
 - Quantity take-off summary tool: quantity take-off summary for a stored model — totals/count/min/max per measurement kind, element-type distribution and non-positive quantity detection. Read-only; quantities follow the IFC 4.3 quantity-entity model. Verified by `node --test test/*.test.mjs` (9/9).

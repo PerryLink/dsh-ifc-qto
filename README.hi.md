@@ -11,6 +11,8 @@
 
 DeepSeek Harness के लिए स्थानीय टेकऑफ़ प्लगइन: ISO-10303-21 टेक्स्ट पढ़ता है, दीवार, स्लैब, दरवाज़े, खिड़कियाँ और अन्य एलिमेंट उनके `IfcQuantity` मानों के साथ गिनता है, माप प्रकार के अनुसार सारांश बनाता है और CSV निर्यात करता है; स्रोत फ़ाइल नहीं बदलती और कुछ भी आपकी मशीन से बाहर नहीं जाता।
 
+अंतिम सत्यापन: DeepSeek Harness `dsh-v0.2.3-alpha.1` (2026-11-22).
+
 [इंस्टॉल](#तीन-चरणों-में-शुरुआत) · [कॉन्फ़िगरेशन](#कॉन्फ़िगरेशन) · [FAQ](#faq) · [简体中文](README.md) · [English](README.en.md) · [Español](README.es.md) · [Português](README.pt.md) · [हिन्दी](README.hi.md)
 
 [![License](https://img.shields.io/badge/license-Apache--2.0-3366CC?style=flat-square&labelColor=2B3245)](LICENSE)
@@ -53,7 +55,7 @@ dsh plugin --profile <profile> add dsh-ifc-qto
 1. **इंस्टॉल** (चार चैनल; npm अनुशंसित):
 
    ```sh
-   # npm चैनल (अनुशंसित; 0.2.0 प्रकाशित)
+   # npm चैनल (अनुशंसित; 0.2.1 प्रकाशित)
    dsh plugin --profile <profile> add dsh-ifc-qto
    # git चैनल (main का अनुसरण; lib/ बिल्ड आर्टिफ़ैक्ट है — checkout में पहले pnpm install && pnpm build चलाएँ)
    dsh plugin --profile <profile> add github:PerryLink/dsh-ifc-qto
@@ -159,7 +161,6 @@ ifc_export_csv   11 rows -> exports/ifc_92f1f2cfc519059a.csv (sha256 3e8f62d3e7f
 ![dsh-ifc-qto quickstart का वास्तविक रन: 6 एलिमेंट, 6 मात्राएँ, 1 डेटा-गुणवत्ता समस्या](docs/assets/dsh-ifc-qto-demo.gif)
 
 *उसी असली रन का एनिमेटेड संस्करण।*
-
 
 सार्वजनिक/सिंथेटिक स्वीकृति `scripts/acceptance.mjs` से दोहराई जाती है और विवरण `ACCEPTANCE.csv` में रहता है। नीचे सभी 8 पंक्तियाँ हैं, जैसी की तैसी (पूरी फ़ाइल में `script` और `evidence_sha256` भी हैं):
 
@@ -356,7 +357,7 @@ node scripts/acceptance.mjs                              # सार्वजन
 node samples/quickstart/run.mjs                          # सिंथेटिक नमूना: 4 टूल कॉल, 1 डेटा-गुणवत्ता समस्या
 ```
 
-वर्तमान संस्करण `0.2.0`।
+वर्तमान संस्करण `0.2.1`।
 
 निर्देशिका संरचना:
 

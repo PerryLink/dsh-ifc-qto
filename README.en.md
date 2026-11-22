@@ -11,6 +11,8 @@
 
 A local take-off plugin for DeepSeek Harness: read ISO-10303-21 text, count walls, slabs, doors, windows and other elements with their IfcQuantity values, summarize by measurement kind, and export a CSV; the source file is never modified and nothing leaves your machine.
 
+Last verified on DeepSeek Harness `dsh-v0.2.3-alpha.1` (2026-11-22).
+
 [Install](#three-step-setup) · [Configuration](#configuration) · [FAQ](#faq) · [简体中文](README.md) · [English](README.en.md) · [Español](README.es.md) · [Português](README.pt.md) · [हिन्दी](README.hi.md)
 
 [![License](https://img.shields.io/badge/license-Apache--2.0-3366CC?style=flat-square&labelColor=2B3245)](LICENSE)
@@ -53,7 +55,7 @@ dsh plugin --profile <profile> add dsh-ifc-qto
 1. **Install** (four channels; npm is recommended):
 
    ```sh
-   # npm channel (recommended; 0.2.0 is published)
+   # npm channel (recommended; 0.2.1 is published)
    dsh plugin --profile <profile> add dsh-ifc-qto
    # git channel (tracks main; lib/ is a build artifact — run pnpm install && pnpm build in the checkout first)
    dsh plugin --profile <profile> add github:PerryLink/dsh-ifc-qto
@@ -159,7 +161,6 @@ ifc_export_csv   11 rows -> exports/ifc_92f1f2cfc519059a.csv (sha256 3e8f62d3e7f
 ![dsh-ifc-qto quickstart real run: 6 elements, 6 quantities, 1 data-quality issue](docs/assets/dsh-ifc-qto-demo.gif)
 
 *The animated version of the same run.*
-
 
 The public/synthetic acceptance suite is reproduced with `scripts/acceptance.mjs`; details live in `ACCEPTANCE.csv`. These are all 8 rows, quoted verbatim (the full file also carries `script` and `evidence_sha256`):
 
@@ -356,7 +357,7 @@ node scripts/acceptance.mjs                              # re-run public/synthet
 node samples/quickstart/run.mjs                          # synthetic sample: 4 tool calls, 1 data-quality issue
 ```
 
-Current version `0.2.0`.
+Current version `0.2.1`.
 
 Directory layout:
 

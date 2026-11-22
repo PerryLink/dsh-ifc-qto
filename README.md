@@ -11,6 +11,8 @@
 
 面向 DeepSeek Harness 的本地清点插件：读 ISO-10303-21 文本，数出墙/板/门窗等构件与 IfcQuantity 工程量，按计量类型汇总后导出 CSV；原文件不动，全程不联网。
 
+最近一次核验：DeepSeek Harness `dsh-v0.2.3-alpha.1`（2026-11-22）。
+
 [安装](#三步上手) · [配置](#配置) · [FAQ](#faq) · [简体中文](README.md) · [English](README.en.md) · [Español](README.es.md) · [Português](README.pt.md) · [हिन्दी](README.hi.md)
 
 [![License](https://img.shields.io/badge/license-Apache--2.0-3366CC?style=flat-square&labelColor=2B3245)](LICENSE)
@@ -53,7 +55,7 @@ dsh plugin --profile <profile> add dsh-ifc-qto
 1. **安装**（四选一；npm 是推荐通道）：
 
    ```sh
-   # npm 通道（推荐，已发布 0.2.0）
+   # npm 通道（推荐，已发布 0.2.1）
    dsh plugin --profile <profile> add dsh-ifc-qto
    # git 通道（跟随 main；lib/ 是构建产物，需在 checkout 内先 pnpm install && pnpm build）
    dsh plugin --profile <profile> add github:PerryLink/dsh-ifc-qto
@@ -157,7 +159,6 @@ ifc_export_csv   11 rows -> exports/ifc_92f1f2cfc519059a.csv (sha256 3e8f62d3e7f
 ![dsh-ifc-qto quickstart 真实运行输出：6 个构件、6 条工程量、1 个数据质量问题](docs/assets/dsh-ifc-qto-demo.gif)
 
 *同一段真实运行的动图版本。*
-
 
 公开 / 合成验收由 `scripts/acceptance.mjs` 重跑，明细落在 `ACCEPTANCE.csv`。以下为全部 8 行（原样引用；完整列含 `script` 与 `evidence_sha256`）：
 
@@ -354,7 +355,7 @@ node scripts/acceptance.mjs                              # 重跑公开 / 合成
 node samples/quickstart/run.mjs                          # 合成样例，应输出 4 次工具调用、1 个数据质量问题
 ```
 
-当前版本 `0.2.0`。
+当前版本 `0.2.1`。
 
 目录布局：
 
